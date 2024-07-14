@@ -1,13 +1,11 @@
 import axios from "axios";
 
-const title = 'Kanojyo to Himitsu to Koimoyou';
 const proxyUrl = "https://corsproxy.io/";
 const infoUrl = "https://api.mangadex.org/manga";
+const coverUrl = "https://uploads.mangadex.org/covers"
 
-const id = "e0a8eefb-4859-44c1-aa44-6550618eae85";
 
-
-async function searchMangas(){
+async function searchMangas(title){
     const resp = await axios({
         method: "GET",
         url: infoUrl,
@@ -15,28 +13,15 @@ async function searchMangas(){
             url: proxyUrl,
         },
         params: {
-            title: title
+            title: title,
+            includes: ["authors", "artist", "cover_art"],
         }
     }).catch( e => {
         console.log(e);
     })
 
-    return resp;
-
-    
+    return resp.data.data;
 }
-
-
-/*  
-async function searchMangas(){
-    return await axios.get(proxyUrl, {
-        params: {
-            url: infoUrl,
-            title: title,
-        }
-    }).catch(e => {console.log(e)});
-}
-*/
 
 export {searchMangas};
 

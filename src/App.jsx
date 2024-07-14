@@ -10,7 +10,7 @@ function App() {
 
   return (
     <>
-      <Shelf></Shelf>
+      <Shelf title="Attack on Titan"></Shelf>
     </>
   )
 }
