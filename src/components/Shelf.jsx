@@ -1,25 +1,19 @@
 import { useEffect } from "react";
-import fetchMangaInfo from "../assets/Utils/APICalls/MangaDexApi";
+import { useState } from "react";
+import { searchMangas } from "../Utils/APICalls/MangaDexApi";
 
 
 
 function Shelf() {
 
-    useEffect(() =>{
-        /*
-        async function getData(){
-            //to print the data
-            const data = await fetchMangaInfo();
-            console.log(data.data);
-        }
+    const [data, setData] = useState([]);
 
-        getData();
-        */
-       fetchMangaInfo().then((response) => {
-        console.log(response);
-       }).catch((e) => {
-        console.log(e);
-       });
+    useEffect(() =>{
+        searchMangas().then((resp) =>{
+            setData(resp);
+            console.log(resp);
+        })
+
     }, []);
 
     return(
