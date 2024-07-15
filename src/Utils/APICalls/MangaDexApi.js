@@ -19,7 +19,7 @@ async function searchMangas(title){
     }).catch( e => {
         console.log(e);
     })
-
+    
     return resp.data.data;
 }
 

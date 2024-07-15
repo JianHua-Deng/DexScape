@@ -1,0 +1,21 @@
+
+
+
+.search-result-container{
+    text-wrap: wrap;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.manga-item{
+    background-color: rgb(59, 59, 59);
+    padding: 1rem;
+    max-width: 20rem;
+    min-width: 16rem;
+    max-height: 28rem;
+    min-height: 16rem;
+    border-radius: 1rem;
+}
