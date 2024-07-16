@@ -7,14 +7,14 @@
     width: 100vw;
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    row-gap: 1rem;
+    column-gap: 2rem;
 }
 
 .manga-item{
     background-color: rgb(59, 59, 59);
     padding: 1rem;
-    max-width: 20rem;
-    min-width: 16rem;
+    width: 20rem;
     max-height: 28rem;
     min-height: 16rem;
     border-radius: 1rem;

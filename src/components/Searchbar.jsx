@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { searchMangas } from "../Utils/APICalls/MangaDexApi";
+import "../styles/Searchbar.css";
 
 function Searchbar({value, fetchResponseFunc, onChangeFunc}){
 

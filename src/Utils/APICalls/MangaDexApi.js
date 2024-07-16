@@ -21,7 +21,31 @@ async function searchMangas(title){
     })
     
     return resp.data.data;
+} 
+ 
+async function searchLatestUpload(){
+    const resp = await axios({
+        method: "GET",
+        url: infoUrl,
+        proxy: {
+            url: proxyUrl,
+        },
+        params: {
+            limit: 20,
+            includes: ["authors", "artist", "cover_art"],
+            order: {
+                createdAt: 'desc'
+            }
+        }
+    }).then(respond => {
+        console.log(respond.data.data);
+        return respond.data.data;
+    }).catch((e) => {
+        console.log(e)
+        return [];
+    });
+
 }
 
-export {searchMangas};
+export {searchMangas, searchLatestUpload};
 
