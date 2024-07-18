@@ -2,18 +2,22 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { searchMangas } from "../Utils/APICalls/MangaDexApi";
 import '../styles/SearchResultPage.css';
+import { useParams } from "react-router-dom";
 
-function SearchResultPage({mangaData}) {
+function SearchResultPage() {
 
-    /*
+    const {queryString} = useParams();
+    const [mangaData, setMangaData] = useState([]);
+
+    
     useEffect(() =>{
-        searchMangas(title).then((resp) =>{
+        searchMangas(queryString).then((resp) =>{
             setMangaData(resp);
             console.log(resp);
         });
 
-    }, queryContent);
-    */
+    }, [queryString]);
+    
 
     return(
         <div className="search-result-container">
