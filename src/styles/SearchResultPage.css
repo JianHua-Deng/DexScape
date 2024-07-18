@@ -11,11 +11,3 @@
     column-gap: 2rem;
 }
 
-.manga-item{
-    background-color: rgb(59, 59, 59);
-    padding: 1rem;
-    width: 20rem;
-    max-height: 28rem;
-    min-height: 16rem;
-    border-radius: 1rem;
-}

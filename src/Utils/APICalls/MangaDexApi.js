@@ -23,7 +23,7 @@ async function searchMangas(title){
     return resp.data.data;
 } 
  
-async function searchLatestUpload(){
+async function searchLatestUploads(){
     const resp = await axios({
         method: "GET",
         url: infoUrl,
@@ -47,5 +47,5 @@ async function searchLatestUpload(){
 
 }
 
-export {searchMangas, searchLatestUpload};
+export {searchMangas, searchLatestUploads};
 
