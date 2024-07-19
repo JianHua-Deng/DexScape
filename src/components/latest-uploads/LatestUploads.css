@@ -7,9 +7,19 @@
 }
 
 .latest-slider{
-    max-width: 85%;
+    width: 70%;
+    max-width: 80%;
+    
 }
 
 .slick-list{
-    gap: .5rem;
+    
+}
+
+.slick-track{
+    margin: 0 1.5rem;
+}
+
+.slick-dots{
+
 }

@@ -1,9 +1,9 @@
 .manga-item{
-    background-color: rgb(59, 59, 59);
+
     padding: 1rem;
-    width: 20rem;
-    max-height: 28rem;
-    min-height: 16rem;
+    width: 18rem;
+    height: 16rem;
+    min-height: 27rem;
     border-radius: 1rem;
 
     display: flex;

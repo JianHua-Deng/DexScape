@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useEffect } from "react";
-import { searchLatestUploads } from "../Utils/APICalls/MangaDexApi";
+import { searchLatestUploads } from "../../Utils/APICalls/MangaDexApi";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "../styles/LatestUploads.css"
-import MangaPreview from "./MangaPreview";
+import "./LatestUploads.css"
+import MangaPreview from "../manga-preview/MangaPreview";
 
 function LatestUploads(){
 

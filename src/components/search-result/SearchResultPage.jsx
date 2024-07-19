@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { searchMangas } from "../Utils/APICalls/MangaDexApi";
-import MangaPreview from "./MangaPreview";
-import '../styles/SearchResultPage.css';
+import { searchMangas } from "../../Utils/APICalls/MangaDexApi";
+import MangaPreview from "../manga-preview/MangaPreview";
+import './SearchResultPage.css';
 import { useParams } from "react-router-dom";
 
 function SearchResultPage() {

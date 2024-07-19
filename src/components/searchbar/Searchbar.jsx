@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { searchMangas } from "../Utils/APICalls/MangaDexApi";
-import "../styles/Searchbar.css";
+import { searchMangas } from "../../Utils/APICalls/MangaDexApi";
+import "./Searchbar.css";
 
 function Searchbar(){
 
