@@ -1,0 +1,15 @@
+
+.latest-uploads-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.latest-slider{
+    max-width: 85%;
+}
+
+.slick-list{
+    gap: .5rem;
+}
