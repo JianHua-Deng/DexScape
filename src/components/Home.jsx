@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import LatestUploads from './LatestUploads';
 
 //import '../App.css'
 import '../styles/Home.css'
@@ -13,7 +14,7 @@ function Home() {
 
   return (
     <>
-
+      <LatestUploads/>
     </>
   )
 }

@@ -1,21 +1,51 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { searchLatestUploads } from "../Utils/APICalls/MangaDexApi";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import MangaPreview from "./MangaPreview";
 
 function LatestUploads(){
 
-    const [latestManga, setLatestManga] = useState([]);
+    const [latestMangas, setLatestManga] = useState([]);
+    const [loadingStatus, setLoadingStatus] = useState(false);
+
+    var settings = {
+        dots: true,
+        infinite: false,
+        slidesToShow: 5,
+    }
+
     useEffect(() => {
-        searchLatestUploads().then(resp => {
+        setLoadingStatus(true);
+
+        searchLatestUploads().then((resp) => {
+
             setLatestManga(resp);
-        }).catch(e => {console.log(e)});
+
+        }).catch(e => {console.log(e)}).finally(() => {
+            setLoadingStatus(false);
+            console.log("Length: " + latestMangas.length);
+        });
     }, []);
 
     return (
         <>
             <div className="latest-uploads-container">
                 <h2>Latest Uploads</h2>
-                
+                {loadingStatus && latestMangas.length === 0 ? (
+                    <h3>Loading</h3>
+                ):(
+                    <Slider {...settings}>
+                        {latestMangas.map((manga, index) => {
+                            return (
+                                <MangaPreview manga={manga} index={index}/>
+                            );
+                        })}
+                    </Slider>
+                    )
+                }
             </div>
         </>
     );

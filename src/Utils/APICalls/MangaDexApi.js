@@ -31,19 +31,21 @@ async function searchLatestUploads(){
             url: proxyUrl,
         },
         params: {
-            limit: 20,
+            limit: 15,
             includes: ["authors", "artist", "cover_art"],
             order: {
                 createdAt: 'desc'
             }
         }
     }).then(respond => {
-        console.log(respond.data.data);
+        console.log(respond);
         return respond.data.data;
     }).catch((e) => {
         console.log(e)
         return [];
     });
+
+    return resp;
 
 }
 

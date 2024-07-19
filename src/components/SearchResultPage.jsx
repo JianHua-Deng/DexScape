@@ -23,13 +23,14 @@ function SearchResultPage() {
     return(
         <div className="search-result-container">
             
-            {mangaData.length > 0 ? 
+            {mangaData.length > 0 ? (
             mangaData.map((manga, index) => {
                 return (
                     <MangaPreview manga={manga} index={index}/>
                 )
-            }):
+            })):(
                <p>No results</p>
+                )
             }
             
         </div>
