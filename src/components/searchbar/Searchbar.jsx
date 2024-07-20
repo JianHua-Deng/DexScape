@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { searchMangas } from "../../Utils/APICalls/MangaDexApi";
 import "./Searchbar.css";
@@ -6,15 +7,17 @@ import "./Searchbar.css";
 function Searchbar(){
 
     const [queryContent, setQueryContent] = useState('');
+    const navigate = useNavigate();
 
     return (
         <>
-            <form className="searchbar" onSubmit={() => {
+            <form className="searchbar" onSubmit={(e) => {
                 e.preventDefault();
+                navigate(`/search/${queryContent}`);
                 setQueryContent('');
             }}>
-                <input type="text" name="search" className="searchbar-field" onChange={(e) => {setQueryContent(e.target.value)}} required></input>
-                <Link to={`/search/${queryContent}`}><button className="search-button" type="submit">Search</button></Link>
+                <input type="text" name="search" value={queryContent} className="searchbar-field" onChange={(e) => {setQueryContent(e.target.value)}} required></input>
+                <button className="search-button" type="submit">Search</button>
             </form>
         
         </>

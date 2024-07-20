@@ -1,6 +1,7 @@
 
 .header-container{
+    grid-column: 1 / 4;
     padding: 1rem;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
 }
