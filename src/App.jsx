@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Home from './components/home/Home'
 import Header from './components/header/Header'
 import SearchResultPage from './components/search-result/SearchResultPage'
+import DetailPage from './components/details-page/DetailsPage'
 import './App.css'  
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home/>}/>
           <Route path="search/:queryString" element={<SearchResultPage/>}/>
+          <Route path="manga/:mangaID" element={<DetailPage/>}/>
         </Routes>
       </BrowserRouter>
     </>

@@ -1,12 +1,35 @@
+
+
 .manga-item{
-
-    padding: 1rem;
-    width: 18rem;
-    height: 16rem;
-    min-height: 27rem;
-    border-radius: 1rem;
-
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
+}
+
+.manga{
+    width: 17rem;
+    height: 30rem;
+    border-radius: 1rem;
+    display: grid;
+    grid-template-rows: 3fr 1fr; 
+
+}
+
+.manga>p{
+    max-width: 13rem;
+    text-decoration: none;
+    color: white;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    grid-row: 3 / 4;
+    justify-self: center;
+}
+
+
+img {
+    width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    grid-row: 1 / 3;
 }

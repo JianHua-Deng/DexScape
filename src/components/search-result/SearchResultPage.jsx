@@ -26,7 +26,7 @@ function SearchResultPage() {
             {mangaData.length > 0 ? (
             mangaData.map((manga, index) => {
                 return (
-                    <MangaPreview manga={manga} index={index}/>
+                    <MangaPreview manga={manga} key={index}/>
                 )
             })):(
                <p>No results</p>
