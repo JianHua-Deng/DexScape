@@ -60,7 +60,6 @@ function LatestUploads(){
 
         }).catch(e => {console.log(e)}).finally(() => {
             setLoadingStatus(false);
-            console.log("Length: " + latestMangas.length);
         });
     }, []);
 

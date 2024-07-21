@@ -49,9 +49,27 @@ async function searchLatestUploads(){
 
 }
 
-async function searchPopular(){
-    
+async function searchPopularUploads(){
+    const resp = await axios({
+        method: "GET",
+        url: infoUrl,
+        proxy: {
+            url: proxyUrl,
+        },
+        params: {
+            limit: 30,
+            order: {
+                rating: 'desc',
+                followedCount: 'desc'
+            }
+        }
+    }).then(respond =>{
+        console.log(respond.data.data);
+        return respond.data.data;
+    }).catch(e => {console.log(e)});
+
+    return resp;
 }
 
-export {searchMangas, searchLatestUploads};
+export {searchMangas, searchLatestUploads, searchPopularUploads};
 
