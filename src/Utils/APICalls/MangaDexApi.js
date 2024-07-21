@@ -23,7 +23,7 @@ async function searchMangas(title){
     return resp.data.data;
 } 
  
-async function searchLatestUploads(){
+async function searchLatestUploads(limitNumber){
     const resp = await axios({
         method: "GET",
         url: infoUrl,
@@ -31,7 +31,7 @@ async function searchLatestUploads(){
             url: proxyUrl,
         },
         params: {
-            limit: 15,
+            limit: limitNumber,
             includes: ["authors", "artist", "cover_art"],
             order: {
                 createdAt: 'desc'
@@ -49,7 +49,7 @@ async function searchLatestUploads(){
 
 }
 
-async function searchPopularUploads(){
+async function searchPopularUploads(limitNumber){
     const resp = await axios({
         method: "GET",
         url: infoUrl,
@@ -57,7 +57,8 @@ async function searchPopularUploads(){
             url: proxyUrl,
         },
         params: {
-            limit: 30,
+            limit: limitNumber,
+            includes: ["authors", "artist", "cover_art"],
             order: {
                 rating: 'desc',
                 followedCount: 'desc'

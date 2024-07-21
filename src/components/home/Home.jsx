@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import LatestUploads from '../latest-uploads/LatestUploads';
-import PopularUploads from '../popular-uploads/PopularUploads';
+import { searchMangas, searchLatestUploads, searchPopularUploads } from '../../Utils/APICalls/MangaDexApi';
+import FeaturedSlider from '../featured-slider/FeaturedSlider';
 
 //import '../App.css'
 import './Home.css'
@@ -11,8 +11,8 @@ function Home() {
 
   return (
     <>
-      <LatestUploads/>
-      <PopularUploads/>
+      <FeaturedSlider fetchFunctions={searchPopularUploads} title={"Popular Mangas"} itemLimits={15}/>
+      <FeaturedSlider fetchFunctions={searchLatestUploads} title={"Latest Uploads"} itemLimits={15}/>
     </>
   )
 }
