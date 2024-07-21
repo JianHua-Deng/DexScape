@@ -1,0 +1,29 @@
+.manga-cover-img{
+    width: 25rem;
+    height: auto;
+}
+
+.details-container{
+    max-height: 80vh;
+    display: grid;
+    grid-template: 1fr 2fr 1fr / 1fr 3fr;
+}
+
+.manga-title, .chapters-container>h2{
+    text-align: start;
+}
+
+.chapter-list{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.chapter{
+    background-color: rgb(163, 163, 163);
+    display: flex;
+    flex-direction: column;
+    border-radius: 1rem;
+    width: 6rem;
+    height: 10rem;
+}

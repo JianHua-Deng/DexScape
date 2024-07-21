@@ -1,5 +1,6 @@
 
 .header-container{
+    border: 1px solid white;
     grid-row: 1 / 2;
     grid-column: 2 / 3;
     padding: 1rem;
