@@ -34,7 +34,7 @@ function FeaturedSlider({fetchFunctions, title, itemLimits}){
                     <Slider {...sliderSettings}>
                         {mangas.map((manga, index) => {
                             return (
-                                <MangaPreview manga={manga} key={index}/>
+                                <MangaPreview manga={manga} key={index} id={manga.id}/>
                             );
                         })}
                     </Slider>

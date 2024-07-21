@@ -1,14 +1,14 @@
 import axios from "axios";
 
 const proxyUrl = "https://corsproxy.io/";
-const infoUrl = "https://api.mangadex.org/manga";
-const coverUrl = "https://uploads.mangadex.org/covers"
+const queryMangasUrl = "https://api.mangadex.org/manga";
+const queryChaptersUrl = "https://api.mangadex.org/at-home/server/";
 
 
 async function searchMangas(title){
     const resp = await axios({
         method: "GET",
-        url: infoUrl,
+        url: queryMangasUrl,
         proxy:{
             url: proxyUrl,
         },
@@ -26,7 +26,7 @@ async function searchMangas(title){
 async function searchLatestUploads(limitNumber){
     const resp = await axios({
         method: "GET",
-        url: infoUrl,
+        url: queryMangasUrl,
         proxy: {
             url: proxyUrl,
         },
@@ -52,7 +52,7 @@ async function searchLatestUploads(limitNumber){
 async function searchPopularUploads(limitNumber){
     const resp = await axios({
         method: "GET",
-        url: infoUrl,
+        url: queryMangasUrl,
         proxy: {
             url: proxyUrl,
         },
@@ -72,5 +72,26 @@ async function searchPopularUploads(limitNumber){
     return resp;
 }
 
-export {searchMangas, searchLatestUploads, searchPopularUploads};
+async function fetchChapterList(mangaID, languages){
+    const resp = await axios({
+        method: "GET",
+        url: `${queryMangasUrl}/${mangaID}/feed`,
+        proxy: {
+            url: proxyUrl,
+        },
+        params:{
+            translatedLanguage: languages,
+            order: {
+                chapter: 'asc',
+            }
+        }
+    }).then(respond => {
+        console.log(respond.data.data);
+        return respond.data.data;
+    }).catch(e => {console.log(e);})
+
+    return resp;
+}
+
+export {searchMangas, searchLatestUploads, searchPopularUploads, fetchChapterList};
 
