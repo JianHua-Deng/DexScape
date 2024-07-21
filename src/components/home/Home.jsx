@@ -3,7 +3,6 @@ import LatestUploads from '../latest-uploads/LatestUploads';
 
 //import '../App.css'
 import './Home.css'
-import Sidebar from '../sidebar/Sidebar';
 
 function Home() {
 

@@ -49,5 +49,9 @@ async function searchLatestUploads(){
 
 }
 
+async function searchPopular(){
+    
+}
+
 export {searchMangas, searchLatestUploads};
 

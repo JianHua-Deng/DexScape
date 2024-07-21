@@ -13,11 +13,13 @@ function App() {
     <>
       <BrowserRouter>
       <Header/>
+      <div className='main-contents'>
         <Routes>
           <Route path="/" element={<Home/>}/>
           <Route path="search/:queryString" element={<SearchResultPage/>}/>
           <Route path="manga/:mangaID" element={<DetailPage/>}/>
         </Routes>
+      </div>
       </BrowserRouter>
     </>
   )

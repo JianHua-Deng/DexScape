@@ -8,9 +8,9 @@ function Header(){
         <>
             <div className="header-container">
                 <nav className="nav-container">
-                <Link to="/">Home</Link>
-                <Link>#</Link>
-                <Link>#</Link>
+                    <Link to="/">Home</Link>
+                    <Link>Latest</Link>
+                    <Link>Popular</Link>
                 </nav>
                 <div className="searchbar-container"><Searchbar/></div>
             </div>

@@ -1,9 +1,9 @@
 .latest-uploads-container{
-
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 30rem;
+    height: 40rem;
+    
 }
 
 .slick-slider{

@@ -1,7 +1,16 @@
 
 .header-container{
-    grid-column: 1 / 4;
+    grid-row: 1 / 2;
+    grid-column: 2 / 3;
     padding: 1rem;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-container{
+    display: flex;
     justify-content: space-around;
+    width: 10%;
+    gap: 4%;
 }

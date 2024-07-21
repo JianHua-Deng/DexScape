@@ -3,8 +3,16 @@
   width: 100vw;
   padding: 1rem;
   text-align: center;
+  display: grid;
+  grid-template: 1fr 10fr / 1fr 7fr 1fr;
 
 
+}
+
+.main-contents{
+  max-width: 80vw;
+  grid-row: 2 / 3;
+  grid-column: 2 / 3;
 }
 
 
