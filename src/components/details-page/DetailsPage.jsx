@@ -22,7 +22,8 @@ function DetailPage(){
     }, []);
 
     useEffect(() => {
-        console.log(volumeList);
+        //console.log(volumeList);
+        console.log(Object.entries(volumeList))
     },[volumeList])
 
     useEffect(() => {
@@ -30,10 +31,10 @@ function DetailPage(){
             return chapterList.reduce((acc, chapter) => {
                 const volume = chapter.attributes.volume;
                 if(!volume){ //Check if the volume attribute of this chapter is null
-                    if(!acc['No Volume']){
-                        acc['No Volume'] = [];
+                    if(!acc['Uncategorized']){
+                        acc['Uncategorized'] = [];
                     }
-                    acc['No Volume'].push(chapter);
+                    acc['Uncategorized'].push(chapter);
                     return acc;
                 }
                 if(!acc[volume]){ //if this volume group does not exist
@@ -43,7 +44,12 @@ function DetailPage(){
                 return acc;
             }, {});
         })
-    }, [chapterList])
+
+    }, [chapterList]);
+
+    function chapterOnClick(e){
+        const id = e.id;
+    }
 
 
     return (
@@ -52,19 +58,34 @@ function DetailPage(){
                 <div className="details-container">
                     <img className="manga-cover-img" src={`https://uploads.mangadex.org/covers/${manga.id}/${manga.relationships.find(relationship => relationship.type === "cover_art").attributes.fileName}.512.jpg`}/>
                     <h1 className="manga-title">{manga.attributes.title.en}</h1>
-                    <p>{`Descriptions: ${manga.attributes.description.en}`}</p>
+                    <div className="manga-descriptions">
+                        <p>{`Descriptions: ${manga.attributes.description.en}`}</p>
+                    </div>
                 </div>
-                {loadingStatus && chapterList.length === 0 ? (
+                {loadingStatus && volumeList.length === 0 ? (
                     <p>Loading</p>
                 ):(
                     <div className="chapters-container">
-                        <h2>Chapters</h2>
                         <div className="chapter-list">
-                            {chapterList.map((chapter, index) => {
+                            {Object.entries(volumeList).map(([volume, chapters]) => {
                                 return (
-                                    <div className="chapter" key={index} id={chapter.id}>
-                                        <p>{chapter.attributes.chapter}</p>
-                                        <p>{chapter.attributes.title}</p>
+                                    <div className="volume-chapter-container">
+                                        <div className="volume-chapter-title">
+                                            {volume === "Uncategorized" ? (<h2>Chapters</h2>):(<h2>{`Volume ${volume}`}</h2>)}
+                                        </div>
+
+                                        <div className="chapters-container">
+                                            {chapters.map((chapter, index) => {
+                                                return (
+                                                    <div className="chapter" key={index} id={chapter.id}>
+                                                        <p className="chapter-number chapter-title">
+                                                            {`${chapter.attributes.chapter}${chapter.attributes.title ? ` - ${chapter.attributes.title}` : ''}`}
+                                                        </p>
+                                                    </div>
+                                                );                                        
+                                            })}
+                                        </div>
+
                                     </div>
                                 );
                             })}
