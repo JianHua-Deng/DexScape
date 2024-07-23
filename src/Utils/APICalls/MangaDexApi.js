@@ -80,6 +80,7 @@ async function fetchChapterList(mangaID, languages){
             url: proxyUrl,
         },
         params:{
+            limit: 500,
             translatedLanguage: languages,
             order: {
                 chapter: 'asc',

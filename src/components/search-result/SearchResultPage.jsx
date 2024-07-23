@@ -3,7 +3,7 @@ import { useState } from "react";
 import { searchMangas } from "../../Utils/APICalls/MangaDexApi";
 import MangaPreview from "../manga-preview/MangaPreview";
 import './SearchResultPage.css';
-import { useParams } from "react-router-dom";
+import { useParams, Outlet } from "react-router-dom";
 
 function SearchResultPage() {
 
@@ -32,7 +32,6 @@ function SearchResultPage() {
                <p>No results</p>
                 )
             }
-            
         </div>
     );
 }

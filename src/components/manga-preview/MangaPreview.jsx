@@ -10,7 +10,7 @@ function MangaPreview({manga}){
         <>
 
             <div className="manga" onClick={() => {
-                navigate(`manga/${manga.id}`, {state: manga});
+                navigate(`/manga/${manga.id}`, {state: manga});
             }}>
                 <img src={`https://uploads.mangadex.org/covers/${manga.id}/${manga.relationships.find(relationship => relationship.type === "cover_art").attributes.fileName}.512.jpg`} alt="" /> 
                 <p>{`${manga.attributes.title.en}`}</p>

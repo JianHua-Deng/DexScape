@@ -67,9 +67,9 @@ function DetailPage(){
                 ):(
                     <div className="chapters-container">
                         <div className="chapter-list">
-                            {Object.entries(volumeList).map(([volume, chapters]) => {
+                            {Object.entries(volumeList).map(([volume, chapters], index) => {
                                 return (
-                                    <div className="volume-chapter-container">
+                                    <div className="volume-chapter-container" key={index}>
                                         <div className="volume-chapter-title">
                                             {volume === "Uncategorized" ? (<h2>Chapters</h2>):(<h2>{`Volume ${volume}`}</h2>)}
                                         </div>

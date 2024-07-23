@@ -24,8 +24,7 @@
     grid-column: 1 / 4;
     display: flex;
     flex-wrap: wrap;
-    gap: 2rem;
-    pad: .5rem;
+    gap: 1rem;
 }
 
 .chapter-list{
