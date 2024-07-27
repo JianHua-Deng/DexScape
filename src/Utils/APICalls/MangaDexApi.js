@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const proxyUrl = "https://corsproxy.io/";
+const proxyUrl = process.env.RAILWAY_PUBLIC_DOMAIN;
 const queryMangasUrl = "https://api.mangadex.org/manga";
 const queryChaptersUrl = "https://api.mangadex.org/at-home/server/";
 
