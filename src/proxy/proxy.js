@@ -1,11 +1,34 @@
+import express from 'express'
+import cors from 'cors'
+import { createProxyMiddleware } from 'http-proxy-middleware';
+import dotenv from 'dotenv';
+dotenv.config({ path: '../../.env' });
 
-const express = require('express');
-const cors = require('cors');
-const {createProxyMiddleware} = require('http-proxy-middleware');
-
+const PORT = process.env.VITE_PORT || 3000;
 const app = express();
 app.use(cors());
 
-const options = {
+app.use((req, res, next) => {
+    console.log('Incoming request:', req.method, req.url);
+    next();
+});
 
-}
+const mangaCoversProxy = createProxyMiddleware({
+    target: 'https://uploads.mangadex.org/covers/',
+    changeOrigin: true,
+    logLevel: 'debug',
+    onProxyReq: (proxyReq, req, res) => {
+        console.log('Proxying request:' + req.url);
+    },
+    onProxyRes: (proxyRes, req, res) => {
+        console.log('Received response for:' + req.url);
+    },
+
+})
+
+
+app.use('/covers', mangaCoversProxy);
+
+app.listen(PORT, () => {
+    console.log("It is currently running on PORT: " + PORT);
+})

@@ -11,6 +11,13 @@ function DetailPage(){
     const [chapterList, setChapterList] = useState([]);
     const [volumeList, setVolumeList] = useState([]);
     const [loadingStatus, setLoadingStatus] = useState(false);
+    
+
+    const PORT = import.meta.env.VITE_PORT || 3000;
+    const params = `${manga.id}/${manga.relationships.find(relationship => relationship.type === "cover_art").attributes.fileName}.512.jpg`;
+    const coverUrl = `http://localhost:${PORT}/covers/${params}`;
+    console.log("Cover Url: " + coverUrl + ", Port: " + PORT);
+
 
     useEffect(() => {
         fetchChapterList(manga.id, ['en']).then(respond =>{
@@ -56,7 +63,7 @@ function DetailPage(){
         <>
             <div className="manga-details-container">
                 <div className="details-container">
-                    <img className="manga-cover-img" src={`https://uploads.mangadex.org/covers/${manga.id}/${manga.relationships.find(relationship => relationship.type === "cover_art").attributes.fileName}.512.jpg`}/>
+                    <img className="manga-cover-img" src={`${coverUrl}`}/>
                     <h1 className="manga-title">{manga.attributes.title.en}</h1>
                     <div className="manga-descriptions">
                         <p>{`Descriptions: ${manga.attributes.description.en}`}</p>
