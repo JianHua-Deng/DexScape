@@ -24,6 +24,7 @@ async function searchMangas(title){
 } 
  
 async function searchLatestUploads(limitNumber){
+    console.log("ProxyUrl: " + proxyUrl);
     const resp = await axios({
         method: "GET",
         url: queryMangasUrl,
