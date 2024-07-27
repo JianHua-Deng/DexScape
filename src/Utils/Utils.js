@@ -1,3 +1,16 @@
+
+
+function getCoverUrl(manga){
+
+    const baseUrl = process.env.RAILWAY_PUBLIC_DOMAIN;//if its local it will be set to whatever the local url is, if its deployed, it should be the domain of railway
+    const params = `${manga.id}/${manga.relationships.find(relationship => relationship.type === "cover_art").attributes.fileName}.512.jpg`;
+    const coverUrl = `${baseUrl}/covers/${params}`;
+    
+    console.log(coverUrl);
+
+    return coverUrl;
+}
+
 const sliderSettings = {
     dots: false,
     infinite: false,
@@ -37,4 +50,6 @@ const sliderSettings = {
     
 }
 
-export default sliderSettings
+
+
+export {sliderSettings, getCoverUrl}

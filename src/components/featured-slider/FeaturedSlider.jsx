@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useEffect } from "react";
-import sliderSettings from "../../Utils/Utils";
+import { sliderSettings } from "../../Utils/Utils";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
