@@ -8,7 +8,7 @@ function MangaPreview({manga}){
 
     const baseUrl = process.env.NODE_ENV === 'development'
     ? 'http://localhost:5000' // For development
-    : 'https://your-railway-domain'; // Replace with actual Railway domain
+    : 'https://manga-site-production.up.railway.app'; // Replace with actual Railway domain
     const PORT = import.meta.env.VITE_PORT || 3000;
     const params = `${manga.id}/${manga.relationships.find(relationship => relationship.type === "cover_art").attributes.fileName}.512.jpg`;
     const coverUrl = `${baseUrl}/covers/${params}`;
