@@ -2,11 +2,15 @@ import express from 'express'
 import cors from 'cors'
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import dotenv from 'dotenv';
+import path from 'path';
 dotenv.config({ path: '../.env' });
 
 const PORT = process.env.PORT || 3000;
 const app = express();
 app.use(cors());
+
+const __dirname = path.resolve();
+app.use(express.static(path.join(__dirname, 'dist')));
 
 app.use((req, res, next) => {
     console.log('Incoming request:', req.method, req.url);
@@ -18,10 +22,10 @@ const mangaCoversProxy = createProxyMiddleware({
     changeOrigin: true,
     logLevel: 'debug',
     onProxyReq: (proxyReq, req, res) => {
-        console.log('Proxying request:' + req.url);
+        log('Proxying request:' + req.url);
     },
     onProxyRes: (proxyRes, req, res) => {
-        console.log('Received response for:' + req.url);
+        log('Received response for:' + req.url);
     },
 
 })
