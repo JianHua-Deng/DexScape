@@ -13,9 +13,12 @@ function DetailPage(){
     const [loadingStatus, setLoadingStatus] = useState(false);
     
 
+    const baseUrl = process.env.NODE_ENV === 'development'
+    ? 'http://localhost:5000' // For development
+    : 'https://some-domain'; // Replace with actual Railway domain
     const PORT = import.meta.env.VITE_PORT || 3000;
     const params = `${manga.id}/${manga.relationships.find(relationship => relationship.type === "cover_art").attributes.fileName}.512.jpg`;
-    const coverUrl = `http://localhost:${PORT}/covers/${params}`;
+    const coverUrl = `${baseUrl}/covers/${params}`;
     console.log("Cover Url: " + coverUrl + ", Port: " + PORT);
 
 

@@ -2,9 +2,9 @@ import express from 'express'
 import cors from 'cors'
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import dotenv from 'dotenv';
-dotenv.config({ path: '../../.env' });
+dotenv.config({ path: '../.env' });
 
-const PORT = process.env.VITE_PORT || 3000;
+const PORT = process.env.PORT || 3000;
 const app = express();
 app.use(cors());
 
