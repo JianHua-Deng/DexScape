@@ -10,7 +10,8 @@ const app = express();
 app.use(cors({
     origin: 'https://manga-site-production.up.railway.app', //Railway app URL
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
 }));
 
 const __dirname = path.resolve();
@@ -35,9 +36,7 @@ const mangaCoversProxy = createProxyMiddleware({
         console.log('Proxying request:' + req.url);
     },
     onProxyRes: (proxyRes, req, res) => {
-        proxyRes.headers['Access-Control-Allow-Origin'] = '*';
-        proxyRes.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS';
-        proxyRes.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept';
+        //proxyRes.headers['Access-Control-Allow-Origin'] = '*';
         console.log('Received response for:' + req.url);
     },
 
@@ -55,7 +54,7 @@ const mangaSearchProxy = createProxyMiddleware({
         console.log('Proxying request:' + req.url);
     },
     onProxyRes: (proxyRes, req, res) => {
-        proxyRes.headers['Access-Control-Allow-Origin'] = '*';
+        //proxyRes.headers['Access-Control-Allow-Origin'] = '*';
         console.log('Received response for:' + req.url);
     },
 
