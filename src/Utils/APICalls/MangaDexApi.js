@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const proxyUrl = process.env.RAILWAY_PUBLIC_DOMAIN;
+const proxyUrl = `https://${process.env.RAILWAY_PUBLIC_DOMAIN}` || 'http://localhost:5000';
 const queryMangasUrl = "https://api.mangadex.org/manga";
 const queryChaptersUrl = "https://api.mangadex.org/at-home/server/";
 
