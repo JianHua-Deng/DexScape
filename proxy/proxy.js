@@ -7,12 +7,7 @@ dotenv.config({ path: '../.env' });
 
 const PORT = process.env.PORT || 3000;
 const app = express();
-app.use(cors({
-    origin: 'https://manga-site-production.up.railway.app', //Railway app URL
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true,
-}));
+app.use(cors());
 
 const __dirname = path.resolve();
 app.use(express.static(path.join(__dirname, 'dist')));
