@@ -13,7 +13,7 @@ async function searchMangas(title){
         url: queryMangasUrl,
         proxy:{
             host: proxyUrl,
-            port: process.env.PORT
+            port: 8080,
         },
         params: {
             title: title,
@@ -33,7 +33,7 @@ async function searchLatestUploads(limitNumber){
         url: queryMangasUrl,
         proxy: {
             host: proxyUrl,
-            port: process.env.PORT
+            port: 8080,
         },
         params: {
             limit: limitNumber,
