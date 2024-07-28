@@ -7,7 +7,6 @@ function getCoverUrl(manga){
     const coverUrl = `${baseUrl}/covers/${params}`;
     
     console.log(coverUrl);
-
     return coverUrl;
 }
 
