@@ -7,7 +7,7 @@ const queryChaptersUrl = "https://api.mangadex.org/at-home/server/";
 const searchMangaURL = `${proxyUrl}/${queryMangasUrl}`;
 
 async function searchMangas(title){
-    console.log("Search Manga, ProxyUrl: " + proxyUrl);
+    console.log("Search Manga, ProxyUrl: " + proxyUrl + "\n" + "Port: " + process.env.PORT);
     const resp = await axios({
         method: "GET",
         url: queryMangasUrl,
