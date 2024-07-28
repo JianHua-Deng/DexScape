@@ -10,7 +10,11 @@ async function searchMangas(title){
     console.log("Search Manga, ProxyUrl: " + proxyUrl);
     const resp = await axios({
         method: "GET",
-        url: "https://mangadex-proxy-server-production.up.railway.app/manga",
+        url: queryMangasUrl,
+        proxy:{
+            host: proxyUrl,
+            port: 8080
+        },
         params: {
             title: title,
             includes: ["authors", "artist", "cover_art"],
@@ -26,7 +30,11 @@ async function searchLatestUploads(limitNumber){
     console.log("ProxyUrl: " + proxyUrl);
     const resp = await axios({
         method: "GET",
-        url: "https://mangadex-proxy-server-production.up.railway.app/manga",
+        url: queryMangasUrl,
+        proxy: {
+            host: proxyUrl,
+            port: 8080
+        },
         params: {
             limit: limitNumber,
             includes: ["authors", "artist", "cover_art"],
@@ -49,7 +57,11 @@ async function searchLatestUploads(limitNumber){
 async function searchPopularUploads(limitNumber){
     const resp = await axios({
         method: "GET",
-        url: "https://mangadex-proxy-server-production.up.railway.app/manga",
+        url: queryMangasUrl,
+        proxy: {
+            host: proxyUrl,
+            port: 8080
+        },
         params: {
             limit: limitNumber,
             includes: ["authors", "artist", "cover_art"],
