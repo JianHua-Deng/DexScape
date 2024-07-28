@@ -32,8 +32,7 @@ async function searchLatestUploads(limitNumber){
         method: "GET",
         url: queryMangasUrl,
         proxy: {
-            host: proxyUrl,
-            port: 8080,
+            url: proxyUrl
         },
         params: {
             limit: limitNumber,
@@ -59,8 +58,7 @@ async function searchPopularUploads(limitNumber){
         method: "GET",
         url: queryMangasUrl,
         proxy: {
-            host: proxyUrl,
-            port: process.env.PORT
+            url: proxyUrl
         },
         params: {
             limit: limitNumber,
@@ -83,8 +81,7 @@ async function fetchChapterList(mangaID, languages){
         method: "GET",
         url: `${queryMangasUrl}/${mangaID}/feed`,
         proxy: {
-            host: proxyUrl,
-            port: process.env.PORT
+            url: proxyUrl
         },
         params:{
             limit: 500,
