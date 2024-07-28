@@ -6,6 +6,8 @@ const queryChaptersUrl = "https://api.mangadex.org/at-home/server/";
 
 const searchMangaURL = `${proxyUrl}/${queryMangasUrl}`;
 
+const reqHeaders = {};
+
 async function searchMangas(title){
     console.log("Search Manga, ProxyUrl: " + proxyUrl + "\n" + "Port: " + process.env.PORT);
     const resp = await axios({
@@ -31,6 +33,7 @@ async function searchLatestUploads(limitNumber){
     const resp = await axios({
         method: "GET",
         url: queryMangasUrl,
+        headers: reqHeaders,
         proxy: {
             host: proxyUrl,
             port: process.env.PORT
@@ -58,6 +61,7 @@ async function searchPopularUploads(limitNumber){
     const resp = await axios({
         method: "GET",
         url: queryMangasUrl,
+        headers: reqHeaders,
         proxy: {
             host: proxyUrl,
             port: process.env.PORT
