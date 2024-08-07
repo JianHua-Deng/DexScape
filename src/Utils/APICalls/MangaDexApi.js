@@ -1,22 +1,17 @@
 import axios from "axios";
 
-const proxyUrl = process.env.PROXY_URL || 'http://localhost:5000';
+//const proxyUrl = process.env.PROXY_URL;
+const proxyUrl = "http://localhost:5173"
 const queryMangasUrl = "https://api.mangadex.org/manga";
 const queryChaptersUrl = "https://api.mangadex.org/at-home/server/";
 
-const searchMangaURL = `${proxyUrl}/${queryMangasUrl}`;
 
-const reqHeaders = {};
 
 async function searchMangas(title){
     console.log("Search Manga, ProxyUrl: " + proxyUrl + "\n" + "Port: " + process.env.PORT);
     const resp = await axios({
         method: "GET",
-        url: queryMangasUrl,
-        proxy:{
-            host: proxyUrl,
-            port: 8080
-        },
+        url: `${proxyUrl}/manga`,
         params: {
             title: title,
             includes: ["authors", "artist", "cover_art"],
@@ -24,20 +19,17 @@ async function searchMangas(title){
     }).catch( e => {
         console.log(e);
     })
-    
+
     return resp.data.data;
-} 
- 
+}
+
+
 async function searchLatestUploads(limitNumber){
     console.log("ProxyUrl: " + proxyUrl + "\n" + "Port: " + process.env.PORT);
     const resp = await axios({
         method: "GET",
-        url: queryMangasUrl,
-        headers: reqHeaders,
-        proxy: {
-            host: proxyUrl,
-            port: process.env.PORT
-        },
+        url: `${proxyUrl}/manga`,
+
         params: {
             limit: limitNumber,
             includes: ["authors", "artist", "cover_art"],
@@ -54,18 +46,12 @@ async function searchLatestUploads(limitNumber){
     });
 
     return resp;
-
 }
 
 async function searchPopularUploads(limitNumber){
     const resp = await axios({
         method: "GET",
-        url: queryMangasUrl,
-        headers: reqHeaders,
-        proxy: {
-            host: proxyUrl,
-            port: process.env.PORT
-        },
+        url: `${proxyUrl}/manga`,
         params: {
             limit: limitNumber,
             includes: ["authors", "artist", "cover_art"],
@@ -85,11 +71,8 @@ async function searchPopularUploads(limitNumber){
 async function fetchChapterList(mangaID, languages){
     const resp = await axios({
         method: "GET",
-        url: `${queryMangasUrl}/${mangaID}/feed`,
-        proxy: {
-            host: proxyUrl,
-            port: process.env.PORT
-        },
+        url: `${proxyUrl}/manga/${mangaID}/feed`,
+
         params:{
             limit: 500,
             translatedLanguage: languages,
@@ -105,5 +88,19 @@ async function fetchChapterList(mangaID, languages){
     return resp;
 }
 
-export {searchMangas, searchLatestUploads, searchPopularUploads, fetchChapterList};
+async function getChapterMetaData(chapterID){
+    try{
+        const resp = await axios({
+            method: "GET",
+            url: `${proxyUrl}/at-home/server/${chapterID}`,
+        }).then((respond) => {
+            console.log(respond.data.chapter);
+        })
+
+    }catch(error){
+
+    }
+}
+
+export {searchMangas, searchLatestUploads, searchPopularUploads, fetchChapterList, getChapterMetaData};
 

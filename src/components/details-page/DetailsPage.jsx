@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { fetchChapterList } from "../../Utils/APICalls/MangaDexApi";
+import { getChapterMetaData } from "../../Utils/APICalls/MangaDexApi";
 import { getCoverUrl } from "../../Utils/Utils";
 import './DetailsPage.css'
 
@@ -80,7 +81,7 @@ function DetailPage(){
                                         <div className="chapters-container">
                                             {chapters.map((chapter, index) => {
                                                 return (
-                                                    <div className="chapter" key={index} id={chapter.id}>
+                                                    <div className="chapter" key={index} id={chapter.id} onClick={() => {getChapterMetaData(chapter.id)}}>
                                                         <p className="chapter-number chapter-title">
                                                             {`${chapter.attributes.chapter}${chapter.attributes.title ? ` - ${chapter.attributes.title}` : ''}`}
                                                         </p>

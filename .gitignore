@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 .env
+Manga-Site.rar
 
 # Editor directories and files
 .vscode/*
