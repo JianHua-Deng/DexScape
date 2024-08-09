@@ -1,0 +1,14 @@
+{
+    "rewrites": [
+      {
+        "source": "/manga",
+        "destination": "https://api.mangadex.org"
+      },
+
+      {
+        "source": "/covers",
+        "destination": "https://uploads.mangadex.org",
+      }
+      
+    ]
+  }
