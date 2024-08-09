@@ -1,0 +1,22 @@
+.image-display-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.chapter-image{
+    width: 60rem;
+    height: auto;
+}
+
+.control-buttons-container{
+    width: 15rem;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.logo{
+    width: 3rem;
+    height: auto;
+}

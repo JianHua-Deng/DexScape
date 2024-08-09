@@ -5,6 +5,7 @@ import Header from './components/header/Header'
 import SearchResultPage from './components/search-result/SearchResultPage'
 import DetailPage from './components/details-page/DetailsPage'
 import './App.css'  
+import Reader from './components/reader/Reader'
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home/>}/>
           <Route path="search/:queryString/" element={<SearchResultPage/>}/>
+          <Route path="chapter/:chapterID" element={<Reader/>}/>
           <Route path="manga/:mangaID" element={<DetailPage/>}/>
         </Routes>
       </div>

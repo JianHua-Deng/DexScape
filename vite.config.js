@@ -27,7 +27,11 @@ export default defineConfig({
         target: 'https://api.mangadex.org',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/at-home/, '/at-home')
-      }
+      },
+
+      '/chapter-image': {
+        
+      },
 
     }
   }
