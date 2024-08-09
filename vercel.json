@@ -7,7 +7,7 @@
 
       {
         "source": "/covers",
-        "destination": "https://uploads.mangadex.org",
+        "destination": "https://uploads.mangadex.org"
       }
       
     ]
