@@ -127,24 +127,25 @@ function DetailPage(){
                     chapterList.length < 1 ? (
                         <p>No Chapter is Available</p>
                     ) : (
-                        <div className="chapters-container">
+                        <div className="data-container">
                             <div className="chapter-list">
                                 {Object.entries(volumeList).map(([volume, chapters], index) => (
                                     <div className="volume-chapter-container" key={index}>
                                         <div className="volume-chapter-title">
-                                            {volume === "Uncategorized" ? (
-                                                <h2>Chapters</h2>
-                                            ) : (
-                                                <h2>{`Volume ${volume}`}</h2>
-                                            )}
+                                            {volume === "Uncategorized" ? (<h2>Chapters</h2>) : (<h2>{`Volume ${volume}`}</h2>)}
                                         </div>
                                         <div className="chapters-container">
                                             {chapters.map((chapter, index) => (
                                                 <div className="chapter" key={index} id={chapter.id} onClick={() => {
                                                     navigate(`/chapter/${chapter.id}`, { state: manga });
                                                 }}>
-                                                    <p className="chapter-number chapter-title">
-                                                        {`${chapter.attributes.chapter}${chapter.attributes.title ? ` - ${chapter.attributes.title}` : ''}`}
+                                                    <p className="chapter-container">
+                                                        <span className="chapter-number">
+                                                            {`${chapter.attributes.chapter || 'Oneshot'}`}
+                                                        </span>
+                                                        <span className="chapter-title">
+                                                            {chapter.attributes.title ? `- ${chapter.attributes.title}` : ''}
+                                                        </span>
                                                     </p>
                                                 </div>
                                             ))}

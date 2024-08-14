@@ -83,7 +83,7 @@ function Reader(){
                 <p>Loading</p>
             ):(
                 <div className="image-display-container">
-                    <img src={returnLogo} alt="return" className='return-logo logo' onClick={() => {navigate(`/manga/${manga.id}`, {state: manga});}}/>
+                    <img src={returnLogo} alt="return" className='return-logo logo' onClick={() => {navigate(`/comic/${manga.id}`, {state: manga});}}/>
                     <img src={imgURL} alt="" className="chapter-image" onClick={nextPg} />
                     <div className="control-buttons-container">
                         <img src={previousLogo} alt="previous" className="previous-logo logo" onClick={previousPg} />

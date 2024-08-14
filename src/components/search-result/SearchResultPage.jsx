@@ -18,12 +18,11 @@ function SearchResultPage() {
     const [mangaData, setMangaData] = useState([]);
     const [loadingStatus, setLoadingStatus] = useState(false);
 
-    //const [searchConfig, setSearchConfig] = useState({});
 
     const location = useLocation();
     const navigate = useNavigate();
 
-    const offset = (parseInt(page, 10) - 1) * 24; // Calculate offset based on page
+    const offset = (parseInt(page, 10) - 1) * 24; // Calculate offset based on page, subtract 1 because page 1 starts at offset 0
     const path = location.pathname;
     var searchConfig = {};
     
@@ -84,14 +83,12 @@ function SearchResultPage() {
     }
     */
 
+    // The parameter of "value" will be either a negative or positive of however many pages
     function handleNavigate(value) {
 
-        // check if page is already at 1 and if it is trying to go below that, this is to prevent page going to negative numbers
-        // checks if the data is already less than the limit, if it is, that means that's the maximum amount available
-
-            const segments = path.split('/');
+            const segments = path.split('/'); // Breaking the path to segments
             const basePath = segments.slice(0, -1).join('/'); // Get all segments except the last one
-            const newPage = parseInt(page) + parseInt(value);
+            const newPage = parseInt(page) + parseInt(value); 
             
             if (newPage < 1 || mangaData.length < 24) return;
             navigate(`${basePath}/${newPage}`)
@@ -103,7 +100,7 @@ function SearchResultPage() {
     return(
         <div className="search-result-container">
             
-            {mangaData.length > 0 || !loadingStatus ? (
+            {!loadingStatus || mangaData.length > 0 ? (
                 <>
                     {mangaData.map((manga, index) => (
                         <MangaPreview manga={manga} version={"preview"} key={index}/>
@@ -116,7 +113,7 @@ function SearchResultPage() {
                 </>
                 ):(
                     <p>Loading</p>
-            )
+                )
             }
         </div>
     );

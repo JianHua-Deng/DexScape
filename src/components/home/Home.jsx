@@ -15,8 +15,8 @@ function Home() {
   return (
     <>
       <FeaturedSlider searchParams={popularSearchParams} title={"Popular Mangas"}/>
-      <FeaturedSlider searchParams={latestSearchParams} title={"Latest"}/>
       <FeaturedSlider searchParams={completedMangaParams} title={"Completed Mangas"}/>
+      <FeaturedSlider searchParams={latestSearchParams} title={"Recently Updated"}/>
     </>
   )
 }
