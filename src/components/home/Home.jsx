@@ -1,18 +1,22 @@
 import { useState } from 'react'
-import { searchMangas, searchLatestUploads, searchPopularUploads } from '../../Utils/APICalls/MangaDexApi';
+import { searchMangas} from '../../Utils/APICalls/MangaDexApi';
 import FeaturedSlider from '../featured-slider/FeaturedSlider';
+import { popularSearchParams, latestSearchParams, completedMangaParams } from '../../Utils/Utils';
 
 //import '../App.css'
 import './Home.css'
 
 function Home() {
 
-  //searchLatestUpload();
+
+
+
 
   return (
     <>
-      <FeaturedSlider fetchFunctions={searchPopularUploads} title={"Popular Mangas"} itemLimits={15}/>
-      <FeaturedSlider fetchFunctions={searchLatestUploads} title={"Latest Uploads"} itemLimits={15}/>
+      <FeaturedSlider searchParams={popularSearchParams} title={"Popular Mangas"}/>
+      <FeaturedSlider searchParams={latestSearchParams} title={"Latest"}/>
+      <FeaturedSlider searchParams={completedMangaParams} title={"Completed Mangas"}/>
     </>
   )
 }

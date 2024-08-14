@@ -2,13 +2,20 @@ import nextLogo from './../../assets/next-svgrepo-com.svg'
 import nextChapLogo from './../../assets/next-998-svgrepo-com.svg'
 import previousLogo from './../../assets/previous-svgrepo-com.svg'
 import previousChapLogo from './../../assets/previous-999-svgrepo-com.svg'
+import returnLogo from './../../assets/return-button-svgrepo-com.svg'
 
 import './Reader.css'
+import { useLocation, useNavigate, Navigate } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import { useParams} from "react-router-dom";
 import { getChapterMetaData } from '../../Utils/APICalls/MangaDexApi';
 
 function Reader(){
+
+    const navigate = useNavigate();
+    //getting the state that's passed through Navigate
+    const location = useLocation();
+    const manga = location.state;
 
     const { chapterID } = useParams();
     const [metaData, setMetaData] = useState(null);
@@ -45,6 +52,7 @@ function Reader(){
     useEffect(() => {
         if (imageUrlArray.length != 0){
             setImageURL(imageUrlArray[0]);
+            setPageNumber(1);
             setLoadingStatus(false);
         }
     }, [imageUrlArray])
@@ -52,8 +60,11 @@ function Reader(){
     function nextPg(){
         setPageNumber((currentPage) => {
             const nextPage = currentPage +  1;
-            setImageURL(imageUrlArray[nextPage - 1]); // I have to do minus 1 because the imageUrlArray starts at index 0
-            return nextPage;
+            if (nextPage <= imageUrlArray.length){
+                setImageURL(imageUrlArray[nextPage - 1]); // I have to do minus 1 because the imageUrlArray starts at index 0
+                return nextPage;
+            }
+            return currentPage;
         })
     }
 
@@ -65,12 +76,14 @@ function Reader(){
         })
     }
 
+
     return (
         <>
             {loadingStatus ? (
                 <p>Loading</p>
             ):(
                 <div className="image-display-container">
+                    <img src={returnLogo} alt="return" className='return-logo logo' onClick={() => {navigate(`/manga/${manga.id}`, {state: manga});}}/>
                     <img src={imgURL} alt="" className="chapter-image" onClick={nextPg} />
                     <div className="control-buttons-container">
                         <img src={previousLogo} alt="previous" className="previous-logo logo" onClick={previousPg} />

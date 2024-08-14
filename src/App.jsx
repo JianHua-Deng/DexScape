@@ -17,9 +17,12 @@ function App() {
       <div className='main-contents'>
         <Routes>
           <Route path="/" element={<Home/>}/>
-          <Route path="search/:queryString/" element={<SearchResultPage/>}/>
+          <Route path="popular/:page" element={<SearchResultPage/>}/>
+          <Route path="latest/:page" element={<SearchResultPage/>}/>
+          <Route path="tag/:uuid/:page" element={<SearchResultPage/>}/>
+          <Route path="search/:queryString/:page" element={<SearchResultPage/>}/>
           <Route path="chapter/:chapterID" element={<Reader/>}/>
-          <Route path="manga/:mangaID" element={<DetailPage/>}/>
+          <Route path="comic/:mangaID" element={<DetailPage/>}/>
         </Routes>
       </div>
       </BrowserRouter>

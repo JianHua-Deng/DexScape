@@ -7,12 +7,57 @@ function getCoverUrl(manga){
     const params = `${manga.id}/${manga.relationships.find(relationship => relationship.type === "cover_art").attributes.fileName}.512.jpg`;
     const coverUrl = `/covers/${params}`;
     
-    console.log(coverUrl);
+    //console.log(coverUrl);
     return coverUrl;
 }
 
 function getChapterImageUrl(hash, baseUrl, data){
     return `${proxyUrl}/image/${hash}/${baseUrl}/${data}`;
+}
+
+
+//If the available language is empty, return the original language, else check if there's english, if not, return the first one in that array
+function getAvailableLanguages(manga){
+    if(manga.attributes.availableTranslatedLanguages.length < 1){
+        return [`${manga.attributes.originalLanguage}`]
+    }else{
+        return manga.attributes.availableTranslatedLanguages.find(lang => lang == 'en' ) ? ['en'] : [`${manga.attributes.availableTranslatedLanguages[0]}`]
+    }
+}
+
+const defaultSearchConfig = {
+    limit: 24,
+    includes: ["authors", "artist", "cover_art"],
+    order: {
+        relevance: 'desc',
+    }
+};
+
+const popularSearchParams = {
+    limit: 15,
+    includes: ["authors", "artist", "cover_art"],
+    order: {
+        rating: 'desc',
+        followedCount: 'desc'
+    }
+}
+
+const latestSearchParams = {
+    limit: 15,
+    includes: ["authors", "artist", "cover_art"],
+    order: {
+        updatedAt: 'desc'
+    }
+}
+
+const completedMangaParams = {
+    limit: 15,
+    includes: ["authors", "artist", "cover_art"],
+    status: ["completed"],
+    order: {
+        rating: 'desc',
+        followedCount: 'desc'
+    }
 }
 
 const sliderSettings = {
@@ -56,4 +101,4 @@ const sliderSettings = {
 
 
 
-export {sliderSettings, getCoverUrl}
+export {sliderSettings, defaultSearchConfig, popularSearchParams, latestSearchParams, completedMangaParams, getCoverUrl, getAvailableLanguages}

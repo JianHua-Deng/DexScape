@@ -5,9 +5,10 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./FeaturedSlider.css"
+import { searchMangas } from "../../Utils/APICalls/MangaDexApi";
 import MangaPreview from "../manga-preview/MangaPreview";
 
-function FeaturedSlider({fetchFunctions, title, itemLimits}){
+function FeaturedSlider({searchParams, title}){
 
     const [mangas, setMangas] = useState([]);
     const [loadingStatus, setLoadingStatus] = useState(false);
@@ -15,7 +16,7 @@ function FeaturedSlider({fetchFunctions, title, itemLimits}){
     useEffect(() => {
         setLoadingStatus(true);
 
-        fetchFunctions(itemLimits).then((resp) => {
+        searchMangas(searchParams).then((resp) => {
 
             setMangas(resp);
 
@@ -34,7 +35,7 @@ function FeaturedSlider({fetchFunctions, title, itemLimits}){
                     <Slider {...sliderSettings}>
                         {mangas.map((manga, index) => {
                             return (
-                                <MangaPreview manga={manga} key={index} id={manga.id}/>
+                                <MangaPreview manga={manga} version={"cover"} key={index} id={manga.id}/>
                             );
                         })}
                     </Slider>

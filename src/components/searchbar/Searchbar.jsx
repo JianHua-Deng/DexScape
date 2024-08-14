@@ -13,7 +13,7 @@ function Searchbar(){
         <>
             <form className="searchbar" onSubmit={(e) => {
                 e.preventDefault();
-                navigate(`/search/${queryContent}`);
+                navigate(`/search/${queryContent}/1`);
                 setQueryContent('');
             }}>
                 <input type="text" name="search" value={queryContent} className="searchbar-field" onChange={(e) => {setQueryContent(e.target.value)}} required></input>

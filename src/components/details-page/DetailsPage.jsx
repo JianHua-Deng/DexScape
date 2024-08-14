@@ -1,41 +1,82 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate, Navigate } from "react-router-dom";
-import { fetchChapterList } from "../../Utils/APICalls/MangaDexApi";
+import { useLocation, useNavigate, Navigate, useParams } from "react-router-dom";
+import { fetchChapterList, searchMangas, searchSpecificManga } from "../../Utils/APICalls/MangaDexApi";
 import { getChapterMetaData } from "../../Utils/APICalls/MangaDexApi";
-import { getCoverUrl } from "../../Utils/Utils";
+import { getCoverUrl, getAvailableLanguages } from "../../Utils/Utils";
 import './DetailsPage.css'
 
 function DetailPage(){
 
     const navigate = useNavigate();
     const location = useLocation();
-    const manga = location.state;
+    const {mangaID} = useParams();
 
+    const [manga, setManga] = useState(location.state || null);
+    const [coverUrl, setCoverUrl] = useState(location.state ? getCoverUrl(location.state) : ''); // if location.state is a valid manga object, get url right away
+    const [mangaLanguage, setMangaLanguage] = useState(location.state ? getAvailableLanguages(location.state) : '');// if location.state is a valid manga object, get available language right away
     const [chapterList, setChapterList] = useState([]);
     const [volumeList, setVolumeList] = useState([]);
     const [loadingStatus, setLoadingStatus] = useState(false);
-    
-    const coverUrl = getCoverUrl(manga);
+    const [tags, setTags] = useState([]);
 
+    const mangaPrint = JSON.stringify(manga);
+    
+    //console.log(mangaPrint + "\n" + "Languages: " + mangaLanguage);
+    //console.log(manga);
+    //console.log(tags);
+    
     useEffect(() => {
-        setLoadingStatus(true);
-        fetchChapterList(manga.id, ['en']).then(respond =>{
-            setChapterList(respond);
-        }).finally(() => {
-            setLoadingStatus(false);
-        });
-    }, []);
+        //Fetch manga data if not available in location.state, this would usually happen after user refresh the page
+        if(!manga){
+            searchSpecificManga(mangaID).then(resp => {
+                setManga(resp);
+                setCoverUrl(getCoverUrl(resp));
+                console.log("Url: " + getCoverUrl(resp));
+                setMangaLanguage(getAvailableLanguages(resp));
+                console.log("Language: " + getAvailableLanguages(resp));
+            })
+        }
+    }, [])
+    
+    useEffect(() => {
+
+        if(manga && mangaLanguage){
+            setLoadingStatus(true);
+
+            const paramConfig = {
+                limit: 500,
+                translatedLanguage: mangaLanguage,
+                includeExternalUrl: 0,
+                order: {
+                    chapter: 'asc',
+                }
+            }
+        
+            setTags(() => {
+                return manga.attributes.tags.filter(tag => tag.attributes.group === 'genre');
+            });
+    
+            fetchChapterList(mangaID, paramConfig).then(respond =>{
+                setChapterList(respond);
+            }).finally(() => {
+                setLoadingStatus(false);
+            });
+        }
+
+    }, [manga]);
 
     useEffect(() => {
         //console.log(volumeList);
         console.log(Object.entries(volumeList))
     },[volumeList])
 
+    //Sorting and grouping chapters based on the volume they belong to
     useEffect(() => {
         setVolumeList(() => {
             return chapterList.reduce((acc, chapter) => {
                 const volume = chapter.attributes.volume;
                 if(!volume){ //Check if the volume attribute of this chapter is null
+                    //if Uncategorized was never initialized
                     if(!acc['Uncategorized']){
                         acc['Uncategorized'] = [];
                     }
@@ -57,44 +98,63 @@ function DetailPage(){
             <div className="manga-details-container">
                 <div className="details-container">
                     <img className="manga-cover-img" src={`${coverUrl}`}/>
-                    <h1 className="manga-title">{manga.attributes.title.en}</h1>
-                    <div className="manga-descriptions">
-                        <p>{`Descriptions: ${manga.attributes.description.en}`}</p>
+                    <div className="details">
+                        <h1 className="manga-title">
+                            {manga?.attributes?.title?.en ? manga?.attributes?.title?.en : manga?.attributes?.title['ja-ro']}
+                        </h1>
+                        <div className="manga-descriptions">
+                            <p>{`${manga?.attributes?.description?.en}`}</p>
+                        </div>
+                        {tags.length < 1 ? (
+                            <></>
+                        ) : (
+                            <div className="tags-container">
+                                {tags.map((tag, index) => (
+                                    <div className="tag" key={tag.id} id={`tag-${index}`} onClick={() => {
+                                        navigate(`/tag/${tag.id}/1`);
+                                    }}>
+                                        {`${tag.attributes.name.en}`}
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
                     </div>
                 </div>
-                {loadingStatus && volumeList.length === 0 ? (
+                {loadingStatus ? (
                     <p>Loading</p>
                 ):(
-                    <div className="chapters-container">
-                        <div className="chapter-list">
-                            {Object.entries(volumeList).map(([volume, chapters], index) => {
-                                return (
+                    chapterList.length < 1 ? (
+                        <p>No Chapter is Available</p>
+                    ) : (
+                        <div className="chapters-container">
+                            <div className="chapter-list">
+                                {Object.entries(volumeList).map(([volume, chapters], index) => (
                                     <div className="volume-chapter-container" key={index}>
                                         <div className="volume-chapter-title">
-                                            {volume === "Uncategorized" ? (<h2>Chapters</h2>):(<h2>{`Volume ${volume}`}</h2>)}
+                                            {volume === "Uncategorized" ? (
+                                                <h2>Chapters</h2>
+                                            ) : (
+                                                <h2>{`Volume ${volume}`}</h2>
+                                            )}
                                         </div>
-
                                         <div className="chapters-container">
-                                            {chapters.map((chapter, index) => {
-                                                return (
-                                                    <div className="chapter" key={index} id={chapter.id} onClick={() => {
-                                                        navigate(`/chapter/${chapter.id}`)
-                                                    }}>
-                                                        <p className="chapter-number chapter-title">
-                                                            {`${chapter.attributes.chapter}${chapter.attributes.title ? ` - ${chapter.attributes.title}` : ''}`}
-                                                        </p>
-                                                    </div>
-                                                );                                        
-                                            })}
+                                            {chapters.map((chapter, index) => (
+                                                <div className="chapter" key={index} id={chapter.id} onClick={() => {
+                                                    navigate(`/chapter/${chapter.id}`, { state: manga });
+                                                }}>
+                                                    <p className="chapter-number chapter-title">
+                                                        {`${chapter.attributes.chapter}${chapter.attributes.title ? ` - ${chapter.attributes.title}` : ''}`}
+                                                    </p>
+                                                </div>
+                                            ))}
                                         </div>
-
                                     </div>
-                                );
-                            })}
+                                ))}
+                            </div>
                         </div>
-                    </div>
                     )
-                }
+                )}
 
             </div>
         </>

@@ -4,23 +4,37 @@ import { Navigate } from 'react-router-dom';
 import { getCoverUrl } from '../../Utils/Utils';
 
 
-function MangaPreview({manga}){
+function MangaPreview({manga, version}){
 
     const navigate = useNavigate();
-
     const coverUrl = getCoverUrl(manga);
+    const artists = manga.relationships.filter(relationship => relationship.type === "artist");
     
-    console.log("Cover Url: " + coverUrl);
+    //console.log("Cover Url: " + coverUrl);
     
     return (
         <>
-
-            <div className="manga" onClick={() => {
-                navigate(`/manga/${manga.id}`, {state: manga});
+        {version == "cover" ? (
+            <div className="manga-cover-container" onClick={() => {
+                navigate(`/comic/${manga.id}`, {replace: true, state: manga});
             }}>
-                <img src={`${coverUrl}`} alt="" /> 
-                <p>{`${manga.attributes.title.en}`}</p>
+                <img src={`${coverUrl}`} alt="" className='cover' /> 
+                <p className='manga-preview-title'>{manga.attributes.title.en ? manga.attributes.title.en : manga.attributes.title['ja-ro']}</p>
+            </div>            
+
+        ) : (
+            <div className="manga-preview-container" onClick={() => {
+                navigate(`/comic/${manga.id}`, {replace: true, state: manga});
+            }}>
+                <img src={`${coverUrl}`} alt="" className='preview-cover' /> 
+                <div className='preview-description-container'>
+                    <h3 className='manga-preview-title'>{`${manga.attributes.title.en ? manga.attributes.title.en : manga.attributes.title['ja-ro'] || 'N/A'}`}</h3>
+                    <p className='preview-author'>{`${manga.relationships.find(relationship => relationship.type === "artist")?.attributes.name || 'N/A'}`}</p>
+                </div>
             </div>
+
+        )}
+
 
         </>
     );

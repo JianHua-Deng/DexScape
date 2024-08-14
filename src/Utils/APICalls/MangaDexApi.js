@@ -6,15 +6,16 @@ const queryMangasUrl = "https://api.mangadex.org/manga";
 const queryChaptersUrl = "https://api.mangadex.org/at-home/server/";
 
 
-
+/*
 async function searchMangas(title){
     console.log("Search Manga, ProxyUrl: " + proxyUrl + "\n" + "Port: " + process.env.PORT);
     const resp = await axios({
         method: "GET",
         url: `/manga`,
         params: {
+            limit: 24,
             title: title,
-            includes: ["authors", "artist", "cover_art"],
+            includes: ["authors", "artist", "cover_art", "total"],
         }
     }).catch( e => {
         console.log(e);
@@ -22,66 +23,42 @@ async function searchMangas(title){
 
     return resp.data.data;
 }
+*/
 
-
-async function searchLatestUploads(limitNumber){
-    console.log("ProxyUrl: " + proxyUrl + "\n" + "Port: " + process.env.PORT);
+async function searchMangas(searchConfig){
+    console.log("Search Manga, ProxyUrl: " + proxyUrl + "\n" + "Port: " + process.env.PORT);
     const resp = await axios({
         method: "GET",
         url: `/manga`,
+        params: searchConfig
+    }).catch( e => {
+        console.log(e);
+    })
 
-        params: {
-            limit: limitNumber,
-            includes: ["authors", "artist", "cover_art"],
-            order: {
-                createdAt: 'desc'
-            }
-        }
-    }).then(respond => {
-        console.log(respond);
-        return respond.data.data;
-    }).catch((e) => {
-        console.log(e)
-        return [];
-    });
-
-    return resp;
+    console.log(resp.data.data);
+    return resp.data.data;
 }
 
-async function searchPopularUploads(limitNumber){
+async function searchSpecificManga(mangaID){
     const resp = await axios({
         method: "GET",
-        url: `/manga`,
-        params: {
-            limit: limitNumber,
-            includes: ["authors", "artist", "cover_art"],
-            order: {
-                rating: 'desc',
-                followedCount: 'desc'
-            }
-        }
-    }).then(respond =>{
-        console.log(respond.data.data);
-        return respond.data.data;
-    }).catch(e => {console.log(e)});
+        url: `/manga/${mangaID}`,
+    }).catch( e => {
+        console.log(e);
+    })
 
-    return resp;
+    console.log(resp.data.data);
+    return resp.data.data;
 }
 
-async function fetchChapterList(mangaID, languages){
+async function fetchChapterList(mangaID, config){
     const resp = await axios({
         method: "GET",
         url: `/manga/${mangaID}/feed`,
+        params: config,
 
-        params:{
-            limit: 500,
-            translatedLanguage: languages,
-            order: {
-                chapter: 'asc',
-            }
-        }
     }).then(respond => {
-        console.log(respond.data.data);
+        //console.log(respond.data.data);
         return respond.data.data;
     }).catch(e => {console.log(e);})
 
@@ -106,5 +83,5 @@ async function getChapterMetaData(chapterID){
 
 
 
-export {searchMangas, searchLatestUploads, searchPopularUploads, fetchChapterList, getChapterMetaData};
+export {searchMangas, searchSpecificManga, fetchChapterList, getChapterMetaData};
 
