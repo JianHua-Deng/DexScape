@@ -2,6 +2,14 @@
 
 
 .search-result-container{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: auto;
+    align-items: center;
+}
+
+.results-container{
     text-wrap: wrap;
     height: 100vh;
     display: flex;
@@ -9,6 +17,7 @@
     justify-content: center;
     row-gap: 1rem;
     column-gap: 2rem;
+    height: auto;
 }
 
 .controls-container{

@@ -101,11 +101,13 @@ function SearchResultPage() {
     return(
         <div className="search-result-container">
             
-            {!loadingStatus || mangaData.length > 0 ? (
+            {!loadingStatus ? (
                 <>
-                    {mangaData.map((manga, index) => (
-                        <MangaPreview manga={manga} version={"preview"} key={index}/>
-                    ))}
+                    <div className='results-container'>
+                        {mangaData.map((manga, index) => (
+                            <MangaPreview manga={manga} version={"preview"} key={index}/>
+                        ))}
+                    </div>
                     <div className="controls-container">
                         <img src={previousLogo} className="previous-logo logo" onClick={() => {handleNavigate(-1)}}/>
                         <p>{page}</p>

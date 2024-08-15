@@ -9,6 +9,7 @@ import { useLocation, useNavigate, Navigate } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import { useParams} from "react-router-dom";
 import { getChapterMetaData } from '../../Utils/APICalls/MangaDexApi';
+import Skeleton from 'react-loading-skeleton'
 
 function Reader(){
 
@@ -80,7 +81,7 @@ function Reader(){
     return (
         <>
             {loadingStatus ? (
-                <p>Loading</p>
+                <Skeleton width={"50rem"} height={"75rem"}/>
             ):(
                 <div className="image-display-container">
                     <img src={returnLogo} alt="return" className='return-logo logo' onClick={() => {navigate(`/comic/${manga.id}`, {state: manga});}}/>
