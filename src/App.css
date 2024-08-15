@@ -9,6 +9,9 @@
   gap: 4%;
   overflow: scroll;
 
+  --main-bg-color: #1a1a1a;
+  --side-bg-color: #414141;
+
 }
 
 .main-contents{

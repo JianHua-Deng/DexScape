@@ -7,6 +7,7 @@ import "slick-carousel/slick/slick-theme.css";
 import "./FeaturedSlider.css"
 import { searchMangas } from "../../Utils/APICalls/MangaDexApi";
 import MangaPreview from "../manga-preview/MangaPreview";
+import MangaPreviewSkeleton from "../skeletons/result-skeleton/MangaPreviewSkeleton";
 
 function FeaturedSlider({searchParams, title}){
 
@@ -30,7 +31,7 @@ function FeaturedSlider({searchParams, title}){
             <div className="slider-container">
                 <h2>{`${title}`}</h2>
                 {loadingStatus && mangas.length === 0 ? (
-                    <h3>Loading</h3>
+                    <MangaPreviewSkeleton amount={5} type={"featured"} />
                 ):(
                     <Slider {...sliderSettings}>
                         {mangas.map((manga, index) => {

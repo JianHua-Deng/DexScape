@@ -1,0 +1,33 @@
+.details-skeleton-container {
+    max-height: 80vh;
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    margin-bottom: 3rem;
+    padding: 5rem;
+
+    background-color: var(--side-bg-color);
+
+    
+}
+
+.chapters-list-skeleton-container{
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.details-skeleton{
+    flex: 1;
+    display: grid;
+    gap: 5rem;
+    text-align: start;
+}
+
+.title-skeleton{
+    justify-self: flex-start;
+}
+
+.category-skeleton{
+    text-align: start;
+}

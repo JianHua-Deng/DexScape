@@ -3,7 +3,9 @@ import { useLocation, useNavigate, Navigate, useParams } from "react-router-dom"
 import { fetchChapterList, searchMangas, searchSpecificManga } from "../../Utils/APICalls/MangaDexApi";
 import { getChapterMetaData } from "../../Utils/APICalls/MangaDexApi";
 import { getCoverUrl, getAvailableLanguages } from "../../Utils/Utils";
+import DetailsSkeleton from "../skeletons/details-skeleton/DetailsSkeleton";
 import './DetailsPage.css'
+import Skeleton from "react-loading-skeleton";
 
 function DetailPage(){
 
@@ -28,6 +30,7 @@ function DetailPage(){
     useEffect(() => {
         //Fetch manga data if not available in location.state, this would usually happen after user refresh the page
         if(!manga){
+
             searchSpecificManga(mangaID).then(resp => {
                 setManga(resp);
                 setCoverUrl(getCoverUrl(resp));
@@ -65,11 +68,7 @@ function DetailPage(){
 
     }, [manga]);
 
-    useEffect(() => {
-        //console.log(volumeList);
-        console.log(Object.entries(volumeList))
-    },[volumeList])
-
+    
     //Sorting and grouping chapters based on the volume they belong to
     useEffect(() => {
         setVolumeList(() => {
@@ -96,65 +95,68 @@ function DetailPage(){
     return (
         <>
             <div className="manga-details-container">
-                <div className="details-container">
-                    <img className="manga-cover-img" src={`${coverUrl}`}/>
-                    <div className="details">
-                        <h1 className="manga-title">
-                            {manga?.attributes?.title?.en ? manga?.attributes?.title?.en : manga?.attributes?.title['ja-ro']}
-                        </h1>
-                        <div className="manga-descriptions">
-                            <p>{`${manga?.attributes?.description?.en}`}</p>
-                        </div>
-                        {tags.length < 1 ? (
-                            <></>
-                        ) : (
-                            <div className="tags-container">
-                                {tags.map((tag, index) => (
-                                    <div className="tag" key={tag.id} id={`tag-${index}`} onClick={() => {
-                                        navigate(`/tag/${tag.id}/1`);
-                                    }}>
-                                        {`${tag.attributes.name.en}`}
+
+                {loadingStatus ? (
+                    <DetailsSkeleton/>
+                ):(
+                    <>
+                        <div className="details-container">
+                            <img className="manga-cover-img" src={`${coverUrl}`} alt="manga-cover"/>
+                            <div className="details">
+                                <h1 className="manga-title">
+                                    {manga?.attributes?.title?.en ? manga?.attributes?.title?.en : manga?.attributes?.title['ja-ro']}
+                                </h1>
+                                <div className="manga-descriptions">
+                                    <p>{`${manga?.attributes?.description?.en || 'N/A'}`}</p>
+                                </div>
+                                {tags.length < 1 ? (
+                                    <></>
+                                ) : (
+                                    <div className="tags-container">
+                                        {tags.map((tag, index) => (
+                                            <div className="tag" key={tag.id} id={`tag-${index}`} onClick={() => {
+                                                navigate(`/tag/${tag.id}/1`);
+                                            }}>
+                                                {`${tag.attributes.name.en}`}
+                                            </div>
+                                        ))}
                                     </div>
-                                ))}
+                                )}
+
+                            </div>
+                        </div>                    
+                        {chapterList.length < 1 ? (
+                            <p>No Chapter is Available</p>
+                        ) : (
+                            <div className="data-container">
+                                <div className="chapter-list">
+                                    {Object.entries(volumeList).map(([volume, chapters], index) => (
+                                        <div className="volume-chapter-container" key={index}>
+                                            <div className="volume-chapter-title">
+                                                {volume === "Uncategorized" ? (<h2>Chapters</h2>) : (<h2>{`Volume ${volume}`}</h2>)}
+                                            </div>
+                                            <div className="chapters-container">
+                                                {chapters.map((chapter, index) => (
+                                                    <div className="chapter" key={index} id={chapter.id} onClick={() => {
+                                                        navigate(`/chapter/${chapter.id}`, { state: manga });
+                                                    }}>
+                                                        <p className="chapter-container">
+                                                            <span className="chapter-number">
+                                                                {`${chapter.attributes.chapter || 'Oneshot'}`}
+                                                            </span>
+                                                            <span className="chapter-title">
+                                                                {chapter.attributes.title ? `- ${chapter.attributes.title}` : ''}
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         )}
-
-                    </div>
-                </div>
-                {loadingStatus ? (
-                    <p>Loading</p>
-                ):(
-                    chapterList.length < 1 ? (
-                        <p>No Chapter is Available</p>
-                    ) : (
-                        <div className="data-container">
-                            <div className="chapter-list">
-                                {Object.entries(volumeList).map(([volume, chapters], index) => (
-                                    <div className="volume-chapter-container" key={index}>
-                                        <div className="volume-chapter-title">
-                                            {volume === "Uncategorized" ? (<h2>Chapters</h2>) : (<h2>{`Volume ${volume}`}</h2>)}
-                                        </div>
-                                        <div className="chapters-container">
-                                            {chapters.map((chapter, index) => (
-                                                <div className="chapter" key={index} id={chapter.id} onClick={() => {
-                                                    navigate(`/chapter/${chapter.id}`, { state: manga });
-                                                }}>
-                                                    <p className="chapter-container">
-                                                        <span className="chapter-number">
-                                                            {`${chapter.attributes.chapter || 'Oneshot'}`}
-                                                        </span>
-                                                        <span className="chapter-title">
-                                                            {chapter.attributes.title ? `- ${chapter.attributes.title}` : ''}
-                                                        </span>
-                                                    </p>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    )
+                    </>
                 )}
 
             </div>

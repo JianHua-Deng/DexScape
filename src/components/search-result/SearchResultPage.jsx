@@ -8,6 +8,7 @@ import { searchMangas } from "../../Utils/APICalls/MangaDexApi";
 import { popularSearchParams, latestSearchParams, defaultSearchConfig } from '../../Utils/Utils';
 import MangaPreview from "../manga-preview/MangaPreview";
 import './SearchResultPage.css';
+import MangaPreviewSkeleton from '../skeletons/result-skeleton/MangaPreviewSkeleton';
 
 function SearchResultPage() {
 
@@ -112,7 +113,7 @@ function SearchResultPage() {
                     </div>
                 </>
                 ):(
-                    <p>Loading</p>
+                    <MangaPreviewSkeleton amount={24} type={"search-results"}/>
                 )
             }
         </div>

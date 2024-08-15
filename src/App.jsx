@@ -6,26 +6,29 @@ import SearchResultPage from './components/search-result/SearchResultPage'
 import DetailPage from './components/details-page/DetailsPage'
 import './App.css'  
 import Reader from './components/reader/Reader'
+import { SkeletonTheme } from 'react-loading-skeleton'
 
 function App() {
 
 
   return (
     <>
-      <BrowserRouter>
-      <Header/>
-      <div className='main-contents'>
-        <Routes>
-          <Route path="/" element={<Home/>}/>
-          <Route path="popular/:page" element={<SearchResultPage/>}/>
-          <Route path="latest/:page" element={<SearchResultPage/>}/>
-          <Route path="tag/:uuid/:page" element={<SearchResultPage/>}/>
-          <Route path="search/:queryString/:page" element={<SearchResultPage/>}/>
-          <Route path="chapter/:chapterID" element={<Reader/>}/>
-          <Route path="comic/:mangaID" element={<DetailPage/>}/>
-        </Routes>
-      </div>
-      </BrowserRouter>
+      <SkeletonTheme baseColor="#202020" highlightColor="#444">
+        <BrowserRouter>
+        <Header/>
+        <div className='main-contents'>
+          <Routes>
+            <Route path="/" element={<Home/>}/>
+            <Route path="popular/:page" element={<SearchResultPage/>}/>
+            <Route path="latest/:page" element={<SearchResultPage/>}/>
+            <Route path="tag/:uuid/:page" element={<SearchResultPage/>}/>
+            <Route path="search/:queryString/:page" element={<SearchResultPage/>}/>
+            <Route path="chapter/:chapterID" element={<Reader/>}/>
+            <Route path="comic/:mangaID" element={<DetailPage/>}/>
+          </Routes>
+        </div>
+        </BrowserRouter>
+      </SkeletonTheme>
     </>
   )
 }
