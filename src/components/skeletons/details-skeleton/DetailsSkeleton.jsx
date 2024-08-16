@@ -9,9 +9,8 @@ function DetailsSkeleton() {
             <div className="details-skeleton-container">
                 <div className='cover-skeleton'>
                     <Skeleton
-                        circle
-                        width={500} 
-                        height={500} 
+                        width={"20rem"} 
+                        height={"30rem"} 
                     />  
                 </div> 
 

@@ -9,6 +9,7 @@
     display: grid;
     grid-template-columns: 1fr 3fr;
     margin-bottom: 3rem;
+    border-radius: .75rem;
     padding: 5rem;
     background-color: #414141;
 }

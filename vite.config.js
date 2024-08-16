@@ -29,10 +29,25 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/at-home/, '/at-home')
       },
 
-      '/chapter-image': {
-        
+      //You technically don't need to proxy this on dev server, as local domain seems to be whitelisted by mangadex
+      //But I am just doing it anyway to be consistent
+      "/chapter-image": {
+        target: "https://api.mangadex.org",
+        changeOrigin: true,
+        configure: (proxy, options) => {
+          proxy.on("proxyReq", (proxyReq, req) => {
+            // Use the original request path, not the rewritten one
+            const match = req.url.match(/(?<=https?:\/\/)[^\/]+(?=\/data)/); // Getting the baseUrl in the request
+            console.log(`Match: ${match}`);
+            if (match) {
+              options.target = match.includes("https://") ? `${match}` : `https://${match}`;
+              // Rewrite the path here, after extracting the target
+              proxyReq.path = proxyReq.path.replace(/^.*(?=\/data)/, ""); //Removing everything before /data
+              console.log(`Options target: ${options.target} ProxyPath: ${proxyReq.path}`);
+            }
+          });
+        },
       },
-
     }
   }
 

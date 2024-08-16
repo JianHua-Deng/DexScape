@@ -24,7 +24,7 @@ function MangaPreviewSkeleton({amount, type}){
                 <div className="result" key={index}>
                     <Skeleton width={"17rem"} height={"25rem"} />
                     <div className="title-author-skeleton">
-                        <Skeleton width={"15rem"} />
+                        <Skeleton width={"10rem"} />
                     </div>
                 </div>
             ))}

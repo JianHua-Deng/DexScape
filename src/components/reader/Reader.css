@@ -1,28 +1,35 @@
 .image-display-container{
-    display: grid;
-    grid-template: 1fr 15fr 1fr/ 1fr 5fr 1fr;
-    
-    gap: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.chapter-image-container{
+    display: flex;
+    width: 100%;
+    justify-content: center;
 }
 
 .chapter-image{
     width: 60rem;
     height: auto;
-    grid-row: 2 / 3;
-    grid-column: 2 / 3;
-    justify-self: center;
-    align-self: center;
 }
 
 .control-buttons-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.control-buttons{
     width: 15rem;
     padding: 1rem;
-    grid-row: 3 / 4;
-    grid-column: 2 / 3;
-    justify-self: center;
-    align-self: center;
     display: flex;
     justify-content: space-evenly;
+}
+
+.return-logo-container{
+    display: flex;
 }
 
 .return-logo{

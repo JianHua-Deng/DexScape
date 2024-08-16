@@ -40,7 +40,7 @@ function Reader(){
             const pageURLs = [];
 
             metaData.chapter.data.forEach(data => {
-                const url = `${metaData.baseUrl}/data/${metaData.chapter.hash}/${data}`;
+                const url = `/chapter-image/${metaData.baseUrl}/data/${metaData.chapter.hash}/${data}`;
                 pageURLs.push(url);
                 console.log("imageURL: " + url, ", pageURLs current size: " + pageURLs.length);
             });
@@ -71,9 +71,13 @@ function Reader(){
 
     function previousPg(){
         setPageNumber((currentPage) => {
-            const previousPg = currentPage - 1;
-            setImageURL(imageUrlArray[previousPg - 1]); // I have to do minus 1 because the imageUrlArray starts at index 0
-            return previousPg;
+            const previousPage = currentPage - 1;
+            if (previousPage >= 1){
+                setImageURL(imageUrlArray[previousPage - 1]); // I have to do minus 1 because the imageUrlArray starts at index 0
+                return previousPg;
+            }
+            return currentPage;
+
         })
     }
 
@@ -84,12 +88,18 @@ function Reader(){
                 <Skeleton width={"50rem"} height={"75rem"}/>
             ):(
                 <div className="image-display-container">
-                    <img src={returnLogo} alt="return" className='return-logo logo' onClick={() => {navigate(`/comic/${manga.id}`, {state: manga});}}/>
-                    <img src={imgURL} alt="" className="chapter-image" onClick={nextPg} />
-                    <div className="control-buttons-container">
-                        <img src={previousLogo} alt="previous" className="previous-logo logo" onClick={previousPg} />
-                        <p>{`${pageNumber}/${imageUrlArray.length}`}</p>
-                        <img src={nextLogo} alt="next" className="next-logo logo" onClick={nextPg} />
+                    <div className='return-logo-container'>
+                        <img src={returnLogo} alt="return" className='return-logo logo' onClick={() => {navigate(`/comic/${manga.id}`, {state: manga});}}/>
+                    </div>
+                    <div className='chapter-image-container'>
+                        <img src={imgURL} alt="" className="chapter-image" onClick={nextPg} />
+                    </div>
+                    <div className='control-buttons-container'>
+                        <div className="control-buttons">
+                            <img src={previousLogo} alt="previous" className="previous-logo logo" onClick={previousPg} />
+                            <p>{`${pageNumber}/${imageUrlArray.length}`}</p>
+                            <img src={nextLogo} alt="next" className="next-logo logo" onClick={nextPg} />
+                        </div>
                     </div>
                 </div>
             )}
