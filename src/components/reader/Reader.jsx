@@ -1,7 +1,5 @@
 import nextLogo from './../../assets/next-svgrepo-com.svg'
-import nextChapLogo from './../../assets/next-998-svgrepo-com.svg'
 import previousLogo from './../../assets/previous-svgrepo-com.svg'
-import previousChapLogo from './../../assets/previous-999-svgrepo-com.svg'
 import returnLogo from './../../assets/return-button-svgrepo-com.svg'
 
 import './Reader.css'
@@ -59,6 +57,11 @@ function Reader(){
     }, [imageUrlArray])
     
     function nextPg(){
+        if(pageNumber == imageUrlArray.length){
+            navigate(`/comic/${manga.id}`, {state: manga});
+            return;
+        }
+
         setPageNumber((currentPage) => {
             const nextPage = currentPage +  1;
             if (nextPage <= imageUrlArray.length){
@@ -74,7 +77,7 @@ function Reader(){
             const previousPage = currentPage - 1;
             if (previousPage >= 1){
                 setImageURL(imageUrlArray[previousPage - 1]); // I have to do minus 1 because the imageUrlArray starts at index 0
-                return previousPg;
+                return previousPage;
             }
             return currentPage;
 

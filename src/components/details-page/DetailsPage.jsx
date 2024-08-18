@@ -115,15 +115,20 @@ function DetailPage(){
                                     <div className="tags-container">
                                         {tags.map((tag, index) => (
                                             <div className="tag" key={tag.id} id={`tag-${index}`} onClick={() => {
-                                                navigate(`/tag/${tag.id}/1`);
+                                                navigate(`/tag/${tag.attributes.name.en}/${tag.id}/1`);
                                             }}>
                                                 {`${tag.attributes.name.en}`}
                                             </div>
                                         ))}
                                     </div>
                                 )}
-
+                                
                             </div>
+                            <button className='start-reading-button' onClick={() => {
+                                if (chapterList.length > 0) {
+                                    navigate(`/chapter/${chapterList[0].id}`, { state: manga });
+                                }
+                            }}>Start Reading</button>
                         </div>                    
                         {chapterList.length < 1 ? (
                             <p>No Chapter is Available</p>

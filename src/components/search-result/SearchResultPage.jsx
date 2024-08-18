@@ -14,6 +14,7 @@ function SearchResultPage() {
 
     const {queryString} = useParams();
     const {page} = useParams();
+    const {name} =useParams();
     const {uuid} = useParams();
 
     const [mangaData, setMangaData] = useState([]);
@@ -26,28 +27,31 @@ function SearchResultPage() {
     const offset = (parseInt(page, 10) - 1) * 24; // Calculate offset based on page, subtract 1 because page 1 starts at offset 0
     const path = location.pathname;
     var searchConfig = {};
+    var title = '';
     
     //console.log("Pathname: " + location.pathname + ", Key: " + uuid);
-
-
     
     if(path.includes("/popular")){
         //console.log("Ran popular");
-        searchConfig = {...popularSearchParams, limit: 24, offset: offset};
+        searchConfig = {...popularSearchParams, limit: 28, offset: offset};
+        title = 'Popular';
     }else if (path.includes("/latest")){
-        console.log("Ran latest");
-        searchConfig = {...latestSearchParams, limit: 24, offset: offset};
+        //console.log("Ran latest");
+        searchConfig = {...latestSearchParams, limit: 28, offset: offset};
+        title = 'Latest'
     } else if (path.includes("/tag")){
         //console.log("Ran tag");
         searchConfig = {
-            limit: 24,
+            limit: 28,
             'includedTags': [uuid],
             includes: ["authors", "artist", "cover_art"],
             offset: offset,
-        }    
+        }
+        title = `Results of tag "${name}"`;    
     }else{
         //console.log("Ran Default");
         searchConfig = {...defaultSearchConfig, title: queryString, offset: offset};
+        title = `Results of "${queryString}"`;
     }
     
 
@@ -61,28 +65,6 @@ function SearchResultPage() {
         })
         
     }, [queryString, location, page]);
-
-    /*
-    function offsetPages(operationValue){ //Operation value will either be negative, meaning we trying to go back a page, or a positive value, meaning going to next page
-        const offsetPg = offset + operationValue;
-        if(offsetPg >= 0){
-            setLoadingStatus(true);
-            searchMangas({...searchConfig, offset: offsetPg}).then((respond) => {
-                if(respond && respond.length != 0){
-                    console.log(respond);
-                    setMangaData(respond);
-                    setOffset(offsetPg);
-                    setPage((current) => {
-                        return (operationValue < 0) ? current - 1 : current + 1;
-                    });
-                }
-                console.log("Length: " + respond.length);
-            }).finally(()=>{
-                setLoadingStatus(false);
-            })
-        }
-    }
-    */
 
     // The parameter of "value" will be either a negative or positive of however many pages
     function handleNavigate(value) {
@@ -103,6 +85,9 @@ function SearchResultPage() {
             
             {!loadingStatus ? (
                 <>
+                    <div className="title-container">
+                        <h2 className='query-title'>{title}</h2>
+                    </div>                
                     <div className='results-container'>
                         {mangaData.map((manga, index) => (
                             <MangaPreview manga={manga} version={"preview"} key={index}/>

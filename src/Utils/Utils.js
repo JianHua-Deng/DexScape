@@ -1,4 +1,5 @@
-
+import nextSlide from '../assets/chevron-small-right-svgrepo-com.svg'
+import previousSlide from '../assets/chevron-small-left-svgrepo-com.svg'
 
 function getCoverUrl(manga){
 
@@ -26,7 +27,7 @@ function getAvailableLanguages(manga){
 }
 
 const defaultSearchConfig = {
-    limit: 24,
+    limit: 28,
     includes: ["authors", "artist", "cover_art"],
     order: {
         relevance: 'desc',
@@ -60,11 +61,16 @@ const completedMangaParams = {
     }
 }
 
+
+  
+
 const sliderSettings = {
     dots: false,
     infinite: false,
     slidesToShow: 5,
-    className: "latest-slider",
+    className: "slider",
+    //nextArrow: <NextArrow/>,
+    //prevArrow: <PreviousArrow/>,
     
     responsive: [
         {

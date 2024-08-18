@@ -13,7 +13,7 @@ function App() {
 
   return (
     <>
-      <SkeletonTheme baseColor="#202020" highlightColor="#444">
+      <SkeletonTheme baseColor="#c4c4c4" highlightColor="#e6e6e6">
         <BrowserRouter>
         <Header/>
         <div className='main-contents'>
@@ -21,7 +21,7 @@ function App() {
             <Route path="/" element={<Home/>}/>
             <Route path="popular/:page" element={<SearchResultPage/>}/>
             <Route path="latest/:page" element={<SearchResultPage/>}/>
-            <Route path="tag/:uuid/:page" element={<SearchResultPage/>}/>
+            <Route path="tag/:name/:uuid/:page" element={<SearchResultPage/>}/>
             <Route path="search/:queryString/:page" element={<SearchResultPage/>}/>
             <Route path="chapter/:chapterID" element={<Reader/>}/>
             <Route path="comic/:mangaID" element={<DetailPage/>}/>

@@ -29,20 +29,23 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/at-home/, '/at-home')
       },
 
-      //You technically don't need to proxy this on dev server, as local domain seems to be whitelisted by mangadex
+      //You technically don't need to proxy this on dev server, as local domain is whitelisted by mangadex
       //But I am just doing it anyway to be consistent
-      "/chapter-image": {
-        target: "https://api.mangadex.org",
+      '/chapter-image': {
+        //Technically not supposed to hardcode target URL like this, as it may get you IP banned since the baseUrl are given by Mangadex based on YOUR geographic location
+        //but the very first request always end up being 404 due to the proxy directly using target's url without first modifying, so I had to hardcode it just in case
+        target: "https://cmdxd98sb0x3yprd.mangadex.network",
         changeOrigin: true,
         configure: (proxy, options) => {
           proxy.on("proxyReq", (proxyReq, req) => {
-            // Use the original request path, not the rewritten one
-            const match = req.url.match(/(?<=https?:\/\/)[^\/]+(?=\/data)/); // Getting the baseUrl in the request
+            console.log(`Original URL: ${req.url}`);
+            // Use the original request path to extract baseUrl
+            const match = req.url.match(/(?<=https?:\/\/)[^\/]+(?=\/data)/); // Getting the baseUrl and only the baseUrl from the request
             console.log(`Match: ${match}`);
             if (match) {
-              options.target = match.includes("https://") ? `${match}` : `https://${match}`;
+              options.target = match.includes('https://') ? `${match}` : `https://${match}`;
               // Rewrite the path here, after extracting the target
-              proxyReq.path = proxyReq.path.replace(/^.*(?=\/data)/, ""); //Removing everything before /data
+              proxyReq.path = proxyReq.path.replace(/^.*(?=\/data)/, ""); //Removing everything before '/data/...' for rewriting path
               console.log(`Options target: ${options.target} ProxyPath: ${proxyReq.path}`);
             }
           });

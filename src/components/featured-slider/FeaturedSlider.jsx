@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { sliderSettings } from "../../Utils/Utils";
+import nextSlide from '../../assets/chevron-small-right-svgrepo-com.svg'
+import previousSlide from '../../assets/chevron-small-left-svgrepo-com.svg'
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -26,6 +28,23 @@ function FeaturedSlider({searchParams, title}){
         });
     }, []);
 
+    const PreviousArrow = ({ className, style, onClick }) => (
+        <img src={previousSlide} alt="" style={{...style}} onClick={onClick} className={className}/>
+    
+      );
+    
+    const NextArrow = ({ className, style, onClick }) => (
+        <img src={nextSlide} alt="" style={{...style}} onClick={onClick} className={className}/>
+      );
+
+    const settings = {
+        ...sliderSettings,
+        nextArrow: <NextArrow />,
+        prevArrow: <PreviousArrow />
+    };
+
+    
+
     return (
         <>
             <div className="slider-container">
@@ -33,7 +52,7 @@ function FeaturedSlider({searchParams, title}){
                 {loadingStatus && mangas.length === 0 ? (
                     <MangaPreviewSkeleton amount={5} type={"featured"} />
                 ):(
-                    <Slider {...sliderSettings}>
+                    <Slider {...settings}>
                         {mangas.map((manga, index) => {
                             return (
                                 <MangaPreview manga={manga} version={"cover"} key={index} id={manga.id}/>

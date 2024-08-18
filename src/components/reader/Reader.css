@@ -37,6 +37,7 @@
     grid-column: 2 / 3;
     justify-self: flex-start;
     align-self: center;
+    padding: .3rem;
 }
 
 .logo{

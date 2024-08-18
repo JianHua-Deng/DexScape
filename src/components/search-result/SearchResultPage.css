@@ -32,3 +32,7 @@
     height: auto;
 }
 
+.logo:hover{
+    background-color: var(--shade-color);
+}
+

@@ -1,18 +1,21 @@
 
 .header-container{
-    background-color: lightsalmon;
-    height: auto;
-    max-height: 4.5rem;
+    background-color: var(--primary-color);
     position: sticky;
     top: 0;
+    padding: 1.5rem;
+    box-shadow: 0 1px 5px var(--box-shadow-color);
+
+    height: auto;
+    max-height: 2rem;
+
     grid-row: 1 / 2;
-    grid-column: 2 / 3;
-    padding: 1.2rem;
+    grid-column: 1 / 4;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom-left-radius: 2rem;
-    border-bottom-right-radius: 2rem;
+
     z-index: 1;
 }
 

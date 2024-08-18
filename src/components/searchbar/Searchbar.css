@@ -1,11 +1,12 @@
 .searchbar{
-    width: 30rem;
+    width: 35rem;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
 }
 
-input{
-    height: 1.5rem;
-    width: 20rem;
+.searchbar-field{
+    height: 2rem;
+    width: 25rem;
+    border-radius: .1rem;
 }
