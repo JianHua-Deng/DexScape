@@ -104,7 +104,7 @@ function DetailPage(){
                             <img className="manga-cover-img" src={`${coverUrl}`} alt="manga-cover"/>
                             <div className="details">
                                 <h1 className="manga-title">
-                                    {manga?.attributes?.title?.en ? manga?.attributes?.title?.en : manga?.attributes?.title['ja-ro']}
+                                    {manga?.attributes?.title?.en ? manga?.attributes?.title?.en : manga?.attributes?.title['ja-ro'] || Object.values(manga.attributes.title)[0]}
                                 </h1>
                                 <div className="manga-descriptions">
                                     <p>{`${manga?.attributes?.description?.en || 'N/A'}`}</p>
