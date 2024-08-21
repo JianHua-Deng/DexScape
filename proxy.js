@@ -97,3 +97,5 @@ app.get('*', (req, res) => {
 app.listen(PORT, () => {
     console.log("It is currently running on PORT: " + PORT);
 })
+
+export default app;
