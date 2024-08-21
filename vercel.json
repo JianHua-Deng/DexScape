@@ -1,14 +1,16 @@
 {
-    "rewrites": [
-      {
-        "source": "/manga",
-        "destination": "https://api.mangadex.org/manga"
-      },
-
-      {
-        "source": "/covers",
-        "destination": "https://uploads.mangadex.org/covers"
-      }
-      
-    ]
-  }
+  "version": 2,
+  "builds": [
+   {
+    "src": "proxy.js",
+    "use": "@vercel/node",
+    "config": { "includeFiles": ["dist/**"] }
+   }
+  ],
+  "routes": [
+   {
+    "src": "/(.*)",
+    "dest": "proxy.js"
+   }
+  ]
+ }

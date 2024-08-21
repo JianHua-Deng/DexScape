@@ -1,7 +1,8 @@
 import axios from "axios";
 
 //const proxyUrl = process.env.PROXY_URL;
-const proxyUrl = "http://localhost:5173"
+//const proxyUrl = "http://localhost:5173"
+const proxyUrl = `${process.env.PROXY_URL}`;
 const queryMangasUrl = "https://api.mangadex.org/manga";
 const queryChaptersUrl = "https://api.mangadex.org/at-home/server/";
 

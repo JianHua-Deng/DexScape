@@ -55,6 +55,7 @@
     align-self: center;
     width: 15rem;
     height: 3.5rem;
+    margin-top: 2rem;
     background-color: var(--button-color);
 }
 
