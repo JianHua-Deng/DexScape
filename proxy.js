@@ -20,7 +20,6 @@ app.use((req, res, next) => {
     next();
   });
 
-/*
 app.use("/manga", (req, res, next) => {
   req.headers = { "user-agent": "Mangasite/1.0.0" };
   next(); 
@@ -35,7 +34,7 @@ app.use("/at-home", (req, res, next) => {
   req.headers = { "user-agent": "Mangasite/1.0.0" };
   next(); 
 });
-*/
+
 
 const mangaCoversProxy = createProxyMiddleware({
     target: 'https://uploads.mangadex.org/covers/',
