@@ -77,7 +77,7 @@ const chapterImageProxy = createProxyMiddleware({
     return path.replace(/^.*(?=\/data)/, "");
   },
 
-})
+});
 
 app.use(cors());
 

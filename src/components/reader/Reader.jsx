@@ -38,7 +38,7 @@ function Reader(){
             const pageURLs = [];
 
             metaData.chapter.data.forEach(data => {
-                const url = `/chapter-image/${metaData.baseUrl}/data/${metaData.chapter.hash}/${data}`;
+                const url = `${process.env.PROXY_URL}/chapter-image/${metaData.baseUrl}/data/${metaData.chapter.hash}/${data}`;
                 pageURLs.push(url);
                 console.log("imageURL: " + url, ", pageURLs current size: " + pageURLs.length);
             });

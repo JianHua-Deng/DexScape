@@ -30,7 +30,7 @@ async function searchMangas(searchConfig){
     console.log("Search Manga, ProxyUrl: " + proxyUrl + "\n" + "Port: " + process.env.PORT);
     const resp = await axios({
         method: "GET",
-        url: `/manga`,
+        url: `${proxyUrl}/manga`,
         params: searchConfig
     }).catch( e => {
         console.log(e);
@@ -43,7 +43,7 @@ async function searchMangas(searchConfig){
 async function searchSpecificManga(mangaID){
     const resp = await axios({
         method: "GET",
-        url: `/manga/${mangaID}`,
+        url: `${proxyUrl}/manga/${mangaID}`,
     }).catch( e => {
         console.log(e);
     })
@@ -55,7 +55,7 @@ async function searchSpecificManga(mangaID){
 async function fetchChapterList(mangaID, config){
     const resp = await axios({
         method: "GET",
-        url: `/manga/${mangaID}/feed`,
+        url: `${proxyUrl}/manga/${mangaID}/feed`,
         params: config,
 
     }).then(respond => {
@@ -70,7 +70,7 @@ async function getChapterMetaData(chapterID){
 
     const resp = await axios({
         method: "GET",
-        url: `/at-home/server/${chapterID}`,
+        url: `${proxyUrl}/at-home/server/${chapterID}`,
     }).then((respond) => {
         //console.log(respond.data);
         return respond.data;
