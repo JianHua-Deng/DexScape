@@ -30,7 +30,7 @@ async function searchMangas(searchConfig){
     console.log("Search Manga, ProxyUrl: " + proxyUrl + "\n" + "Port: " + process.env.PORT);
     const resp = await axios({
         method: "GET",
-        url: `${proxyUrl}/manga`,
+        url: `${proxyUrl}/https://api.mangadex.org/manga`,
         params: searchConfig
     }).catch( e => {
         console.log(e);
