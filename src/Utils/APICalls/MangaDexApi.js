@@ -43,7 +43,7 @@ async function searchMangas(searchConfig){
 async function searchSpecificManga(mangaID){
     const resp = await axios({
         method: "GET",
-        url: `${proxyUrl}/manga/${mangaID}`,
+        url: `${proxyUrl}/https://api.mangadex.org/manga/${mangaID}`,
     }).catch( e => {
         console.log(e);
     })
@@ -55,7 +55,7 @@ async function searchSpecificManga(mangaID){
 async function fetchChapterList(mangaID, config){
     const resp = await axios({
         method: "GET",
-        url: `${proxyUrl}/manga/${mangaID}/feed`,
+        url: `${proxyUrl}/https://api.mangadex.org/manga/${mangaID}/feed`,
         params: config,
 
     }).then(respond => {
@@ -70,7 +70,7 @@ async function getChapterMetaData(chapterID){
 
     const resp = await axios({
         method: "GET",
-        url: `${proxyUrl}/at-home/server/${chapterID}`,
+        url: `${proxyUrl}/https://api.mangadex.org/at-home/server/${chapterID}`,
     }).then((respond) => {
         //console.log(respond.data);
         return respond.data;
