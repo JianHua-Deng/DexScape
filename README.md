@@ -2,7 +2,7 @@
 # Manga-Site  
 ## Video Demo  
 A demo that shows basic functionalities of the website  
-<img src='https://ibb.co/tZpqh6W.gif' title='Demo' width ='' alt='Demo'>
+<img src='https://i.ibb.co/VHYgNGP/manga-site-preview-compressed.gif' title='Demo' width ='' alt='Demo'>
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
