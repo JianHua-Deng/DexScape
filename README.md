@@ -2,7 +2,7 @@
 # Manga-Site  
 ## Video Demo  
 A demo that shows basic functionalities of the website  
-<img src='https://github.com/JianHua-Deng/temp-gif/blob/master/manga-site-preview-ezgif.com-optimize.gif' title='Demo' width ='700px' alt='Demo'>
+<img src='https://github.com/JianHua-Deng/temp-gif/blob/master/manga-site-preview-ezgif.com-optimize.gif' title='Demo' width ='50%' height='auto' alt='Demo'>
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
