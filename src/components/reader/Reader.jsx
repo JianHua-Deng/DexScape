@@ -19,13 +19,14 @@ function Reader(){
     const { chapterID } = useParams();
     const [metaData, setMetaData] = useState(null);
     const [imageUrlArray, setImageUrlArray] = useState([]);
-    const [loadingStatus, setLoadingStatus] = useState(false);
+    const [isLoadingData, setIsLoadingData] = useState(false);
     const [imgURL, setImageURL] = useState('');
+    const [isImageLoading, setIsImageLoading] = useState(false);
     const [pageNumber, setPageNumber] = useState(1);
 
     //fetching Metadatas
     useEffect(() => {
-        setLoadingStatus(true);
+        setIsLoadingData(true);
         getChapterMetaData(chapterID).then(respond => {
             //console.log(respond);
             setMetaData(respond);
@@ -52,7 +53,7 @@ function Reader(){
         if (imageUrlArray.length != 0){
             setImageURL(imageUrlArray[0]);
             setPageNumber(1);
-            setLoadingStatus(false);
+            setIsLoadingData(false);
         }
     }, [imageUrlArray])
     
@@ -61,7 +62,8 @@ function Reader(){
             navigate(`/comic/${manga.id}`, {state: manga});
             return;
         }
-
+        
+        setIsImageLoading(true);
         setPageNumber((currentPage) => {
             const nextPage = currentPage +  1;
             if (nextPage <= imageUrlArray.length){
@@ -72,7 +74,11 @@ function Reader(){
         })
     }
 
+
+    
     function previousPg(){
+
+        setIsImageLoading(true);
         setPageNumber((currentPage) => {
             const previousPage = currentPage - 1;
             if (previousPage >= 1){
@@ -84,10 +90,15 @@ function Reader(){
         })
     }
 
+    function handleImageLoad() {
+        setIsImageLoading(false);
+        console.log('Set to false');
+    }
+
 
     return (
         <>
-            {loadingStatus ? (
+            {isLoadingData ? (
                 <Skeleton width={"50rem"} height={"75rem"}/>
             ):(
                 <div className="image-display-container">
@@ -95,7 +106,8 @@ function Reader(){
                         <img src={returnLogo} alt="return" className='return-logo logo' onClick={() => {navigate(`/comic/${manga.id}`, {state: manga});}}/>
                     </div>
                     <div className='chapter-image-container'>
-                        <img src={imgURL} alt="" className="chapter-image" onClick={nextPg} />
+                        {isImageLoading ? (<Skeleton width={'60rem'} height={'85rem'}/>) : (null)}
+                        <img src={imgURL} onLoad={handleImageLoad} style={{ display: isImageLoading ? 'none' : 'block' }} alt="manga-content" className="chapter-image" onClick={nextPg} />
                     </div>
                     <div className='control-buttons-container'>
                         <div className="control-buttons">

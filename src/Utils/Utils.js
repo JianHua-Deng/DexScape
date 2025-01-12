@@ -12,10 +12,6 @@ function getCoverUrl(manga){
     return coverUrl;
 }
 
-function getChapterImageUrl(hash, baseUrl, data){
-    return `${proxyUrl}/image/${hash}/${baseUrl}/${data}`;
-}
-
 
 //If the available language is empty, return the original language, else check if there's english, if not, return the first one in that array
 function getAvailableLanguages(manga){

@@ -1,36 +1,16 @@
 import axios from "axios";
 
-//const proxyUrl = process.env.PROXY_URL;
-//const proxyUrl = "http://localhost:5173"
 const proxyUrl = `${process.env.PROXY_URL}`;
-const queryMangasUrl = "https://api.mangadex.org/manga";
-const queryChaptersUrl = "https://api.mangadex.org/at-home/server/";
-
-
 /*
-async function searchMangas(title){
-    console.log("Search Manga, ProxyUrl: " + proxyUrl + "\n" + "Port: " + process.env.PORT);
-    const resp = await axios({
-        method: "GET",
-        url: `/manga`,
-        params: {
-            limit: 24,
-            title: title,
-            includes: ["authors", "artist", "cover_art", "total"],
-        }
-    }).catch( e => {
-        console.log(e);
-    })
-
-    return resp.data.data;
-}
+GET /mangaList/manga?limit=15&includes[]=authors&includes[]=artist&includes[]=cover_art&status[]=completed&order[rating]=desc&order[followedCount]=desc 
+-> 
+https://api.mangadex.org/manga?limit=15&includes[]=authors&includes[]=artist&includes[]=cover_art&status[]=completed&order[rating]=desc&order[followedCount]=desc [200]
 */
-
 async function searchMangas(searchConfig){
     console.log("Search Manga, ProxyUrl: " + proxyUrl + "\n" + "Port: " + process.env.PORT);
     const resp = await axios({
         method: "GET",
-        url: `/manga`,
+        url: `${proxyUrl}/mangaList/manga`,
         params: searchConfig
     }).catch( e => {
         console.log(e);
@@ -43,7 +23,7 @@ async function searchMangas(searchConfig){
 async function searchSpecificManga(mangaID){
     const resp = await axios({
         method: "GET",
-        url: `/manga/${mangaID}`,
+        url: `${proxyUrl}/manga/${mangaID}`,
     }).catch( e => {
         console.log(e);
     })
@@ -55,7 +35,7 @@ async function searchSpecificManga(mangaID){
 async function fetchChapterList(mangaID, config){
     const resp = await axios({
         method: "GET",
-        url: `/manga/${mangaID}/feed`,
+        url: `${proxyUrl}/manga/${mangaID}/feed`,
         params: config,
 
     }).then(respond => {
@@ -70,7 +50,7 @@ async function getChapterMetaData(chapterID){
 
     const resp = await axios({
         method: "GET",
-        url: `/at-home/server/${chapterID}`,
+        url: `${proxyUrl}/at-home/server/${chapterID}`,
     }).then((respond) => {
         //console.log(respond.data);
         return respond.data;
