@@ -15,23 +15,19 @@ function MangaPreview({manga, version}){
     return (
         <>
         {version == "cover" ? (
-            <div className="manga-cover-container" onClick={() => {
-                navigate(`/comic/${manga.id}`, {state: manga});
-            }}>
+            <Link className="manga-cover-container" rel="noopener noreferrer" to={{pathname: `/comic/${manga.id}`}}>
                 <img src={`${coverUrl}`} alt="" className='cover' /> 
                 <h4 className='manga-preview-title'>{manga.attributes.title.en ? manga.attributes.title.en : Object.values(manga.attributes.title)[0]}</h4>
-            </div>            
+            </Link>            
 
         ) : (
-            <div className="manga-preview-container" onClick={() => {
-                navigate(`/comic/${manga.id}`, {state: manga});
-            }}>
+            <Link className="manga-preview-container" rel="noopener noreferrer" to={{pathname: `/comic/${manga.id}`}}>
                 <img src={`${coverUrl}`} alt="" className='preview-cover' /> 
                 <div className='preview-description-container'>
                     <h4 className='manga-preview-title'>{`${manga.attributes.title.en ? manga.attributes.title.en : Object.values(manga.attributes.title)[0]}`}</h4>
                     <p className='preview-author'>{`${manga.relationships.find(relationship => relationship.type === "artist")?.attributes?.name || 'N/A'}`}</p>
                 </div>
-            </div>
+            </Link>
 
         )}
 

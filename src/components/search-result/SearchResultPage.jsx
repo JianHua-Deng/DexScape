@@ -1,6 +1,3 @@
-import nextLogo from './../../assets/next-svgrepo-com.svg'
-import previousLogo from './../../assets/previous-svgrepo-com.svg'
-
 import { useParams, useLocation, useNavigate,} from "react-router-dom";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -94,9 +91,9 @@ function SearchResultPage() {
                         ))}
                     </div>
                     <div className="controls-container">
-                        <img src={previousLogo} className="previous-logo logo" onClick={() => {handleNavigate(-1)}}/>
+                        <img src="/previous-page.svg" className="previous-logo logo" onClick={() => {handleNavigate(-1)}}/>
                         <p>{page}</p>
-                        <img src={nextLogo} className="next-logo logo" onClick={() => {handleNavigate(1)}}/>
+                        <img src="/next-page.svg" className="next-logo logo" onClick={() => {handleNavigate(1)}}/>
                     </div>
                 </>
                 ):(

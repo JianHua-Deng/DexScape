@@ -1,4 +1,5 @@
 import axios from "axios";
+import { defaultSearchConfig } from "../Utils";
 
 const proxyUrl = `${process.env.PROXY_URL}`;
 /*
@@ -24,6 +25,7 @@ async function searchSpecificManga(mangaID){
     const resp = await axios({
         method: "GET",
         url: `${proxyUrl}/manga/${mangaID}`,
+        params: defaultSearchConfig,
     }).catch( e => {
         console.log(e);
     })

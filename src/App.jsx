@@ -23,7 +23,7 @@ function App() {
             <Route path="latest/:page" element={<SearchResultPage/>}/>
             <Route path="tag/:name/:uuid/:page" element={<SearchResultPage/>}/>
             <Route path="search/:queryString/:page" element={<SearchResultPage/>}/>
-            <Route path="chapter/:chapterID" element={<Reader/>}/>
+            <Route path="comic/:mangaID/chapter/:chapterID" element={<Reader/>}/>
             <Route path="comic/:mangaID" element={<DetailPage/>}/>
           </Routes>
         </div>

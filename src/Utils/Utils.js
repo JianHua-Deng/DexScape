@@ -1,8 +1,6 @@
-import nextSlide from '../assets/chevron-small-right-svgrepo-com.svg'
-import previousSlide from '../assets/chevron-small-left-svgrepo-com.svg'
 
 function getCoverUrl(manga){
-
+    console.log(manga);
     const baseUrl =  `${process.env.PROXY_URL}`;
     //const baseUrl = "http://localhost:5173"
     const params = `${manga.id}/${manga.relationships.find(relationship => relationship.type === "cover_art").attributes.fileName}.512.jpg`;
@@ -19,6 +17,17 @@ function getAvailableLanguages(manga){
         return [`${manga.attributes.originalLanguage}`]
     }else{
         return manga.attributes.availableTranslatedLanguages.find(lang => lang == 'en' ) ? ['en'] : [`${manga.attributes.availableTranslatedLanguages[0]}`]
+    }
+}
+
+function getChapterListConfig(mangaLanguage){
+    return {
+        limit: 500,
+        translatedLanguage: mangaLanguage,
+        includeExternalUrl: 0,
+        order: {
+            chapter: 'asc',
+        }
     }
 }
 
@@ -103,4 +112,4 @@ const sliderSettings = {
 
 
 
-export {sliderSettings, defaultSearchConfig, popularSearchParams, latestSearchParams, completedMangaParams, getCoverUrl, getAvailableLanguages}
+export {sliderSettings, defaultSearchConfig, popularSearchParams, latestSearchParams, completedMangaParams, getCoverUrl, getAvailableLanguages, getChapterListConfig}

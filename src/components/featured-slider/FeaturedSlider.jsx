@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { sliderSettings } from "../../Utils/Utils";
-import nextSlide from '../../assets/chevron-small-right-svgrepo-com.svg'
-import previousSlide from '../../assets/chevron-small-left-svgrepo-com.svg'
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -29,12 +27,12 @@ function FeaturedSlider({searchParams, title}){
     }, []);
 
     const PreviousArrow = ({ className, style, onClick }) => (
-        <img src={previousSlide} alt="" style={{...style}} onClick={onClick} className={className}/>
+        <img src="/previous-page.svg" alt="previous" style={{...style}} onClick={onClick} className={className}/>
     
       );
     
     const NextArrow = ({ className, style, onClick }) => (
-        <img src={nextSlide} alt="" style={{...style}} onClick={onClick} className={className}/>
+        <img src="/next-page.svg" alt="next" style={{...style}} onClick={onClick} className={className}/>
       );
 
     const settings = {

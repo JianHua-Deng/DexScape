@@ -1,72 +1,53 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate, Navigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams, Link } from "react-router-dom";
 import { fetchChapterList, searchMangas, searchSpecificManga } from "../../Utils/APICalls/MangaDexApi";
-import { getChapterMetaData } from "../../Utils/APICalls/MangaDexApi";
-import { getCoverUrl, getAvailableLanguages } from "../../Utils/Utils";
+import { getCoverUrl, getAvailableLanguages, getChapterListConfig } from "../../Utils/Utils";
 import DetailsSkeleton from "../skeletons/details-skeleton/DetailsSkeleton";
 import './DetailsPage.css'
-import Skeleton from "react-loading-skeleton";
 
 function DetailPage(){
 
     const navigate = useNavigate();
-    const location = useLocation();
-    const {mangaID} = useParams();
+    const { mangaID } = useParams();
 
-    const [manga, setManga] = useState(location.state || null);
-    const [coverUrl, setCoverUrl] = useState(location.state ? getCoverUrl(location.state) : ''); // if location.state is a valid manga object, get url right away
-    const [mangaLanguage, setMangaLanguage] = useState(location.state ? getAvailableLanguages(location.state) : '');// if location.state is a valid manga object, get available language right away
+    const [manga, setManga] = useState({});
+    const [coverUrl, setCoverUrl] = useState(''); 
+    const [mangaLanguage, setMangaLanguage] = useState([]);
     const [chapterList, setChapterList] = useState([]);
     const [volumeList, setVolumeList] = useState([]);
     const [loadingStatus, setLoadingStatus] = useState(false);
     const [tags, setTags] = useState([]);
-
-    const mangaPrint = JSON.stringify(manga);
-    
-    //console.log(mangaPrint + "\n" + "Languages: " + mangaLanguage);
-    //console.log(manga);
-    //console.log(tags);
-    
-    useEffect(() => {
-        //Fetch manga data if not available in location.state, this would usually happen after user refresh the page
-        if(!manga){
-
-            searchSpecificManga(mangaID).then(resp => {
-                setManga(resp);
-                setCoverUrl(getCoverUrl(resp));
-                console.log("Url: " + getCoverUrl(resp));
-                setMangaLanguage(getAvailableLanguages(resp));
-                console.log("Language: " + getAvailableLanguages(resp));
-            })
-        }
-    }, [])
     
     useEffect(() => {
 
-        if(manga && mangaLanguage){
-            setLoadingStatus(true);
-
-            const paramConfig = {
-                limit: 500,
-                translatedLanguage: mangaLanguage,
-                includeExternalUrl: 0,
-                order: {
-                    chapter: 'asc',
-                }
-            }
-        
-            setTags(() => {
-                return manga.attributes.tags.filter(tag => tag.attributes.group === 'genre');
-            });
+        setLoadingStatus(true);
+        console.log("Fetching Manga Data");
+        searchSpecificManga(mangaID).then(resp => {
+            setManga(resp);
+            setCoverUrl(getCoverUrl(resp));
+            setMangaLanguage(getAvailableLanguages(resp));
+        })
+    }, []);
     
-            fetchChapterList(mangaID, paramConfig).then(respond =>{
-                setChapterList(respond);
-            }).finally(() => {
-                setLoadingStatus(false);
-            });
-        }
+    useEffect(() => {
 
-    }, [manga]);
+        // Return if manga or mangaLanguage is empty
+        if (!manga?.attributes || !mangaLanguage?.length) return;
+
+        const paramConfig = getChapterListConfig(mangaLanguage);
+    
+        setTags(() => {
+            return manga.attributes.tags.filter(tag => tag.attributes.group === 'genre') ?? [];
+        });
+
+        fetchChapterList(mangaID, paramConfig).then(respond =>{
+            setChapterList(respond);
+        }).finally(() => {
+            setLoadingStatus(false);
+        });
+
+
+    }, [manga, mangaLanguage]);
 
     
     //Sorting and grouping chapters based on the volume they belong to
@@ -101,10 +82,10 @@ function DetailPage(){
                 ):(
                     <>
                         <div className="details-container">
-                            <img className="manga-cover-img" src={`${coverUrl}`} alt="manga-cover"/>
+                            <img className="manga-cover-img" src={coverUrl} alt="manga-cover"/>
                             <div className="details">
                                 <h1 className="manga-title">
-                                    {manga?.attributes?.title?.en ? manga?.attributes?.title?.en : manga?.attributes?.title['ja-ro'] || Object.values(manga.attributes.title)[0]}
+                                    { manga?.attributes?.title?.en || (manga?.attributes?.title['ja-ro'] && Object.values(manga.attributes.title)[0]) || 'Title Not Available'}
                                 </h1>
                                 <div className="manga-descriptions">
                                     <p>{`${manga?.attributes?.description?.en || 'N/A'}`}</p>
@@ -114,21 +95,22 @@ function DetailPage(){
                                 ) : (
                                     <div className="tags-container">
                                         {tags.map((tag, index) => (
-                                            <div className="tag" key={tag.id} id={`tag-${index}`} onClick={() => {
-                                                navigate(`/tag/${tag.attributes.name.en}/${tag.id}/1`);
-                                            }}>
+                                            <Link className="tag" target="_blank" rel="noopener noreferrer" key={tag.id} id={`tag-${index}`} to={{pathname: `/tag/${tag.attributes.name.en}/${tag.id}/1`}}>
                                                 {`${tag.attributes.name.en}`}
-                                            </div>
+                                            </Link>
                                         ))}
                                     </div>
                                 )}
                                 
                             </div>
-                            <button className='start-reading-button' onClick={() => {
-                                if (chapterList.length > 0) {
-                                    navigate(`/chapter/${chapterList[0].id}`, { state: manga });
-                                }
-                            }}>Start Reading</button>
+                            <Link className='start-reading-button'
+                                rel="noopener noreferrer"
+                                to={{
+                                    pathname: chapterList.length > 0 ? `/comic/${mangaID}/chapter/${chapterList[0].id}` : `/comic/${mangaID}`,
+                                    state: manga
+                                }}>
+                                Start Reading
+                            </Link>
                         </div>                    
                         {chapterList.length < 1 ? (
                             <p>No Chapter is Available</p>
@@ -142,9 +124,7 @@ function DetailPage(){
                                             </div>
                                             <div className="chapters-container">
                                                 {chapters.map((chapter, index) => (
-                                                    <div className="chapter" key={index} id={chapter.id} onClick={() => {
-                                                        navigate(`/chapter/${chapter.id}`, { state: manga });
-                                                    }}>
+                                                    <Link className="chapter" key={index} id={chapter.id} to={`/comic/${mangaID}/chapter/${chapter.id}`}>
                                                         <p className="chapter-container">
                                                             <span className="chapter-number">
                                                                 {`${chapter.attributes.chapter || 'Oneshot'}`}
@@ -153,7 +133,7 @@ function DetailPage(){
                                                                 {chapter.attributes.title ? `- ${chapter.attributes.title}` : ''}
                                                             </span>
                                                         </p>
-                                                    </div>
+                                                    </Link>
                                                 ))}
                                             </div>
                                         </div>
