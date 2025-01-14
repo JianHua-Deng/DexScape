@@ -1,6 +1,6 @@
 import './Reader.css'
 
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import { useParams} from "react-router-dom";
 import { getChapterMetaData, searchSpecificManga, fetchChapterList } from '../../Utils/APICalls/MangaDexApi';
@@ -10,6 +10,7 @@ import Select from 'react-select';
 
 function Reader(){
 
+    const navigate = useNavigate();
 
     const {mangaID} = useParams();
     const { chapterID } = useParams();

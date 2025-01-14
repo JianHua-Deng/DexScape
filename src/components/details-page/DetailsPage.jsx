@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams, Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { fetchChapterList, searchMangas, searchSpecificManga } from "../../Utils/APICalls/MangaDexApi";
 import { getCoverUrl, getAvailableLanguages, getChapterListConfig } from "../../Utils/Utils";
 import DetailsSkeleton from "../skeletons/details-skeleton/DetailsSkeleton";
@@ -7,7 +7,6 @@ import './DetailsPage.css'
 
 function DetailPage(){
 
-    const navigate = useNavigate();
     const { mangaID } = useParams();
 
     const [manga, setManga] = useState({});
