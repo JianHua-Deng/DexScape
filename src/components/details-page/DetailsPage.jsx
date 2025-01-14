@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { fetchChapterList, searchMangas, searchSpecificManga } from "../../Utils/APICalls/MangaDexApi";
-import { getCoverUrl, getAvailableLanguages, getChapterListConfig } from "../../Utils/Utils";
+import { getCoverUrl, getAvailableLanguages, getChapterListConfig, filterDuplicateChapters } from "../../Utils/Utils";
 import DetailsSkeleton from "../skeletons/details-skeleton/DetailsSkeleton";
 import './DetailsPage.css'
 
@@ -40,7 +40,8 @@ function DetailPage(){
         });
 
         fetchChapterList(mangaID, paramConfig).then(respond =>{
-            setChapterList(respond);
+            const filteredChapter = filterDuplicateChapters(respond);
+            setChapterList(filteredChapter);
         }).finally(() => {
             setLoadingStatus(false);
         });

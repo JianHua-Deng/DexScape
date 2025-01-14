@@ -20,6 +20,16 @@ function getAvailableLanguages(manga){
     }
 }
 
+function filterDuplicateChapters(chapterList){
+    const chapterSet = new Set();
+    return chapterList.filter(chapter => {
+        if(!chapterSet.has(chapter.attributes.chapter)){
+            chapterSet.add(chapter.attributes.chapter);
+            return chapter;
+        }
+    });
+}
+
 function getChapterListConfig(mangaLanguage){
     return {
         limit: 500,
@@ -112,4 +122,4 @@ const sliderSettings = {
 
 
 
-export {sliderSettings, defaultSearchConfig, popularSearchParams, latestSearchParams, completedMangaParams, getCoverUrl, getAvailableLanguages, getChapterListConfig}
+export {sliderSettings, defaultSearchConfig, popularSearchParams, latestSearchParams, completedMangaParams, getCoverUrl, getAvailableLanguages, getChapterListConfig, filterDuplicateChapters}
