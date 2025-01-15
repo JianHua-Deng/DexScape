@@ -4,7 +4,7 @@ import Home from './components/home/Home'
 import Header from './components/header/Header'
 import SearchResultPage from './components/search-result/SearchResultPage'
 import DetailPage from './components/details-page/DetailsPage'
-import './App.css'  
+import './App.css'
 import Reader from './components/reader/Reader'
 import { SkeletonTheme } from 'react-loading-skeleton'
 

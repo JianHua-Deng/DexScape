@@ -1,17 +1,4 @@
-.slider-container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 40rem;
-    
-}
 
-.slick-slider{
-    max-width: 70%;
-    min-width: 50%;
-    display: flex;
-    justify-content: space-between;
-}
 
 
 

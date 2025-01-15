@@ -84,37 +84,37 @@ const sliderSettings = {
     infinite: false,
     slidesToShow: 5,
     className: "slider",
-    //nextArrow: <NextArrow/>,
-    //prevArrow: <PreviousArrow/>,
     
     responsive: [
+
         {
-            breakpoint: 1300,
+            breakpoint: 1600,
             settings: {
                 slidesToShow: 4,
             },
         },
 
         {
-            breakpoint: 1100,
+            breakpoint: 1300,
             settings: {
                 slidesToShow: 3,
             },
         },
 
         {
-            breakpoint: 920,
+            breakpoint: 1200,
             settings: {
                 slidesToShow: 2,
             },
         },
 
         {
-            breakpoint: 860,
+            breakpoint: 920,
             settings: {
                 slidesToShow: 1,
-            }
+            },
         },
+
 
     ]
     

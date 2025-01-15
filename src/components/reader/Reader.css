@@ -32,14 +32,20 @@
 }
 
 .reader-options{
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr/1fr;
     align-items: center;
-    justify-content: space-between;
-    width: 50%;
+    width: 100%;
 }
 
 .return-logo{
-    grid-row: 1 / 2;
+    grid-column: 1 / 2;
+    justify-self: flex-start;
+    align-self: center;
+    padding: .3rem;
+}
+
+.chapter-selector{
     grid-column: 2 / 3;
     justify-self: flex-start;
     align-self: center;

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { fetchChapterList, searchMangas, searchSpecificManga } from "../../Utils/APICalls/MangaDexApi";
 import { getCoverUrl, getAvailableLanguages, getChapterListConfig, filterDuplicateChapters } from "../../Utils/Utils";
+import Tooltip from "../tooltip/Tooltip";
 import DetailsSkeleton from "../skeletons/details-skeleton/DetailsSkeleton";
 import './DetailsPage.css'
 
@@ -124,16 +125,18 @@ function DetailPage(){
                                             </div>
                                             <div className="chapters-container">
                                                 {chapters.map((chapter, index) => (
-                                                    <Link className="chapter" key={index} id={chapter.id} to={`/comic/${mangaID}/chapter/${chapter.id}`}>
-                                                        <p className="chapter-container">
-                                                            <span className="chapter-number">
-                                                                {`${chapter.attributes.chapter || 'Oneshot'}`}
-                                                            </span>
-                                                            <span className="chapter-title">
-                                                                {chapter.attributes.title ? `- ${chapter.attributes.title}` : ''}
-                                                            </span>
-                                                        </p>
-                                                    </Link>
+                                                    <Tooltip key={index} content={chapter.attributes.title} direction="top">
+                                                        <Link className="chapter" id={chapter.id} to={`/comic/${mangaID}/chapter/${chapter.id}`}>
+                                                            <p className="chapter-container">
+                                                                <span className="chapter-number">
+                                                                    {`${chapter.attributes.chapter || 'Oneshot'}`}
+                                                                </span>
+                                                                <span className="chapter-title">
+                                                                    {chapter.attributes.title ? `- ${chapter.attributes.title}` : ''}
+                                                                </span>
+                                                            </p>
+                                                        </Link>
+                                                    </Tooltip>
                                                 ))}
                                             </div>
                                         </div>

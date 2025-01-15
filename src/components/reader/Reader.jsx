@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useParams} from "react-router-dom";
 import { getChapterMetaData, searchSpecificManga, fetchChapterList } from '../../Utils/APICalls/MangaDexApi';
 import Skeleton from 'react-loading-skeleton'
-import { getChapterListConfig, getAvailableLanguages } from '../../Utils/Utils';
+import { getChapterListConfig, getAvailableLanguages, filterDuplicateChapters } from '../../Utils/Utils';
 import Select from 'react-select';
 
 function Reader(){
@@ -51,9 +51,10 @@ function Reader(){
 
         const paramConfig = getChapterListConfig(mangaLanguage);
         fetchChapterList(mangaID, paramConfig).then(respond => {
-            setChapterList(respond);
+            const filteredChapterList = filterDuplicateChapters(respond);
+            setChapterList(filteredChapterList);
 
-            const options = respond.map((chapter, index) => {
+            const options = filteredChapterList.map((chapter, index) => {
                 const chapterTitle = chapter.attributes?.title;
                 const chapterNumber = chapter.attributes?.chapter || index + 1;
                 return {
