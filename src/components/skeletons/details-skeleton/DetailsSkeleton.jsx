@@ -9,20 +9,20 @@ function DetailsSkeleton() {
             <div className="details-skeleton-container">
                 <div className='cover-skeleton'>
                     <Skeleton
-                        width={"20rem"} 
+                        width={"100%"} 
                         height={"30rem"} 
                     />  
                 </div> 
 
                 <div className="details-skeleton">
-                    <Skeleton width={"60rem"} height={"5rem"} className='title-skeleton'/>
-                    <Skeleton count={10}/>
+                    <Skeleton width={"100%"} height={"5rem"} className='title-skeleton'/>
+                    <Skeleton count={12}/>
                 </div>
             </div>
 
             <div className="chapters-list-skeleton-container">
                 <div className='category-skeleton'>
-                    <Skeleton width={"25rem"} height={"4rem"} />
+                    <Skeleton width={"100%"} height={"4rem"} />
                 </div>
                 <Skeleton height={"2rem"} count={15}/>
             </div>

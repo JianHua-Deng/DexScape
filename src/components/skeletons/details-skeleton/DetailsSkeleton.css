@@ -1,11 +1,9 @@
 .details-skeleton-container {
-    max-height: 80vh;
     display: flex;
     align-items: center;
     gap: 3rem;
     margin-bottom: 3rem;
     padding: 5rem;
-
     background-color: var(--side-bg-color);
 
     
@@ -30,4 +28,34 @@
 
 .category-skeleton{
     text-align: start;
+    width: 25rem;
+}
+
+.cover-skeleton{
+    width: 20rem;
+}
+
+@media screen and (max-width: 1024px) {
+
+    .details-skeleton-container{
+        padding: .5rem;
+    }
+
+    .details-skeleton, .category-skeleton, .cover-skeleton{
+        width: 100%;
+    }
+
+    .cover-skeleton{
+        height: 30rem;
+    }
+
+    .details-skeleton-container, .details-skeleton, .category-skeleton {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-self: center;
+    }
+
+
+    
 }
