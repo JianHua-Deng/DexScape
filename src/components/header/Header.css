@@ -46,3 +46,11 @@
     }
     
 }
+
+@media screen and (max-width: 450px){
+    .searchbar-container{
+        width: 8rem;
+    }
+
+    
+}

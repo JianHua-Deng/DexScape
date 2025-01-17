@@ -163,7 +163,11 @@ function Reader(){
     return (
         <>
             {isLoadingData ? (
-                <Skeleton width={"50rem"} height={"75rem"}/>
+                <div className='image-display-skeleton-container'>
+                    <div className='image-skeleton'>
+                        <Skeleton width={"60%"} height={"100%"}/>
+                    </div>
+                </div>
             ):(
                 <div className="image-display-container">
                     <div className='reader-options'>
@@ -181,7 +185,7 @@ function Reader(){
                         </div>
                     </div>
                     <div className='chapter-image-container'>
-                        {isImageLoading ? (<Skeleton width={'60rem'} height={'85rem'}/>) : (null)}
+                        {isImageLoading ? (<div className='image-skeleton'><Skeleton width={"90%"} height={"100%"}/></div>) : (null)}
                         <img src={imgURL} onLoad={() => {setIsImageLoading(false)}} style={{ display: isImageLoading ? 'none' : 'block' }} alt="manga-content" className="chapter-image" onClick={nextPg} />
                     </div>
                     <div className='control-buttons-container'>
