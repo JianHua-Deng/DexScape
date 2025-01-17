@@ -185,7 +185,7 @@ function Reader(){
                         </div>
                     </div>
                     <div className='chapter-image-container'>
-                        {isImageLoading ? (<div className='image-skeleton'><Skeleton width={"90%"} height={"100%"}/></div>) : (null)}
+                        {isImageLoading ? (<div className='image-skeleton'><Skeleton width={"70%"} height={"100%"}/></div>) : (null)}
                         <img src={imgURL} onLoad={() => {setIsImageLoading(false)}} style={{ display: isImageLoading ? 'none' : 'block' }} alt="manga-content" className="chapter-image" onClick={nextPg} />
                     </div>
                     <div className='control-buttons-container'>
