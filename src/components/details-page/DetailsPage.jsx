@@ -44,7 +44,7 @@ function DetailPage(){
             const filteredChapter = filterDuplicateChapters(respond);
             setChapterList(filteredChapter);
         }).finally(() => {
-            //setLoadingStatus(false);
+            setLoadingStatus(false);
         });
 
 
