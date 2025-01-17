@@ -8,6 +8,7 @@
 
 .featured-container{
     display: flex;
+    justify-content: center;
     overflow: hidden;
     gap: 2rem;
 }

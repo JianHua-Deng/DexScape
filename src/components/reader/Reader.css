@@ -56,3 +56,71 @@
     width: 3rem;
     height: auto;
 }
+
+@media screen and (max-width: 1024px) {
+    .chapter-image{
+        width: 55rem;
+        height: auto;
+    }
+}
+
+@media screen and (max-width: 912px) {
+    .chapter-image{
+        width: 45rem;
+        height: auto;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .chapter-image{
+        width: 35rem;
+        height: auto;
+    }
+}
+
+@media screen and (max-width: 762px) {
+    .chapter-image{
+        width: 21rem;
+        height: auto;
+    }
+
+    .reader-options{
+        display: flex;
+        gap: 1rem;
+    }
+
+    .control-buttons-container{
+        width: 20rem;
+        
+    }
+
+    .control-buttons{
+        gap: 1rem;
+    }
+}
+
+@media screen and (max-width: 400px) {
+
+    .chapter-image{
+        width: 19.5rem;
+        height: auto;
+    }
+
+    .reader-options{
+        display: flex;
+        gap: 1rem;
+    }
+}
+
+@media screen and (max-width: 360px) {
+
+    .chapter-image{
+        width: 18rem;
+        height: auto;
+    }
+
+    .reader-options{
+        display: flex;
+        gap: 1rem;
+    }
+}

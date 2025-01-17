@@ -131,9 +131,12 @@ function DetailPage(){
                                                                 <span className="chapter-number">
                                                                     {`${chapter.attributes.chapter || 'Oneshot'}`}
                                                                 </span>
+                                                                {/*
+                                                                If I ever want to display the chapter title
                                                                 <span className="chapter-title">
                                                                     {chapter.attributes.title ? `- ${chapter.attributes.title}` : ''}
-                                                                </span>
+                                                                </span>                                                                
+                                                                */}
                                                             </p>
                                                         </Link>
                                                     </Tooltip>

@@ -17,6 +17,7 @@
   max-width: 85vw;
   width: 85vw;
   height: auto;
+  margin-bottom: 3rem;
   border-radius: 2rem;
   grid-column: 2 / 3;
   background-color: var(--primary-color);
@@ -30,8 +31,18 @@
   }
 }
 
+@media screen and (max-width: 768px){
+
+  .main-contents{
+    width: 70vw;
+    display: flex;
+    flex-direction: column;
+  }
+  
+}
+
 .card {
-  padding: 2em;
+  padding: 2rem;
 }
 
 .read-the-docs {

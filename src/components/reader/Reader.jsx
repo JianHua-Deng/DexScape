@@ -148,11 +148,13 @@ function Reader(){
     }
 
     function goToLastPage(){
+        setIsImageLoading(true);
         setImageURL(imageUrlArray[imageUrlArray.length - 1]);
         setPageNumber(imageUrlArray.length);
     }
 
     function goToFirstPage(){
+        setIsImageLoading(true);
         setImageURL(imageUrlArray[0]);
         setPageNumber(1);
     }

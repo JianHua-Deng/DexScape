@@ -16,7 +16,7 @@ function Searchbar(){
                 navigate(`/search/${queryContent}/1`);
                 setQueryContent('');
             }}>
-                <input type="text" name="search" value={queryContent} placeholder="Enter any Manga name" className="searchbar-field" onChange={(e) => {setQueryContent(e.target.value)}} required></input>
+                <input type="text" name="search" value={queryContent} placeholder=" Enter any Manga name" className="searchbar-field" onChange={(e) => {setQueryContent(e.target.value)}} required></input>
                 <button className="search-button" type="submit">Search</button>
             </form>
         

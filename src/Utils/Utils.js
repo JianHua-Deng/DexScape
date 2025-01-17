@@ -82,13 +82,20 @@ const completedMangaParams = {
 const sliderSettings = {
     dots: false,
     infinite: false,
-    slidesToShow: 5,
+    slidesToShow: 6,
     className: "slider",
     
     responsive: [
 
         {
-            breakpoint: 1600,
+            breakpoint: 2000,
+            settings: {
+                slidesToShow: 5,
+            },
+        },
+
+        {
+            breakpoint: 1800,
             settings: {
                 slidesToShow: 4,
             },

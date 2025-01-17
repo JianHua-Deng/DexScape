@@ -6,7 +6,40 @@
 }
 
 .searchbar-field{
-    height: 2rem;
+    height: 2.5rem;
     width: 25rem;
-    border-radius: .1rem;
+    border-radius: 1rem;
+    border: .1rem solid var(--button-color);
+}
+
+.searchbar-field:focus{
+    outline: none;
+    border: .13rem solid var(--supplementary-color);
+}
+
+@media screen and (max-width: 768px){
+    .searchbar{
+        display: flex;
+        width: 10rem;
+        gap: .3rem;
+    }
+
+    .searchbar-field{
+        width: 6.7rem;
+    }
+
+    .search-button{
+        width: 5rem;
+        height: 2.3rem;
+        font-size: .8rem;
+    }
+    
+}
+
+@media screen and (max-width: 400px){
+    .search-button{
+        width: 4rem;
+        height: 2.3rem;
+        font-size: .6rem;
+    }
 }
