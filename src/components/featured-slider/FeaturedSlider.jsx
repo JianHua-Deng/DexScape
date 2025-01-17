@@ -48,7 +48,7 @@ function FeaturedSlider({searchParams, title}){
             <div className="slider-container">
                 <h2>{`${title}`}</h2>
                 {loadingStatus && mangas.length === 0 ? (
-                    <MangaPreviewSkeleton amount={6} type={"featured"} />
+                    <div className="slider-skeletons"><MangaPreviewSkeleton amount={6} type={"featured"} /></div>
                 ):(
                     <Slider {...settings}>
                         {mangas.map((manga, index) => {
