@@ -1,7 +1,8 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { createClient } from '@supabase/supabase-js'
+import { supabase } from '../Utils/supabase';
 
-const supabase = createClient(`${process.env.SUPABASE_URL}`, `${process.env.SUPABASE_API_KEY}`)
+
 const AuthContext = createContext();
 
 export default function AuthProvider({ children }){
