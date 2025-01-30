@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { fetchChapterList, searchMangas, searchSpecificManga } from "../../Utils/APICalls/MangaDexApi";
-import { getCoverUrl, getAvailableLanguages, getChapterListConfig, filterDuplicateChapters } from "../../Utils/Utils";
+import { fetchChapterList, searchMangas, searchSpecificManga } from "../../Utils/mangaDexApi";
+import { getCoverUrl, getAvailableLanguages, getChapterListConfig, filterDuplicateChapters } from "../../Utils/utils";
 import Tooltip from "../tooltip/Tooltip";
 import DetailsSkeleton from "../skeletons/details-skeleton/DetailsSkeleton";
 import './DetailsPage.css'

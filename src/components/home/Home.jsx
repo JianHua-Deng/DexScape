@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { searchMangas} from '../../Utils/APICalls/MangaDexApi';
+import { searchMangas } from '../../Utils/mangaDexApi';
 import FeaturedSlider from '../featured-slider/FeaturedSlider';
-import { popularSearchParams, latestSearchParams, completedMangaParams } from '../../Utils/Utils';
+import { popularSearchParams, latestSearchParams, completedMangaParams } from '../../Utils/utils';
 
 //import '../App.css'
 import './Home.css'

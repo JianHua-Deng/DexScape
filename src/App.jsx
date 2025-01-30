@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { SkeletonTheme } from 'react-loading-skeleton'
-import { createClient } from '@supabase/supabase-js'
 import { Auth } from '@supabase/auth-ui-react'
 import { ThemeSupa } from '@supabase/auth-ui-shared'
 import { useEffect, useState } from 'react'
@@ -11,17 +10,9 @@ import DetailPage from './components/details-page/DetailsPage'
 import './App.css'
 import Reader from './components/reader/Reader'
 
-const supabase = createClient(`${process.env.SUPABASE_URL}`, `${process.env.SUPABASE_API_KEY}`)
+
 
 function App() {
-
-  const [session, setSession] = useState(null);
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session }}) => {
-      setSession(session)
-    });
-  });
 
   return (
     <>

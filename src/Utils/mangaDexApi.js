@@ -1,5 +1,5 @@
 import axios from "axios";
-import { defaultSearchConfig } from "../Utils";
+import { defaultSearchConfig } from "./utils";
 
 const proxyUrl = `${process.env.PROXY_URL}`;
 /*

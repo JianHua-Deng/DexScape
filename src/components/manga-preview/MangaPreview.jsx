@@ -1,7 +1,7 @@
 import './MangaPreview.css'
 import { Link, useNavigate } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
-import { getCoverUrl } from '../../Utils/Utils';
+import { getCoverUrl } from '../../Utils/utils';
 
 
 function MangaPreview({manga, version}){
