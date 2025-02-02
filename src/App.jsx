@@ -8,6 +8,7 @@ import DetailPage from './components/details-page/DetailsPage'
 import AuthProvider from './lib/AuthContext'
 import './App.css'
 import Reader from './components/reader/Reader'
+import Login from './components/login/Login'
 
 
 
@@ -22,6 +23,7 @@ function App() {
         <div className='main-contents'>
           <Routes>
             <Route path="/" element={<Home/>}/>
+            <Route path="login" element={<Login/>}/>
             <Route path="popular/:page" element={<SearchResultPage/>}/>
             <Route path="latest/:page" element={<SearchResultPage/>}/>
             <Route path="tag/:name/:uuid/:page" element={<SearchResultPage/>}/>
