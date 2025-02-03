@@ -25,7 +25,7 @@ export default function Login(){
                         placeholder="email@example.com"
                         type="email"
                         value={loginEmail}
-                        onChange={() => setLoginEmail(e.target.value)}
+                        onChange={(e) => setLoginEmail(e.target.value)}
                         required
                     />
                 </div>

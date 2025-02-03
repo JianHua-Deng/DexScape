@@ -8,21 +8,43 @@ export default function Signup() {
     const [signUpEmail, setSignUpEmail] = useState('');
     const [signUpPassword, setSignUpPassword] = useState('');
     const [confirmSignUpPassword, setConfirmSignUpPassword] = useState('');
-    const [passwordRequirment, setPasswordRequirment] = useState({
+    const [isEmailValid, setIsEmailValid] = useState(false);
+    const [matchPassword, setMatchpassword] = useState(false);
+    const [passwordRequirment, setPasswordRequirement] = useState({
         length: false,
         lowercase: false,
         uppercase: false,
         number: false
     });
+    const [passwordReqMet, setPasswordReqMet] = useState(false);
 
     useEffect(() => {
-        setPasswordRequirment({
+        setIsEmailValid(
+            // This checks if the email follows the general pattern something@domain.com
+            // It is a regex i got from internet, dont know how it works at all
+            /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(signUpEmail)
+        );
+    }, [signUpEmail]);
+
+    // Check if the password met each individual requirement
+    useEffect(() => {
+        setPasswordRequirement({
             length: signUpPassword.length >= 6,
             uppercase: /[A-Z]/.test(signUpPassword),
             lowercase: /[a-z]/.test(signUpPassword),
             number: /[0-9]/.test(signUpPassword),
         })
     }, [signUpPassword]);
+
+    // Check if the password met ALL requirement
+    useEffect(() => {
+        var requirementMet = Object.values(passwordRequirment).every(val => val);
+        setPasswordReqMet(requirementMet);
+    }, [passwordRequirment]);
+
+    useEffect(() => {
+        setMatchpassword(confirmSignUpPassword === signUpPassword && signUpPassword.length !== 0);
+    }, [confirmSignUpPassword])
 
 
     return (
@@ -32,10 +54,11 @@ export default function Signup() {
                     <label htmlFor="email">Email</label>
                     <input
                         id="signup-email"
+                        className={isEmailValid ? 'valid' : ''}
                         placeholder="email@example.com"
                         type="email"
                         value={signUpEmail}
-                        onChange={() => setSignUpEmail(e.target.value)}
+                        onChange={(e) => setSignUpEmail(e.target.value)}
                         required
                     />
                 </div>
@@ -43,10 +66,11 @@ export default function Signup() {
                     <label htmlFor="password">Password</label>
                     <input
                         id="signup-password"
+                        className={`${passwordReqMet ? 'valid' : ''}`}
                         placeholder="Enter your password"
                         type="password"
                         value={signUpPassword}
-                        onChange={() => setSignUpPassword(e.target.value)}
+                        onChange={(e) => setSignUpPassword(e.target.value)}
                         required
                     />
                 </div>
@@ -54,6 +78,7 @@ export default function Signup() {
                 <label htmlFor="confirm-password">Confirm Password</label>
                     <input
                         id="confirm-password"
+                        className={`${matchPassword? 'valid' : ''}`}
                         placeholder="Re-enter your password"
                         type="password"
                         value={confirmSignUpPassword}
@@ -61,15 +86,54 @@ export default function Signup() {
                         required
                     />
                 </div>
+
+                <div className="password-validation-indicator">
+
+                    <div className='requirement'>
+                    {passwordRequirment.length ? (
+                        <Check size={16} color="green" />
+                    ) : (
+                        <X size={16} color="red" />
+                    )}
+                        <span>Minimum 6 characters</span>
+                    </div>
+
+                    <div className='requirement'>
+                    {passwordRequirment.uppercase ? (
+                        <Check size={16} color="green" />
+                    ) : (
+                        <X size={16} color="red" />
+                    )}
+                        <span>At least one uppercase letter</span>
+                    </div>
+
+                    <div className='requirement'>
+                    {passwordRequirment.lowercase ? (
+                        <Check size={16} color="green" />
+                    ) : (
+                        <X size={16} color="red" />
+                    )}
+                        <span>At least one lowercase letter</span>
+                    </div>
+                    <div className='requirement'>
+                    {passwordRequirment.number ? (
+                        <Check size={16} color="green" />
+                    ) : (
+                        <X size={16} color="red" />
+                    )}
+                        <span>At least one number</span>
+                    </div>
+                </div>
+
                 <div className="submit-field">
                     <button type="submit" className="signup-button">Sign up</button>
                 </div>
 
                 <Seperator text={'Already have an account?'}/>
 
-                <div className="to-login">
+                <div className="other-options">
                     <Link to="/login">
-                        <button>Go back to Login</button>
+                        <button>Back to Login</button>
                     </Link>
                 </div>
             </form>
