@@ -9,6 +9,7 @@ import AuthProvider from './lib/AuthContext'
 import './App.css'
 import Reader from './components/reader/Reader'
 import Login from './components/login/Login'
+import Signup from './components/signup/Signup'
 
 
 
@@ -24,6 +25,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home/>}/>
             <Route path="login" element={<Login/>}/>
+            <Route path="signup" element={<Signup/>}/>
             <Route path="popular/:page" element={<SearchResultPage/>}/>
             <Route path="latest/:page" element={<SearchResultPage/>}/>
             <Route path="tag/:name/:uuid/:page" element={<SearchResultPage/>}/>

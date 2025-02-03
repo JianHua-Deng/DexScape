@@ -1,6 +1,6 @@
 
 
-.login-form-container{
+.signup-form-container{
     width: 100%;
     height: 100%;
     display: flex;
@@ -10,7 +10,7 @@
     gap: 1rem;
 }
 
-.login-form{
+.signup-form{
     max-width: 50rem;
     width: 100%;
     height: 100%;
@@ -21,14 +21,14 @@
     gap: 1.75rem;
 }
 
-.email-field, .password-field{
+.signup-email-field, .signup-password-field, .confirm-password-field{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: .5rem;
 }
 
-#email, #password{
+#signup-email, #signup-password, #confirm-password{
     width: 25rem;
     height: 2rem;
     border-radius: 1rem;
@@ -36,13 +36,13 @@
     padding: .75rem;
 }
 
-#email:focus, #password:focus{
+#signup-email:focus, #signup-password:focus, #confirm-password:focus{
     outline: none;
     border: .13rem solid var(--supplementary-color);
 }
 
 @media screen and (max-width: 762px) {
-    #email, #password{
+    #signup-email, #signup-password, #confirm-password{
         width: 14rem;
         height: 2rem;
     }

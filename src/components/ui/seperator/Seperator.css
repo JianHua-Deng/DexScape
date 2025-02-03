@@ -1,0 +1,20 @@
+.separation-field{
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0;
+    width: 100%;
+}
+
+.separation-field::before, .separation-field::after {
+  content: "";
+  flex: 1;
+  margin: 0 10px; /* Adds spacing around the text */
+  border-bottom: 1px solid #ccc;
+}
+
+.separation-border {
+  padding: 0 10px;
+  font-size: 14px;
+  color: #666;
+}

@@ -22,7 +22,8 @@ export default function AuthProvider({ children }){
 
     const authValue = {
         session,
-        signOut: () => supabase.auth.signOut(),
+        signInWithGoogle: async () => supabase.auth.signInWithOAuth({provider: 'google'}),
+        signOut: async () => await supabase.auth.signOut(),
     }
 
     return (
