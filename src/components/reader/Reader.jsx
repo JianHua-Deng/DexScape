@@ -3,9 +3,9 @@ import './Reader.css'
 import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import { useParams} from "react-router-dom";
-import { getChapterMetaData, searchSpecificManga, fetchChapterList } from '../../Utils/mangaDexApi';
+import { getChapterMetaData, searchSpecificManga, fetchChapterList } from '../../utils/mangaDexApi';
 import Skeleton from 'react-loading-skeleton'
-import { getChapterListConfig, getAvailableLanguages, filterDuplicateChapters } from '../../Utils/utils';
+import { getChapterListConfig, getAvailableLanguages, filterDuplicateChapters } from '../../utils/utils';
 import Select from 'react-select';
 
 function Reader(){

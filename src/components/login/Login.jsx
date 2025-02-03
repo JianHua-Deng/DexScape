@@ -1,7 +1,7 @@
 import { Auth } from '@supabase/auth-ui-react'
 import { ThemeSupa } from '@supabase/auth-ui-shared'
 import { useAuth } from '../../lib/AuthContext'
-import { supabase } from '../../Utils/supabase';
+import { supabase } from '../../utils/supabase';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import './Login.css'
