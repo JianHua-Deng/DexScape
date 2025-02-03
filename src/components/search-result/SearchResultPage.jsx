@@ -1,8 +1,8 @@
 import { useParams, useLocation, useNavigate,} from "react-router-dom";
 import { useEffect } from "react";
 import { useState } from "react";
-import { searchMangas } from "../../Utils/mangaDexApi";
-import { popularSearchParams, latestSearchParams, defaultSearchConfig } from '../../Utils/utils';
+import { searchMangas } from "../../utils/mangaDexApi";
+import { popularSearchParams, latestSearchParams, defaultSearchConfig } from '../../utils/utils';
 import MangaPreview from "../manga-preview/MangaPreview";
 import './SearchResultPage.css';
 import MangaPreviewSkeleton from '../skeletons/result-skeleton/MangaPreviewSkeleton';
