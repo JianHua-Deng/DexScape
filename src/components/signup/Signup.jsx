@@ -3,8 +3,13 @@ import { Link } from "react-router-dom";
 import { X, Check } from "lucide-react";
 import './Signup.css'
 import Seperator from "../ui/seperator/Seperator";
+import { useAuth } from "../../lib/AuthContext";
+import toast from "react-hot-toast";
 
 export default function Signup() {
+
+    const { signUp } = useAuth()
+
     const [signUpEmail, setSignUpEmail] = useState('');
     const [signUpPassword, setSignUpPassword] = useState('');
     const [confirmSignUpPassword, setConfirmSignUpPassword] = useState('');
@@ -17,6 +22,10 @@ export default function Signup() {
         number: false
     });
     const [passwordReqMet, setPasswordReqMet] = useState(false);
+
+    function match_requirment(){
+        return isEmailValid && passwordReqMet && matchPassword;
+    }
 
     useEffect(() => {
         setIsEmailValid(
@@ -44,12 +53,36 @@ export default function Signup() {
 
     useEffect(() => {
         setMatchpassword(confirmSignUpPassword === signUpPassword && signUpPassword.length !== 0);
-    }, [confirmSignUpPassword])
+    }, [confirmSignUpPassword]);
+
+    async function handleSignUpSubmit(){
+        if (match_requirment()){
+            try{
+                await signUp(signUpEmail, signUpPassword);
+                toast.success('Signed up succesfully, check your email for verification');
+            } catch (error) {
+                if (error === "User already registered" ){
+                    toast("Email already registered");
+                } else{
+                    toast("Something went wrong");
+                }
+            }
+
+            setSignUpEmail('');
+            setSignUpPassword('');
+            setConfirmSignUpPassword('');
+        }
+    }
 
 
     return (
         <div className="signup-form-container">
-            <form className="signup-form">
+            <form className="signup-form"
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    handleSignUpSubmit();
+                }}
+            >
                 <div className="signup-email-field">
                     <label htmlFor="email">Email</label>
                     <input

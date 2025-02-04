@@ -29,9 +29,9 @@ export default function AuthProvider({ children }) {
         return () => subscription.unsubscribe();
     }, []);
 
-    async function handleSignup(email, password) {
+    async function signUp(email, password) {
         try {
-            const { user, session, error } = await supabase.auth.signUp({
+            const { data, error } = await supabase.auth.signUp({
                 email,
                 password,
             });
@@ -43,10 +43,10 @@ export default function AuthProvider({ children }) {
         }
     }
 
-    async function handleLogin(email, password) {
+    async function login(email, password) {
         try {
             // Updated to use signInWithPassword which is the current method
-            const { user, session, error } = await supabase.auth.signIn({
+            const { user, session, error } = await supabase.auth.signInWithPassword({
                 email,
                 password,
             });
@@ -58,7 +58,7 @@ export default function AuthProvider({ children }) {
         }
     }
 
-    async function handleGoogleSignin() {
+    async function googleSignin() {
         try {
             const { data, error } = await supabase.auth.signInWithOAuth({
                 provider: 'google',
@@ -71,7 +71,7 @@ export default function AuthProvider({ children }) {
         }
     }
 
-    async function handleSignout() {
+    async function signOut() {
         try {
             const { error } = await supabase.auth.signOut();
             if (error) throw error;
@@ -83,10 +83,10 @@ export default function AuthProvider({ children }) {
     const authValue = {
         session,
         loading,
-        handleSignup,
-        handleLogin,
-        handleGoogleSignin,
-        handleSignout
+        signUp,
+        login,
+        googleSignin,
+        signOut
     };
 
     return (
