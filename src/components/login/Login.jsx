@@ -42,14 +42,16 @@ export default function Login(){
                 </div>
                 <div className='submit-field'>
                     <button type='submit' className='login-button'>Log in</button>
+                    <span>Dont have an account? <Link to='/signup'>Sign up!</Link></span>
                 </div>
 
-                <Seperator text={'Dont have an account?'}/>
+                <Seperator text={'Or continue with'}/>
 
-                <div className='to-signup'>
-                    <Link to='/signup'>
-                        <button>Sign up</button>
-                    </Link>
+                <div className='google-login-container'>
+                    <button className='login-with-google-button'>
+                        <img src='/google-icon.svg' alt='google-icon' className='google-icon'/>
+                        Google
+                    </button>
                 </div>
             </form>
 

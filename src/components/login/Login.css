@@ -26,6 +26,15 @@
     gap: .5rem;
 }
 
+.submit-field{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    gap: 1rem;
+    color: #666
+}
+
 #email, #password{
     width: 25rem;
     height: 2rem;
@@ -37,6 +46,28 @@
 #email:focus, #password:focus{
     outline: none;
     border: .13rem solid var(--supplementary-color);
+}
+
+.google-icon{
+    width: 1rem;
+    height: auto;
+}
+
+.login-with-google-button{
+    color: rgb(61, 61, 61);
+    background-color: rgb(231, 231, 231);
+    display: flex;
+    gap: .5rem;
+    align-items: center;
+}
+
+.login-with-google-button:hover{
+    color:rgb(61, 61, 61);
+    background-color: rgb(192, 192, 192);
+}
+
+.login-with-google-button:focus{
+    outline: none;
 }
 
 @media screen and (max-width: 762px) {
