@@ -60,17 +60,16 @@ export default function Signup() {
             try{
                 await signUp(signUpEmail, signUpPassword);
                 toast.success('Signed up succesfully, check your email for verification');
+                setSignUpEmail('');
+                setSignUpPassword('');
+                setConfirmSignUpPassword('');
             } catch (error) {
-                if (error === "User already registered" ){
+                if (error.message.includes("User already registered")){
                     toast("Email already registered");
                 } else{
                     toast("Something went wrong");
                 }
             }
-
-            setSignUpEmail('');
-            setSignUpPassword('');
-            setConfirmSignUpPassword('');
         }
     }
 

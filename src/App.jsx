@@ -10,6 +10,7 @@ import './App.css'
 import Reader from './components/reader/Reader'
 import Login from './components/login/Login'
 import Signup from './components/signup/Signup'
+import { Toaster } from 'react-hot-toast'
 
 
 
@@ -20,6 +21,7 @@ function App() {
     <AuthProvider>
       <SkeletonTheme baseColor="#c4c4c4" highlightColor="#e6e6e6">
         <BrowserRouter>
+        <Toaster position='top-center'/>
         <Header/>
         <div className='main-contents'>
           <Routes>

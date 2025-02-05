@@ -35,7 +35,8 @@ export default function AuthProvider({ children }) {
                 email,
                 password,
             });
-
+            
+            console.log(data);
             if (error) throw error;
 
         } catch (error) {

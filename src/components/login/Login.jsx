@@ -9,6 +9,7 @@ import toast from 'react-hot-toast';
 export default function Login(){
 
     const { session, googleSignin, login } = useAuth();
+    const navigate = useNavigate();
 
     const [loginEmail, setLoginEmail] = useState('');
     const [loginPassword, setLoginPassword] = useState('');
@@ -17,6 +18,7 @@ export default function Login(){
         try {
             await login(loginEmail, loginPassword);
             toast.success('Logged in successfully');
+            navigate('/');
         } catch (error) {
             toast.error('Failed to login');
         }
@@ -61,7 +63,8 @@ export default function Login(){
 
                 <div className='google-login-container'>
                     <button className='login-with-google-button'
-                        onClick={async () => {
+                        onClick={async (e) => {
+                            e.preventDefault();
                             await googleSignin();
                         }}
                     >
