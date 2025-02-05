@@ -107,8 +107,7 @@ function DetailPage(){
                             <Link className='start-reading-button'
                                 rel="noopener noreferrer"
                                 to={{
-                                    pathname: chapterList.length > 0 ? `/comic/${mangaID}/chapter/${chapterList[0].id}` : `/comic/${mangaID}`,
-                                    state: manga
+                                    pathname: chapterList.length > 0 ? `/comic/${mangaID}/chapter/${chapterList[0].id}/1` : `/comic/${mangaID}`,
                                 }}>
                                 Start Reading
                             </Link>
@@ -126,7 +125,7 @@ function DetailPage(){
                                             <div className="chapters-container">
                                                 {chapters.map((chapter, index) => (
                                                     <Tooltip key={index} content={chapter.attributes.title} direction="top">
-                                                        <Link className="chapter" id={chapter.id} to={`/comic/${mangaID}/chapter/${chapter.id}`}>
+                                                        <Link className="chapter" id={chapter.id} to={`/comic/${mangaID}/chapter/${chapter.id}/1`}>
                                                             <p className="chapter-container">
                                                                 <span className="chapter-number">
                                                                     {`${chapter.attributes.chapter || 'Oneshot'}`}

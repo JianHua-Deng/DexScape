@@ -17,7 +17,7 @@ async function searchMangas(searchConfig){
         console.log(e);
     })
 
-    console.log(resp.data.data);
+    //console.log(resp.data.data);
     return resp.data.data;
 }
 
@@ -30,7 +30,7 @@ async function searchSpecificManga(mangaID){
         console.log(e);
     })
 
-    console.log(resp.data.data);
+    //console.log(resp.data.data);
     return resp.data.data;
 }
 
@@ -41,7 +41,7 @@ async function fetchChapterList(mangaID, config){
         params: config,
 
     }).then(respond => {
-        //console.log(respond.data.data);
+        console.log(respond.data.data);
         return respond.data.data;
     }).catch(e => {console.log(e);})
 

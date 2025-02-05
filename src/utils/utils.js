@@ -62,8 +62,9 @@ const latestSearchParams = {
     limit: 15,
     includes: ["authors", "artist", "cover_art"],
     order: {
-        updatedAt: 'desc'
-    }
+        updatedAt: 'desc',
+    },
+    hasAvailableChapters: 1,
 }
 
 const completedMangaParams = {

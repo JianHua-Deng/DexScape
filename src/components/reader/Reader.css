@@ -1,4 +1,6 @@
-.image-display-container{
+
+
+.image-display-container {
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -6,26 +8,38 @@
     gap: 1.5rem;
 }
 
-.chapter-image-container{
+.image-display-skeleton-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 60rem; /* Limits width on larger screens */
+    
+}
+
+.chapter-image-container {
     display: flex;
     width: 100%;
     height: 100%;
     justify-content: center;
     align-items: center;
+    max-width: 60rem; /* Limits width on larger screens */
 }
 
-.chapter-image{
+.chapter-image {
     width: 60rem;
     height: auto;
 }
 
-.control-buttons-container{
+.control-buttons-container {
     width: 30rem;
     display: flex;
     justify-content: center;
 }
 
-.control-buttons{
+.control-buttons {
     width: 100%;
     padding: 1rem;
     gap: 2rem;
@@ -33,59 +47,56 @@
     justify-content: space-evenly;
 }
 
-.reader-options{
+.reader-options {
     display: grid;
     grid-template-columns: 1fr/1fr;
     align-items: center;
     width: 100%;
 }
 
-.return-logo{
+.return-logo {
     grid-column: 1 / 2;
     justify-self: flex-start;
     align-self: center;
     padding: .3rem;
 }
 
-.chapter-selector{
+.chapter-selector {
     grid-column: 2 / 3;
     justify-self: flex-start;
     align-self: center;
     padding: .3rem;
 }
 
-.logo{
+.logo {
     width: 3rem;
     height: auto;
 }
 
-.image-display-skeleton-container{
+.image-skeleton {
     width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
 
-.image-skeleton{
+/* Custom Skeleton style to mimic the chapter image aspect ratio */
+.custom-skeleton {
     width: 100%;
-    height: 100%;
+    aspect-ratio: 3/4; /* Adjust this ratio if needed */
 }
 
+/* Media queries for responsiveness */
 @media screen and (max-width: 1024px) {
-
-    .main-contents{
+    .main-contents {
         justify-content: center;
         align-items: center;
     }
 
-    .chapter-image{
+    .chapter-image {
         width: 65rem;
         height: auto;
     }
 
-    .image-display-skeleton-container, .chapter-image-container {
+    .image-display-skeleton-container,
+    .chapter-image-container {
         display: flex;
         justify-content: center;
         width: 50rem;
@@ -98,7 +109,8 @@
         height: auto;
     }
 
-    .image-display-skeleton-container, .chapter-image-container{
+    .image-display-skeleton-container,
+    .chapter-image-container {
         display: flex;
         justify-content: center;
         width: 45rem;
@@ -111,11 +123,12 @@
         height: auto;
     }
 
-    .image-display-container{
+    .image-display-container {
         height: 100%;
     }
 
-    .image-display-skeleton-container, .chapter-image-container{
+    .image-display-skeleton-container,
+    .chapter-image-container {
         display: flex;
         justify-content: center;
         width: 33.6rem;
@@ -123,71 +136,68 @@
 }
 
 @media screen and (max-width: 762px) {
-
-    
-    .chapter-image{
+    .chapter-image {
         width: 30rem;
         height: auto;
     }
 
-    .image-display-skeleton-container, .chapter-image-container {
+    .image-display-skeleton-container,
+    .chapter-image-container {
         display: flex;
         justify-content: center;
         align-items: center;
         width: 31rem;
     }
 
-    .reader-options{
+    .reader-options {
         display: flex;
         justify-content: space-evenly;
         width: 25rem;
         gap: 1rem;
     }
 
-    .control-buttons-container{
+    .control-buttons-container {
         width: 20rem;
-        
     }
 
-    .control-buttons{
+    .control-buttons {
         gap: 1rem;
     }
 }
 
 @media screen and (max-width: 600px) {
-
-
     .chapter-image {
         width: 20rem;
         height: auto;
     }
 
-    .image-display-skeleton-container, .chapter-image-container {
+    .image-display-skeleton-container,
+    .chapter-image-container {
         display: flex;
         justify-content: center;
         width: 21rem;
     }
 
-    .reader-options{
+    .reader-options {
         display: flex;
         gap: 1rem;
     }
 }
 
 @media screen and (max-width: 380px) {
-
     .chapter-image {
         width: 18rem;
         height: auto;
     }
 
-    .image-display-skeleton-container, .chapter-image-container {
+    .image-display-skeleton-container,
+    .chapter-image-container {
         display: flex;
         justify-content: center;
         width: 18.5rem;
     }
 
-    .reader-options{
+    .reader-options {
         display: flex;
         width: 18rem;
         gap: 1rem;

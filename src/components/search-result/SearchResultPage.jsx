@@ -86,9 +86,13 @@ function SearchResultPage() {
                         <h2 className='query-title'>{title}</h2>
                     </div>                
                     <div className='results-container'>
-                        {mangaData.map((manga, index) => (
-                            <MangaPreview manga={manga} version={"preview"} key={index}/>
-                        ))}
+                        {mangaData.length > 0 ? (
+                            mangaData.map((manga, index) => (
+                                <MangaPreview manga={manga} version={"preview"} key={index}/>
+                            ))
+                        ) : (
+                            <span>No results were found</span>
+                        )}
                     </div>
                     <div className="controls-container">
                         <img src="/previous-page.svg" className="previous-logo logo" onClick={() => {handleNavigate(-1)}}/>
