@@ -17,8 +17,8 @@ async function searchMangas(searchConfig){
         console.log(e);
     })
 
-    //console.log(resp.data.data);
-    return resp.data.data;
+    console.log(resp);
+    return resp.data;
 }
 
 async function searchSpecificManga(mangaID){

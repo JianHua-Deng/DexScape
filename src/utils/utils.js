@@ -1,6 +1,6 @@
 
 function getCoverUrl(manga){
-    console.log(manga);
+    //console.log(manga);
     const baseUrl =  `${process.env.PROXY_URL}`;
     //const baseUrl = "http://localhost:5173"
     const params = `${manga.id}/${manga.relationships.find(relationship => relationship.type === "cover_art").attributes.fileName}.512.jpg`;

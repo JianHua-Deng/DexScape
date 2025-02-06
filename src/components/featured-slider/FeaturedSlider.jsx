@@ -19,7 +19,7 @@ function FeaturedSlider({searchParams, title}){
 
         searchMangas(searchParams).then((resp) => {
 
-            setMangas(resp);
+            setMangas(resp.data);
 
         }).catch(e => {console.log(e)}).finally(() => {
             setLoadingStatus(false);

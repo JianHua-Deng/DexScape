@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { fetchChapterList, searchMangas, searchSpecificManga } from "../../utils/mangaDexApi";
+import { fetchChapterList, searchSpecificManga } from "../../utils/mangaDexApi";
 import { getCoverUrl, getAvailableLanguages, getChapterListConfig, filterDuplicateChapters } from "../../utils/utils";
 import Tooltip from "../tooltip/Tooltip";
 import DetailsSkeleton from "../skeletons/details-skeleton/DetailsSkeleton";
