@@ -7,13 +7,16 @@ import MangaPreview from "../manga-preview/MangaPreview";
 import './SearchResultPage.css';
 import MangaPreviewSkeleton from '../skeletons/result-skeleton/MangaPreviewSkeleton';
 import Pagination from "../pagination/Pagination";
+import useWindowWidth from "../hooks/useWindowWidth";
 
 function SearchResultPage() {
 
-    const {queryString, uuid, page, name} = useParams();
-
     const numPerPage = 30;
+    const windowWidth = useWindowWidth()
 
+    const dynamicPageRange = windowWidth < 762 ? 2 : 5;
+
+    const {queryString, uuid, page, name} = useParams();
     const [mangaData, setMangaData] = useState([]);
     const[totalPage, setTotalPage] = useState(0);
     const [totalManga, setTotalManga] = useState(0);
@@ -100,7 +103,7 @@ function SearchResultPage() {
                             pageCount={totalPage}
                             onPageChange={handlePageClicked}
                             currentPage={parseInt(page, 10)}
-                            pageRange={3}
+                            pageRange={dynamicPageRange}
                             marginPagesDisplayed={1}
                         />
                     </div>
