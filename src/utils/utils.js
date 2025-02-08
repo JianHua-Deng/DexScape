@@ -84,7 +84,7 @@ const sliderSettings = {
     dots: false,
     infinite: false,
     slidesToShow: 6,
-    className: "slider",
+    className: "min-w-0",
     
     responsive: [
 
@@ -103,7 +103,7 @@ const sliderSettings = {
         },
 
         {
-            breakpoint: 1300,
+            breakpoint: 1320,
             settings: {
                 slidesToShow: 3,
             },

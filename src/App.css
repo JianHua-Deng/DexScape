@@ -4,26 +4,13 @@
   padding: 1rem;
   padding: 0;
   text-align: center;
-  display: grid;
-  grid-template: 1fr 10fr / 1fr 7fr 1fr;
   gap: 4%;
   overflow: scroll;
+  marigin: 0;
   
 
 }
 
-.main-contents{
-  padding: 3rem;
-  max-width: 85vw;
-  width: 85vw;
-  height: auto;
-  margin-bottom: 3rem;
-  border-radius: 2rem;
-  grid-column: 2 / 3;
-  background-color: var(--primary-color);
-  box-shadow: 0 1px 5px var(--box-shadow-color);
-  
-}
 
 
 @media (prefers-reduced-motion: no-preference) {
@@ -32,20 +19,8 @@
   }
 }
 
-@media screen and (max-width: 768px){
-
-  .main-contents{
-    width: 70vw;
-    display: flex;
-    flex-direction: column;
-  }
-  
-}
 
 .card {
   padding: 2rem;
 }
 
-.read-the-docs {
-  color: #888;
-}

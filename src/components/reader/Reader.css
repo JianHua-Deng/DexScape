@@ -85,10 +85,7 @@
 
 /* Media queries for responsiveness */
 @media screen and (max-width: 1024px) {
-    .main-contents {
-        justify-content: center;
-        align-items: center;
-    }
+
 
     .chapter-image {
         width: 65rem;
