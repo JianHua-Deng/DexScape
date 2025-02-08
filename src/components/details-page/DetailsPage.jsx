@@ -90,8 +90,8 @@ function DetailPage() {
                 alt="manga-cover"
               />
               <div
-                className="details flex flex-col flex-wrap
-                           max-[1024px]:justify-center max-[1024px]:items-center"
+                className="details flex flex-col flex-wrap justify-center items-center
+                           lg:justify-start lg:items-start"
               >
                 <h1 className="text-left max-[768px]:text-center">
                   {manga?.attributes?.title?.en ||
@@ -108,12 +108,11 @@ function DetailPage() {
                   <></>
                 ) : (
                   <div
-                    className="tags-container flex flex-wrap gap-4 max-w-[64rem]
-                               max-[768px]:gap-2 max-[768px]:max-w-[25rem] max-[768px]:justify-center max-[768px]:items-center"
+                    className="tags-container flex flex-wrap justify-center items-start mt-5 gap-2 max-w-[25rem] md:gap-4 md:max-w-[64rem]"
                   >
                     {tags.map((tag, index) => (
                       <Link
-                        className="max-w-[10rem] max-h-[1.5rem] p-[0.6rem] text-white bg-[var(--button-color)]
+                        className="max-w-[10rem] h-auto p-[0.6rem] text-white bg-[var(--button-color)]
                                    rounded-[0.6rem] cursor-pointer hover:text-[var(--highlight-color)]"
                         target="_blank"
                         rel="noopener noreferrer"

@@ -10,7 +10,7 @@ function Header() {
       className="
         bg-[var(--primary-color)] 
         sticky top-0 
-        p-8 md:p-6 
+        p-8
         shadow-[0_1px_5px_var(--box-shadow-color)]
         max-h-8
         row-start-1 row-end-2 
@@ -25,7 +25,7 @@ function Header() {
         className="
           flex justify-items-end
           text-[0.8rem] w-[25rem] gap-[0.7rem]
-          md:text-base md:w-[15rem] md:gap-0
+          md:text-base md:w-[15rem] md:gap-[1.5rem]
         "
       >
         {session ? (

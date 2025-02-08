@@ -23,7 +23,7 @@ function App() {
         <BrowserRouter>
         <Toaster position='top-center'/>
         <div className="
-        grid grid-rows-[1fr_10fr] grid-cols-[1fr_7fr_1fr] 
+        grid grid-rows-[auto_1fr] grid-cols-[1fr_7fr_1fr] 
         gap-4 h-auto w-screen
         
         "
