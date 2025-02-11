@@ -1,82 +1,93 @@
-import './Reader.css';
 import { useNavigate, Link, useParams } from "react-router-dom";
-import { useEffect, useState } from 'react';
-import { getChapterMetaData, searchSpecificManga, fetchChapterList } from '../../utils/mangaDexApi';
-import Skeleton from 'react-loading-skeleton';
-import { getChapterListConfig, getAvailableLanguages, filterDuplicateChapters } from '../../utils/utils';
-import Select from 'react-select';
+import { useEffect, useState, useRef } from "react";
+import { getChapterMetaData, searchSpecificManga, fetchChapterList } from "../../utils/mangaDexApi";
+import Skeleton from "react-loading-skeleton";
+import { getChapterListConfig, getAvailableLanguages, filterDuplicateChapters } from "../../utils/utils";
+import Select from "react-select";
 
 function Reader() {
   const navigate = useNavigate();
   const { mangaID, chapterID, page } = useParams();
 
-  // Convert the page param to a number; default to 1 if not a valid number.
+  const [manga, setManga] = useState(null);
+  const [tags, setTags] = useState([]);
+  const [isWebtoon, setIsWebtoon] = useState(false);
 
-  //const [manga, setManga] = useState({});
   const [chapterList, setChapterList] = useState([]);
   const [mangaLanguage, setMangaLanguage] = useState([]);
   const [selectorOptions, setSelectorOptions] = useState([]);
   const [metaData, setMetaData] = useState(null);
   const [imageUrlArray, setImageUrlArray] = useState([]);
   const [isLoadingData, setIsLoadingData] = useState(false);
-  const [imgURL, setImageURL] = useState('');
+  const [imgURL, setImageURL] = useState("");
   const [isImageLoading, setIsImageLoading] = useState(false);
   const [pageNumber, setPageNumber] = useState(page);
 
-    // Fetch the manga data when mangaID or chapterID changes.
-    useEffect(() => {
-        setIsLoadingData(true);
-        setIsImageLoading(true);
-        searchSpecificManga(mangaID).then(respond => {
-        setMangaLanguage(getAvailableLanguages(respond));
-        });
-    }, [mangaID, chapterID]);
+  // Create a ref for the image container
+  const imageContainerRef = useRef(null);
 
-  // Fetch chapter meta data whenever the chapterID changes.
+  // When pageNumber changes, scroll to the image container
   useEffect(() => {
-    getChapterMetaData(chapterID).then(respond => {
+    if (imageContainerRef.current) {
+      imageContainerRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [pageNumber]);
+
+  // Fetch manga language info
+  useEffect(() => {
+    setIsLoadingData(true);
+    setIsImageLoading(true);
+    searchSpecificManga(mangaID).then((respond) => {
+      setManga(respond);
+      setTags(() => {
+        return respond.attributes.tags.filter(tag => tag.attributes.group === 'format') ?? [];
+      });
+      setMangaLanguage(getAvailableLanguages(respond));
+    });
+  }, [mangaID, chapterID]);
+
+  // Fetch chapter meta data
+  useEffect(() => {
+    getChapterMetaData(chapterID).then((respond) => {
       setMetaData(respond);
     });
   }, [chapterID]);
 
-  // Once the available languages are set, fetch the chapter list.
+  // Fetch chapter list once language is available
   useEffect(() => {
     if (!mangaLanguage?.length) return;
-
     const paramConfig = getChapterListConfig(mangaLanguage);
-    fetchChapterList(mangaID, paramConfig).then(respond => {
+    fetchChapterList(mangaID, paramConfig).then((respond) => {
       const filteredChapterList = filterDuplicateChapters(respond);
       setChapterList(filteredChapterList);
-
       const options = filteredChapterList.map((chapter, index) => {
         const chapterTitle = chapter.attributes?.title;
         const chapterNumber = chapter.attributes?.chapter || index + 1;
         return {
           value: chapter.id,
-          label: chapterTitle ? `${chapterNumber} - ${chapterTitle}` : `Chapter ${chapterNumber}`
+          label: chapterTitle
+            ? `${chapterNumber} - ${chapterTitle}`
+            : `Chapter ${chapterNumber}`,
         };
       });
       setSelectorOptions(options);
     });
   }, [mangaLanguage, mangaID]);
 
-  // Once metaData is fetched, prepare the image URLs.
+  // Prepare image URLs from metaData
   useEffect(() => {
     if (metaData) {
-      const pageURLs = metaData.chapter.data.map(data => {
+      const pageURLs = metaData.chapter.data.map((data) => {
         return `${process.env.PROXY_URL}/chapter-image/${metaData.baseUrl}/data/${metaData.chapter.hash}/${data}`;
       });
       setImageUrlArray(pageURLs);
     }
   }, [metaData]);
 
-  // Whenever the URL page param or the list of image URLs changes,
-  // update the displayed page and image.
+  // Set current page and image when page param or image URL array changes
   useEffect(() => {
-    // Ensure we have loaded the image URL array
     if (imageUrlArray.length > 0) {
       const numPage = parseInt(page, 10) || 1;
-      // Bound the page number within valid limits.
       const validPage = Math.min(Math.max(numPage, 1), imageUrlArray.length);
       setPageNumber(validPage);
       setImageURL(imageUrlArray[validPage - 1]);
@@ -84,15 +95,22 @@ function Reader() {
     }
   }, [page, imageUrlArray]);
 
-  // Navigation functions update the URL so that the page param stays in sync.
+  useEffect(() => {
+    console.log(tags);
+    if (tags.some(tag => tag.attributes.name.en === "Web Comic")) {
+      console.log("It is a webtoon");
+      setIsWebtoon(true);
+    }
+  }, [tags]);
+
+  // Navigation functions update the URL
   function nextPg() {
     setIsImageLoading(true);
     if (pageNumber === imageUrlArray.length) {
       nextChapter();
       return;
     }
-    const nextPage = pageNumber + 1;
-    navigate(`/comic/${mangaID}/chapter/${chapterID}/${nextPage}`);
+    navigate(`/comic/${mangaID}/chapter/${chapterID}/${pageNumber + 1}`);
   }
 
   function previousPg() {
@@ -101,14 +119,12 @@ function Reader() {
       previousChapter();
       return;
     }
-    const previousPage = pageNumber - 1;
-    navigate(`/comic/${mangaID}/chapter/${chapterID}/${previousPage}`);
+    navigate(`/comic/${mangaID}/chapter/${chapterID}/${pageNumber - 1}`);
   }
 
   function nextChapter() {
-    const currentIndex = chapterList.findIndex(chapter => chapter.id === chapterID);
+    const currentIndex = chapterList.findIndex((chapter) => chapter.id === chapterID);
     const nextChapterIndex = currentIndex + 1;
-    // If there is no next chapter, return to the details page.
     if (nextChapterIndex >= chapterList.length) {
       navigate(`/comic/${mangaID}`);
       return;
@@ -118,7 +134,7 @@ function Reader() {
   }
 
   function previousChapter() {
-    const currentIndex = chapterList.findIndex(chapter => chapter.id === chapterID);
+    const currentIndex = chapterList.findIndex((chapter) => chapter.id === chapterID);
     const previousChapterIndex = currentIndex - 1;
     if (previousChapterIndex < 0) {
       navigate(`/comic/${mangaID}`);
@@ -137,52 +153,99 @@ function Reader() {
   }
 
   return (
-    <div className="image-display-container">
+    // .image-display-container → flex column, full height, centered, gap ~1.5rem
+    <div className="flex flex-col h-full items-center gap-4 w-full">
       {isLoadingData ? (
-        <div className='image-display-skeleton-container'>
-          <div className='image-skeleton'>
-            <Skeleton className='custom-skeleton' />
+        // .image-display-skeleton-container → full width/height, flex-col, centered, max width 60rem
+        <div className="w-full h-full flex flex-col justify-center items-center max-w-[60rem]">
+          {/* .image-skeleton → full width */}
+          <div className="w-full">
+            {/* .custom-skeleton → full width with 3:4 aspect ratio */}
+            <Skeleton className="w-full aspect-[3/4]" />
           </div>
         </div>
       ) : (
         <>
-          <div className='reader-options'>
-            <Link to={`/comic/${mangaID}`} className='return-logo logo'>
-              <img src="/return-button.svg" className='return-logo logo' alt="return" />
+          {/* .reader-options → on mobile: flex with even spacing, fixed width; on md+ switch to grid */}
+          <div className="flex justify-evenly w-[25rem] gap-4 md:grid md:grid-cols-3 md:items-center md:w-full">
+            {/* .return-logo: grid column 1, left aligned with small padding */}
+            <Link
+              to={`/comic/${mangaID}`}
+              className="self-center justify-self-start p-[0.3rem]"
+            >
+              <img
+                src="/return-button.svg"
+                alt="return"
+                className="w-6 lg:w-12 h-auto"
+              />
             </Link>
-            <div className='chapter-selector'>
+            {/* .chapter-selector: grid column 2, left aligned with small padding */}
+            <div className="self-center justify-self-center col-start-2 col-end-3 p-[0.3rem]">
               <Select
                 options={selectorOptions}
-                value={selectorOptions.find(option => option.value === chapterID)}
+                value={selectorOptions.find(
+                  (option) => option.value === chapterID
+                )}
                 onChange={(selectedOption) => {
-                  // When selecting a new chapter, start on page 1.
-                  navigate(`/comic/${mangaID}/chapter/${selectedOption.value}/1`);
+                  navigate(
+                    `/comic/${mangaID}/chapter/${selectedOption.value}/1`
+                  );
                 }}
               />
             </div>
           </div>
-          <div className='chapter-image-container'>
+
+          {/* .chapter-image-container → flex, full width/height, centered, max width 60rem */}
+          <div ref={imageContainerRef} className={` ${isWebtoon ? 'h-auto' : 'h-screen'} flex w-full justify-center items-center max-w-[60rem]`}>
             {isImageLoading && (
-              <div className='image-skeleton'>
-                <Skeleton className='custom-skeleton' />
+              <div className="w-full">
+                <Skeleton className="w-full aspect-[5/6]" />
               </div>
             )}
+            {/* .chapter-image → responsive widths: using approximate breakpoints */}
             <img
               src={imgURL}
-              onLoad={() => { setIsImageLoading(false); }}
-              style={{ display: isImageLoading ? 'none' : 'block' }}
+              onLoad={() => {
+                setIsImageLoading(false);
+              }}
+              style={{ display: isImageLoading ? "none" : "block" }}
               alt="manga-content"
-              className="chapter-image"
+              className={ isWebtoon ? 'w-full h-auto' : "h-screen w-auto object-contain cursor-pointer"}
               onClick={nextPg}
             />
           </div>
-          <div className='control-buttons-container'>
-            <div className="control-buttons">
-              <img src="/previous-to-start.svg" alt="to-start" className='logo' onClick={goToFirstPage} />
-              <img src="/previous-page.svg" alt="previous" className="logo" onClick={previousPg} />
-              <p>{`${pageNumber}/${imageUrlArray.length}`}</p>
-              <img src="/next-page.svg" alt="next" className="logo" onClick={nextPg} />
-              <img src="/next-to-last.svg" alt="to-last" className='logo' onClick={goToLastPage} />
+
+          {/* .control-buttons-container → flex container with fixed width (responsive) */}
+          <div className="flex justify-center w-[20rem] lg:w-[30rem]">
+            {/* .control-buttons → full width, padded, spaced evenly */}
+            <div className="w-full p-4 gap-4 lg:gap-8 flex justify-evenly items-center">
+              <img
+                src="/previous-to-start.svg"
+                alt="to-start"
+                className="w-5 lg:w-12 h-auto cursor-pointer"
+                onClick={goToFirstPage}
+              />
+              <img
+                src="/previous-page.svg"
+                alt="previous"
+                className="w-5 lg:w-12 h-auto cursor-pointer"
+                onClick={previousPg}
+              />
+              <p className="text-sm lg:text-2xl">
+                {`${pageNumber}/${imageUrlArray.length}`}
+              </p>
+              <img
+                src="/next-page.svg"
+                alt="next"
+                className="w-5 lg:w-12 h-auto cursor-pointer"
+                onClick={nextPg}
+              />
+              <img
+                src="/next-to-last.svg"
+                alt="to-last"
+                className="w-5 lg:w-12 h-auto cursor-pointer"
+                onClick={goToLastPage}
+              />
             </div>
           </div>
         </>

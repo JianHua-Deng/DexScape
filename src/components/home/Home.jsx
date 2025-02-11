@@ -7,17 +7,13 @@ function Home() {
 
   return (
     <>
-    <div>
-      <FeaturedSlider searchParams={popularSearchParams} title={"Popular Mangas"}/>
-    </div>
-      <FeaturedSlider searchParams={completedMangaParams} title={"Completed Mangas"}/>
-    <div>
 
-    </div>
+      <FeaturedSlider searchParams={popularSearchParams} title={"Popular Mangas"}/>
+
+      <FeaturedSlider searchParams={completedMangaParams} title={"Completed Mangas"}/>
+
       <FeaturedSlider searchParams={latestSearchParams} title={"Recently Updated"}/>
-    <div>
-    
-    </div>
+
     </>
   )
 }

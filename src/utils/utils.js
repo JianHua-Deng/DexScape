@@ -46,44 +46,47 @@ const defaultSearchConfig = {
     includes: ["authors", "artist", "cover_art"],
     order: {
         relevance: 'desc',
-    }
+        rating: 'desc',
+        followedCount: 'desc',
+    },
+    hasAvailableChapters: 'true'
 };
 
 const popularSearchParams = {
-    limit: 15,
+    limit: 21,
     includes: ["authors", "artist", "cover_art"],
     order: {
         rating: 'desc',
         followedCount: 'desc'
-    }
+    },
+    hasAvailableChapters: 'true'
 }
 
 const latestSearchParams = {
-    limit: 15,
+    limit: 21,
     includes: ["authors", "artist", "cover_art"],
     order: {
         updatedAt: 'desc',
     },
-    hasAvailableChapters: 1,
+    hasAvailableChapters: 'true'
 }
 
 const completedMangaParams = {
-    limit: 15,
+    limit: 21,
     includes: ["authors", "artist", "cover_art"],
     status: ["completed"],
     order: {
         rating: 'desc',
         followedCount: 'desc'
-    }
+    },
+    hasAvailableChapters: 'true'
 }
-
-
   
 
 const sliderSettings = {
     dots: false,
     infinite: false,
-    slidesToShow: 6,
+    slidesToShow: 5,
     className: "min-w-0",
     
     responsive: [

@@ -1,48 +1,37 @@
+// Header.jsx
+import React from 'react';
 import { useAuth } from "../../lib/AuthContext";
 import Searchbar from "../searchbar/Searchbar";
-import { Link } from "react-router-dom";
+import useHeaderSticky from "../hooks/useHeaderSticky";
+import { IconButton } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 
-function Header() {
-  const { session, signOut } = useAuth();
+function Header({ isDrawerOpen, setIsDrawerOpen, isDesktop }) {
+  // useHeaderSticky may return a boolean if you wish to use it;
+  // here we force the header to be sticky.
+  const isSticky = useHeaderSticky();
+  console.log(isSticky);
 
   return (
     <div
-      className="
-        bg-[var(--primary-color)] 
-        sticky top-0 
+      className={`
+        bg-[var(--primary-color)]
         p-8
+        ${isSticky ? 'sticky top-0' : 'relative'}
         shadow-[0_1px_5px_var(--box-shadow-color)]
-        max-h-8
-        row-start-1 row-end-2 
-        col-start-1 col-end-4 
         flex justify-between items-center 
         gap-4 md:gap-0 
-        md:col-start-2 md:col-end-3
-        z-[2]
-      "
+        z-[5]
+      `}
     >
-      <nav
-        className="
-          flex justify-items-end
-          text-[0.8rem] w-[25rem] gap-[0.7rem]
-          md:text-base md:w-[15rem] md:gap-[1.5rem]
-        "
-      >
-        {session ? (
-          <Link to="/" onClick={signOut}>Sign out</Link>
-        ) : (
-          <Link to="/login">Login</Link>
-        )}
-        <Link to="/">Home</Link>
-        <Link to="/latest/1">Latest</Link>
-        <Link to="/popular/1">Popular</Link>
-      </nav>
-      <div
-        className="
-          w-[30rem] flex justify-evenly 
-          max-[450px]:w-[8rem]
-        "
-      >
+      <div className="w-[30rem] flex justify-evenly max-[450px]:w-[8rem]">
+        {/* Only show the button if its not in desktop mode OR when its not open */}
+        {!isDesktop || !isDrawerOpen ? (
+          <IconButton onClick={() => setIsDrawerOpen(prev => !prev)} sx={{ color: "inherit" }}>
+            <MenuIcon />
+          </IconButton>          
+        ) : null}
+
         <Searchbar />
       </div>
     </div>

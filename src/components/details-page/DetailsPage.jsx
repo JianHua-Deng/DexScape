@@ -99,7 +99,7 @@ function DetailPage() {
                       Object.values(manga.attributes.title)[0]) ||
                     "Title Not Available"}
                 </h1>
-                <div className="manga-descriptions">
+                <div className="manga-descriptions mt-4">
                   <p className="text-left max-[768px]:text-center">
                     {`${manga?.attributes?.description?.en || "N/A"}`}
                   </p>
