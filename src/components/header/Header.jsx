@@ -24,7 +24,6 @@ function Header({ isDrawerOpen, setIsDrawerOpen, isDesktop }) {
         z-[5]
       `}
     >
-      <div className="w-[30rem] flex justify-evenly max-[450px]:w-[8rem]">
         {/* Only show the button if its not in desktop mode OR when its not open */}
         {!isDesktop || !isDrawerOpen ? (
           <IconButton onClick={() => setIsDrawerOpen(prev => !prev)} sx={{ color: "inherit" }}>
@@ -33,7 +32,6 @@ function Header({ isDrawerOpen, setIsDrawerOpen, isDesktop }) {
         ) : null}
 
         <Searchbar />
-      </div>
     </div>
   );
 }

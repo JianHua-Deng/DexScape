@@ -69,7 +69,7 @@ function App() {
                   sx={{
                     flex: 1,
                   }}
-                  className="main-content pt-4 pb-4 bg-[var(--primary-color)] shadow-[0_1px_5px_var(--box-shadow-color)] flex flex-col lg:p-12 max-w-[100vw]"
+                  className="main-content pt-4 pb-4 bg-[var(--primary-color)] shadow-[0_1px_5px_var(--box-shadow-color)] flex flex-col lg:p-12 lg:pt-0 max-w-[100vw]"
                 >
                   <Routes>
                     <Route path="/" element={<Home />} />

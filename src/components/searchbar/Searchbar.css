@@ -1,3 +1,5 @@
+
+/*
 .searchbar{
     width: 35rem;
     display: flex;
@@ -8,7 +10,7 @@
 .searchbar-field{
     height: 2.5rem;
     width: 25rem;
-    border-radius: 1rem;
+    border-radius: .5rem;
     border: .1rem solid var(--button-color);
 }
 
@@ -87,3 +89,4 @@
     }
 
 }
+*/

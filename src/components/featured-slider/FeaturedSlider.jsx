@@ -4,7 +4,6 @@ import { sliderSettings } from "../../utils/utils";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "./FeaturedSlider.css"
 import { searchMangas } from "../../utils/mangaDexApi";
 import MangaPreview from "../manga-preview/MangaPreview";
 import MangaPreviewSkeleton from "../skeletons/result-skeleton/MangaPreviewSkeleton";
