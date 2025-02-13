@@ -8,8 +8,8 @@ export default function SliderItem({ manga }) {
     return (
         <div className="relative h-[450px] w-full overflow-hidden">
             {/* Background image with blur effect */}
-            <div className="absolute inset-0">
-                <div className="absolute inset-0 bg-gradient-to-br from-black/70 to-black/30 z-10" />
+            <div className="absolute w-full inset-0">
+                <div className="absolute w-full inset-0 bg-gradient-to-br from-black/70 to-black/30 z-10" />
                 <img 
                     src={coverUrl}
                     alt="background"
@@ -19,7 +19,7 @@ export default function SliderItem({ manga }) {
             </div>
 
             {/* Content overlay */}
-            <div className="relative z-20 h-full flex items-center px-8 md:px-16 gap-8">
+            <div className="relative z-20 h-full flex flex-col lg:flex-row items-center px-8 md:px-16 gap-8">
                 {/* Cover image */}
                 <div className="flex-shrink-0">
                     <img 
@@ -38,15 +38,17 @@ export default function SliderItem({ manga }) {
                         {manga.attributes?.tags?.map((tag, index) => (
                             <span 
                                 key={index}
-                                className="px-3 py-1 bg-white/20 rounded-full text-sm"
+                                className="px-3 py-1 bg-white/20 rounded-sm lg:rounded-full text-sm hidden lg:block"
                             >
                                 {tag.attributes?.name?.en}
                             </span>
                         )).slice(0, 4)}
                     </div>
-                    <p className="line-clamp-3 text-lg text-gray-200">
-                        {manga.attributes?.description?.en}
-                    </p>
+                    <div className="hidden lg:block">
+                        <p className="max-h-[225px] line-clamp-5 text-lg text-gray-200 overflow-hidden text-ellipsis">
+                            {manga.attributes?.description?.en}
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
