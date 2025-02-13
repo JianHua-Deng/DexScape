@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { fetchChapterList, searchSpecificManga } from "../../utils/mangaDexApi";
-import { getCoverUrl, getAvailableLanguages, getChapterListConfig, filterDuplicateChapters } from "../../utils/utils";
+import { getAvailableLanguages, getChapterListConfig, filterDuplicateChapters } from "../../utils/utils";
+import { getCoverUrl } from "../../utils/mangaDexApi";
 import Tooltip from "../tooltip/Tooltip";
 import DetailsSkeleton from "../skeletons/details-skeleton/DetailsSkeleton";
 
@@ -96,7 +97,7 @@ function DetailPage() {
                   <div className="tags-container flex flex-wrap justify-center items-start mt-5 gap-2 w-full sm:w-96 md:w-full lg:justify-start">
                     {tags.map((tag, index) => (
                       <Link
-                        className="w-32 p-2 text-white bg-[var(--button-color)] rounded-lg cursor-pointer hover:text-[var(--highlight-color)] text-center"
+                        className="w-26 p-2 text-white bg-[var(--button-color)] rounded-lg cursor-pointer hover:text-[var(--highlight-color)] text-center"
                         target="_blank"
                         rel="noopener noreferrer"
                         key={tag.id}

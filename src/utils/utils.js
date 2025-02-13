@@ -1,16 +1,4 @@
 
-function getCoverUrl(manga){
-    //console.log(manga);
-    const baseUrl =  `${process.env.PROXY_URL}`;
-    //const baseUrl = "http://localhost:5173"
-    const params = `${manga.id}/${manga.relationships.find(relationship => relationship.type === "cover_art").attributes.fileName}.512.jpg`;
-    const coverUrl = `${baseUrl}/covers/${params}`;
-    
-    //console.log(coverUrl);
-    return coverUrl;
-}
-
-
 //If the available language is empty, return the original language, else check if there's english, if not, return the first one in that array
 function getAvailableLanguages(manga){
     if(manga.attributes.availableTranslatedLanguages.length < 1){
@@ -53,7 +41,7 @@ const defaultSearchConfig = {
 };
 
 const popularSearchParams = {
-    limit: 21,
+    limit: 28,
     includes: ["authors", "artist", "cover_art"],
     order: {
         rating: 'desc',
@@ -63,7 +51,7 @@ const popularSearchParams = {
 }
 
 const latestSearchParams = {
-    limit: 21,
+    limit: 28,
     includes: ["authors", "artist", "cover_art"],
     order: {
         updatedAt: 'desc',
@@ -72,7 +60,7 @@ const latestSearchParams = {
 }
 
 const completedMangaParams = {
-    limit: 21,
+    limit: 28,
     includes: ["authors", "artist", "cover_art"],
     status: ["completed"],
     order: {
@@ -133,4 +121,4 @@ const sliderSettings = {
 
 
 
-export {sliderSettings, defaultSearchConfig, popularSearchParams, latestSearchParams, completedMangaParams, getCoverUrl, getAvailableLanguages, getChapterListConfig, filterDuplicateChapters}
+export {sliderSettings, defaultSearchConfig, popularSearchParams, latestSearchParams, completedMangaParams, getAvailableLanguages, getChapterListConfig, filterDuplicateChapters}

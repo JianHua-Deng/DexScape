@@ -1,29 +1,49 @@
-import ReactPaginate from 'react-paginate'
-import './Pagination.css'
+import ReactPaginate from 'react-paginate';
 
+export default function Pagination({ pageCount, onPageChange, currentPage, pageRange, marginPagesDisplayed}) {
+  return (
+    <ReactPaginate
+      previousLabel={
+        <img
+          src="/previous-page.svg"
+          className="previous-logo logo w-6 h-6 min-w-6"
+          alt="previous"
+        />
+      }
+      nextLabel={
+        <img src="/next-page.svg" className="next-logo logo w-6 h-6 min-w-6" alt="next" />
+      }
+      breakLabel="..."
+      pageCount={pageCount}
+      pageRangeDisplayed={pageRange}
+      marginPagesDisplayed={marginPagesDisplayed}
+      onPageChange={onPageChange}
+      forcePage={currentPage - 1} // currentPage is 1-indexed
 
-export default function Pagination({pageCount, onPageChange, currentPage, pageRange, marginPagesDisplayed}) {
+      // Container: a flex container with no list style, zero padding,
+      // centered items, and a custom gap of 0.2rem (using an arbitrary value)
+      containerClassName="flex list-none p-0 justify-center items-center gap-[.2rem] lg:gap-[.5rem]"
 
-    return (
-        <ReactPaginate
-            previousLabel={<img src='/previous-page.svg' className='previous-logo logo' alt='previous'/>}
-            nextLabel={<img src='/next-page.svg' className='next-logo logo' alt='next'/>}
-            breakLabel='...'
-            pageCount={pageCount}
-            pageRangeDisplayed={pageRange}
-            marginPagesDisplayed={marginPagesDisplayed}
-            onPageChange={onPageChange}
-            containerClassName='pagination'
-            activeClassName='active'
-            renderOnZeroPageCount={null}
-            forcePage={currentPage - 1} // currentPage passed as a prop (1-indexed)
+      // Each page item li
+      pageClassName="cursor-pointer group"
+      
+      // The anchor inside each page item
+      pageLinkClassName="no-underline py-1 px-2 lg:py-2 lg:px-3 border border-[#ddd] transition-colors duration-300 hover:bg-[var(--box-shadow-color)]"
+      
+      // The active li gets the "active" class.
+      // (See note below on styling the inner anchor for the active page.)
+      activeLinkClassName="active bg-[var(--highlight-color)] text-white"
 
-            previousClassName="previous-item"
-            previousLinkClassName="previous-link"
-            nextClassName="next-item"
-            nextLinkClassName="next-link"
-        >
+      // Previous & Next items:
+      // We remove borders on the links using Tailwind’s border-0 utility.
+      previousClassName="cursor-pointer previous-item group focus:outline:none flex flex-col justify-center items-center"
+      previousLinkClassName="no-underline border border-[#ddd] transition-colors duration-300 hover:bg-[var(--box-shadow-color)] border-0 focus:outline:none"
+      nextClassName="cursor-pointer next-item group focus:outline:none flex flex-col justify-center items-center"
+      nextLinkClassName="no-underline border border-[#ddd] transition-colors duration-300 hover:bg-[var(--box-shadow-color)] border-0 focus:outline:none"
 
-        </ReactPaginate>
-    )
+      // Break (ellipsis) items
+      breakClassName="cursor-pointer group"
+      breakLinkClassName="no-underline py-1 px-2 lg:py-2 lg:px-3 border border-[#ddd] transition-colors duration-300 hover:bg-[var(--box-shadow-color)]"
+    />
+  );
 }

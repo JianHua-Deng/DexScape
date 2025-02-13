@@ -1,6 +1,5 @@
 // Header.jsx
 import React from 'react';
-import { useAuth } from "../../lib/AuthContext";
 import Searchbar from "../searchbar/Searchbar";
 import useHeaderSticky from "../hooks/useHeaderSticky";
 import { IconButton } from '@mui/material';
@@ -16,7 +15,7 @@ function Header({ isDrawerOpen, setIsDrawerOpen, isDesktop }) {
     <div
       className={`
         bg-[var(--primary-color)]
-        p-8
+        p-3
         ${isSticky ? 'sticky top-0' : 'relative'}
         shadow-[0_1px_5px_var(--box-shadow-color)]
         flex justify-between items-center 
@@ -25,11 +24,20 @@ function Header({ isDrawerOpen, setIsDrawerOpen, isDesktop }) {
       `}
     >
         {/* Only show the button if its not in desktop mode OR when its not open */}
-        {!isDesktop || !isDrawerOpen ? (
-          <IconButton onClick={() => setIsDrawerOpen(prev => !prev)} sx={{ color: "inherit" }}>
-            <MenuIcon />
-          </IconButton>          
-        ) : null}
+        <div>
+          {!isDesktop || !isDrawerOpen ? (
+            <IconButton onClick={() => setIsDrawerOpen(prev => !prev)} 
+              sx={{ 
+                color: "inherit",
+                '&:focus': {
+                  outline: 'none',
+                },
+              }}
+            >
+              <MenuIcon />
+            </IconButton>          
+          ) : null}
+        </div>
 
         <Searchbar />
     </div>

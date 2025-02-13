@@ -1,120 +1,115 @@
-import { useParams, useLocation, useNavigate,} from "react-router-dom";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useRef } from "react";
+import { useEffect, useState } from "react";
 import { searchMangas } from "../../utils/mangaDexApi";
 import { popularSearchParams, latestSearchParams, defaultSearchConfig } from '../../utils/utils';
-import MangaPreview from "../manga-preview/MangaPreview";
-import './SearchResultPage.css';
 import MangaPreviewSkeleton from '../skeletons/result-skeleton/MangaPreviewSkeleton';
 import Pagination from "../pagination/Pagination";
 import useWindowWidth from "../hooks/useWindowWidth";
+import MangaItem from "../manga-item/MangaItem";
 
 function SearchResultPage() {
+  const numPerPage = 28;
+  const windowWidth = useWindowWidth();
 
-    const numPerPage = 30;
-    const windowWidth = useWindowWidth()
+  const mainContainer = useRef(null);
 
-    const dynamicPageRange = windowWidth < 762 ? 2 : 5;
+  const dynamicPageRange = windowWidth < 762 ? 2 : 5;
 
-    const {queryString, uuid, page, name} = useParams();
-    const [mangaData, setMangaData] = useState([]);
-    const[totalPage, setTotalPage] = useState(0);
-    const [totalManga, setTotalManga] = useState(0);
-    const [loadingStatus, setLoadingStatus] = useState(false);
+  const { queryString, uuid, page, name } = useParams();
+  const [mangaData, setMangaData] = useState([]);
+  const [totalPage, setTotalPage] = useState(0);
+  const [loadingStatus, setLoadingStatus] = useState(false);
 
+  const location = useLocation();
+  const navigate = useNavigate();
 
-    const location = useLocation();
-    const navigate = useNavigate();
+  const offset = (parseInt(page, 10) - 1) * numPerPage; // Calculate offset (page 1 = offset 0)
+  const path = location.pathname;
+  let searchConfig = {};
+  let title = '';
 
-    const offset = (parseInt(page, 10) - 1) * numPerPage; // Calculate offset based on page, subtract 1 because page 1 starts at offset 0
-    const path = location.pathname;
-    var searchConfig = {};
-    var title = '';
-    
-    //console.log("Pathname: " + location.pathname + ", Key: " + uuid);
-    
-    if(path.includes("/popular")){
-        //console.log("Ran popular");
-        searchConfig = {...popularSearchParams, limit: `${numPerPage}`, offset: offset};
-        title = 'Popular';
-    }else if (path.includes("/latest")){
-        //console.log("Ran latest");
-        searchConfig = {...latestSearchParams, limit: `${numPerPage}`, offset: offset};
-        title = 'Latest'
-    } else if (path.includes("/tag")){
-        //console.log("Ran tag");
-        searchConfig = {
-            limit: `${numPerPage}`,
-            'includedTags': [uuid],
-            includes: ["authors", "artist", "cover_art"],
-            offset: offset,
-        }
-        title = `Results of tag "${name}"`;    
-    }else{
-        //console.log("Ran Default");
-        searchConfig = {...defaultSearchConfig, title: queryString, offset: offset};
-        title = `Results of "${queryString}"`;
+  if (path.includes("/popular")) {
+    searchConfig = { ...popularSearchParams, limit: `${numPerPage}`, offset: offset };
+    title = 'Popular';
+  } else if (path.includes("/latest")) {
+    searchConfig = { ...latestSearchParams, limit: `${numPerPage}`, offset: offset };
+    title = 'Latest';
+  } else if (path.includes("/tag")) {
+    searchConfig = {
+      limit: `${numPerPage}`,
+      includedTags: [uuid],
+      includes: ["authors", "artist", "cover_art"],
+      offset: offset,
+    };
+    title = `Results of tag "${name}"`;
+  } else {
+    searchConfig = { ...defaultSearchConfig, title: queryString, offset: offset };
+    title = `Results of "${queryString}"`;
+  }
+
+  useEffect(() => {
+    setLoadingStatus(true);
+    searchMangas(searchConfig)
+      .then((resp) => {
+        setMangaData(resp.data);
+        setTotalPage(getPageCount(resp.total));
+        console.log(`Total Manga: ${resp.total}, Total Page: ${Math.ceil(resp.total / numPerPage)}`);
+      })
+      .finally(() => {
+        setLoadingStatus(false);
+      });
+  }, [queryString, location, page]);
+
+  useEffect(() => {
+    mainContainer.current.scrollIntoView({ top: 0, behavior: "smooth" });
+  }, [page]);
+
+  function handlePageClicked({ selected }) {
+    const segments = path.split('/');
+    const basePath = segments.slice(0, -1).join('/');
+    const newPage = selected + 1;
+    navigate(`${basePath}/${newPage}`);
+  }
+
+  function getPageCount(total) {
+    // API limit check: if offset > 10000, adjust accordingly.
+    if (total > 10000) {
+      return Math.floor(10000 / numPerPage);
+    } else {
+      return Math.ceil(total / numPerPage);
     }
-    
+  }
 
-    //Loading first time / Reloading after a new search
-    useEffect(() => {
-        setLoadingStatus(true);
-        searchMangas(searchConfig).then((resp) =>{
-            setMangaData(resp.data);
-            setTotalManga(resp.total);
-            setTotalPage(Math.ceil(resp.total / numPerPage));
-        }).finally(() => {
-            setLoadingStatus(false);
-        })
-        
-    }, [queryString, location, page]);
-
-    // The parameter of "value" will be either a negative or positive of however many pages
-    function handlePageClicked({ selected }) {
-
-            const segments = path.split('/'); // Breaking the path to segments
-            const basePath = segments.slice(0, -1).join('/'); // Get all segments except the last one
-            const newPage = selected + 1; 
-            
-            navigate(`${basePath}/${newPage}`)
-        
-    }
-
-    return(
-        <div className="search-result-container">
-            
-            {!loadingStatus ? (
-                <>
-                    <div className="title-container">
-                        <h2 className='query-title'>{title}</h2>
-                    </div>                
-                    <div className='results-container'>
-                        {mangaData.length > 0 ? (
-                            mangaData.map((manga, index) => (
-                                <MangaPreview manga={manga} version={"preview"} key={index}/>
-                            ))
-                        ) : (
-                            <span>No results were found</span>
-                        )}
-                    </div>
-                    <div className="controls-container">
-                        <Pagination
-                            pageCount={totalPage}
-                            onPageChange={handlePageClicked}
-                            currentPage={parseInt(page, 10)}
-                            pageRange={dynamicPageRange}
-                            marginPagesDisplayed={1}
-                        />
-                    </div>
-                </>
-                ):(
-                    <MangaPreviewSkeleton amount={24} type={"search-results"}/>
-                )
-            }
-        </div>
-    );
+  return (
+    <div ref={mainContainer} className="flex flex-wrap gap-4 w-full h-full items-center justify-between px-4 lg:px-8">
+      {!loadingStatus ? (
+        <>
+          <div className="w-full text-center mb-4">
+            <h2 className="text-2xl font-bold">{`「 ${title} 」`}</h2>
+          </div>
+          <div className="flex flex-wrap justify-center align-center gap-y-4 gap-x-4 sm:gap-x-8">
+            {mangaData.length > 0 ? (
+              mangaData.map((manga, index) => <MangaItem manga={manga} key={index} />)
+            ) : (
+              <span>No results were found</span>
+            )}
+          </div>
+          <div className="w-full p-4 flex justify-evenly">
+            <Pagination
+              pageCount={totalPage}
+              onPageChange={handlePageClicked}
+              currentPage={parseInt(page, 10)}
+              pageRange={dynamicPageRange}
+              marginPagesDisplayed={1}
+            />
+          </div>
+        </>
+      ) : (
+        <MangaPreviewSkeleton amount={30} />
+      )}
+    </div>
+  );
 }
-
 
 export default SearchResultPage;

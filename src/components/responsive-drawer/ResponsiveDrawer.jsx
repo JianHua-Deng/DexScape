@@ -23,8 +23,10 @@ export default function ResponsiveDrawer({ open, setOpen, isDesktop }) {
       }}
     >
       {/* Drawer header with a close button */}
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', p: '2rem' }}>
-        <IconButton onClick={() => setOpen(false)}>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', p: '.75rem' }}>
+        <IconButton onClick={() => setOpen(false)}
+          sx={{ color: 'inherit', '&:focus': { outline: 'none' } }}
+        >
           <ChevronLeftIcon />
         </IconButton>
       </Box>

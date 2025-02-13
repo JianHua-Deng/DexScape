@@ -8,7 +8,7 @@ GET /mangaList/manga?limit=15&includes[]=authors&includes[]=artist&includes[]=co
 https://api.mangadex.org/manga?limit=15&includes[]=authors&includes[]=artist&includes[]=cover_art&status[]=completed&order[rating]=desc&order[followedCount]=desc [200]
 */
 async function searchMangas(searchConfig){
-    console.log("Search Manga, ProxyUrl: " + proxyUrl + "\n" + "Port: " + process.env.PORT);
+    //console.log("Search Manga, ProxyUrl: " + proxyUrl + "\n" + "Port: " + process.env.PORT);
     const resp = await axios({
         method: "GET",
         url: `${proxyUrl}/mangaList/manga`,
@@ -64,7 +64,18 @@ async function getChapterMetaData(chapterID){
     
 }
 
+function getCoverUrl(manga){
+  //console.log(manga);
+  const baseUrl =  `${process.env.PROXY_URL}`;
+  //const baseUrl = "http://localhost:5173"
+  const params = `${manga.id}/${manga.relationships.find(relationship => relationship.type === "cover_art").attributes.fileName}.512.jpg`;
+  const coverUrl = `${baseUrl}/covers/${params}`;
+  
+  //console.log(coverUrl);
+  return coverUrl;
+}
 
 
-export {searchMangas, searchSpecificManga, fetchChapterList, getChapterMetaData};
+
+export {searchMangas, searchSpecificManga, fetchChapterList, getChapterMetaData, getCoverUrl};
 

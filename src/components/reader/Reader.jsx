@@ -202,7 +202,7 @@ function Reader() {
                 <Skeleton className="w-full aspect-[5/6]" />
               </div>
             )}
-            {/* .chapter-image → responsive widths: using approximate breakpoints */}
+            
             <img
               src={imgURL}
               onLoad={() => {
