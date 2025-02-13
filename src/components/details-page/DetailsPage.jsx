@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { fetchChapterList, searchSpecificManga } from "../../utils/mangaDexApi";
 import { getAvailableLanguages, getChapterListConfig, filterDuplicateChapters } from "../../utils/utils";
+import Skeleton from "react-loading-skeleton";
 import { getCoverUrl } from "../../utils/mangaDexApi";
-import Tooltip from "../tooltip/Tooltip";
+import { Tooltip } from "@mui/material";
 import DetailsSkeleton from "../skeletons/details-skeleton/DetailsSkeleton";
 
 function DetailPage() {
@@ -15,10 +16,12 @@ function DetailPage() {
   const [chapterList, setChapterList] = useState([]);
   const [volumeList, setVolumeList] = useState([]);
   const [loadingStatus, setLoadingStatus] = useState(false);
+  const [isImageLoading, setIsImageLoading] = useState(false);
   const [tags, setTags] = useState([]);
 
   useEffect(() => {
     setLoadingStatus(true);
+    setIsImageLoading(true);
     console.log("Fetching Manga Data");
     searchSpecificManga(mangaID).then(resp => {
       setManga(resp);
@@ -68,16 +71,25 @@ function DetailPage() {
 
   return (
     <>
-      <div className="manga-details-container sm:block flex flex-col justify-center items-center">
+      <div className="manga-details-container sm:block">
         {loadingStatus ? (
           <DetailsSkeleton />
         ) : (
           <>
             <div className="details-container h-fit flex flex-col lg:grid lg:grid-rows-[auto,2.5rem] lg:grid-cols-[1fr,2fr] gap-8 mb-12 rounded-xl p-4 md:p-8 lg:p-20 bg-[var(--primary-color)] items-center">
+              
+              {isImageLoading && (
+                    <div className="w-full aspect-[0.68]">
+                      <Skeleton className="w-full h-full" />
+                    </div>
+              )}
+
               <img
                 className="w-55 sm:w-64 md:w-80 lg:w-96 h-auto row-span-2 justify-self-center rounded-2xl"
                 src={coverUrl}
                 alt="manga-cover"
+                style={{ display: isImageLoading ? "none" : "block" }}
+                onLoad={() => setIsImageLoading(false)}
               />
               <div className="details flex flex-col flex-wrap justify-center items-center lg:items-start">
                 <h1 className="text-center lg:text-left">
@@ -142,7 +154,7 @@ function DetailPage() {
                       </div>
                       <div className="chapters-container flex flex-wrap justify-center lg:justify-start gap-4">
                         {chapters.map((chapter, index) => (
-                          <Tooltip key={index} content={chapter.attributes.title} direction="top">
+                          <Tooltip key={index} title={chapter.attributes.title} placement="top" arrow>
                             <Link
                               className="chapter bg-[var(--button-color)] text-[var(--primary-color)] flex justify-center items-center rounded-2xl w-28 h-12 cursor-pointer hover:text-[var(--highlight-color)]"
                               id={chapter.id}

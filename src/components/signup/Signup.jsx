@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { X, Check } from "lucide-react";
-import Seperator from "../ui/seperator/Seperator";
+import Seperator from "../ui/Seperator";
 import { useAuth } from "../../lib/AuthContext";
 import toast from "react-hot-toast";
 

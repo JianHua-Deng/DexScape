@@ -1,7 +1,7 @@
 import { getCoverUrl } from '../../utils/mangaDexApi';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Tooltip from '../tooltip/Tooltip';
+import { Tooltip } from '@mui/material';
 import Skeleton from 'react-loading-skeleton';
 
 export default function MangaItem({ manga }) {
@@ -54,7 +54,7 @@ export default function MangaItem({ manga }) {
     />
 
     <div className="flex flex-col justify-center">
-      <Tooltip content={title} direction="bottom">
+      <Tooltip title={title} placement="bottom" arrow>
         <h4
           className="
             max-w-[8rem] no-underline 

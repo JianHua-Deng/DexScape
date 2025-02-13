@@ -1,7 +1,7 @@
 import { useAuth } from '../../lib/AuthContext'
 import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
-import Seperator from '../ui/seperator/Seperator'
+import Seperator from '../ui/Seperator'
 import toast from 'react-hot-toast'
 
 export default function Login() {
