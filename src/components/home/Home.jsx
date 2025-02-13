@@ -5,16 +5,23 @@ import { popularSearchParams, latestSearchParams, completedMangaParams } from '.
 function Home() {
 
   return (
-    <>
+    
+    <div className='w-full h-auto min-h-[100vh] flex flex-col'>
+      <div className='w-full'>
+        <FeaturedSlider searchParams={latestSearchParams} title={"Popular Mangas"} amount={3}/>
+      </div>
+    
 
-      <FeaturedSlider searchParams={popularSearchParams} title={"Popular Mangas"}/>
+      
 
-      <FeaturedSlider searchParams={completedMangaParams} title={"Completed Mangas"}/>
-
-      <FeaturedSlider searchParams={latestSearchParams} title={"Recently Updated"}/>
-
-    </>
+    </div>
   )
 }
 
 export default Home
+
+/*
+      <FeaturedSlider searchParams={completedMangaParams} title={"Completed Mangas"} amount={6}/>
+
+      <FeaturedSlider searchParams={latestSearchParams} title={"Recently Updated"} amount={6}/>
+*/

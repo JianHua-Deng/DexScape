@@ -74,9 +74,9 @@ const completedMangaParams = {
 const sliderSettings = {
     dots: false,
     infinite: false,
-    slidesToShow: 5,
+    slidesToShow: 1,
     className: "min-w-0",
-    
+    /*
     responsive: [
 
         {
@@ -114,8 +114,10 @@ const sliderSettings = {
             },
         },
 
+    
 
-    ]
+
+    ]*/
     
 }
 

@@ -7,8 +7,9 @@ import "slick-carousel/slick/slick-theme.css";
 import { searchMangas } from "../../utils/mangaDexApi";
 import MangaItem from "../manga-item/MangaItem";
 import MangaPreviewSkeleton from "../skeletons/result-skeleton/MangaPreviewSkeleton";
+import SliderItem from "../slider-item/SliderItem";
 
-function FeaturedSlider({searchParams, title}){
+function FeaturedSlider({searchParams, title, amount}){
 
     const [mangas, setMangas] = useState([]);
     const [loadingStatus, setLoadingStatus] = useState(false);
@@ -45,14 +46,14 @@ function FeaturedSlider({searchParams, title}){
     return (
         <>
             <div className="slider-container">
-                <h2>{`${title}`}</h2>
                 {loadingStatus && mangas.length === 0 ? (
                     <div className="slider-skeletons"><MangaPreviewSkeleton amount={6} /></div>
                 ):(
                     <Slider {...settings}>
                         {mangas.map((manga, index) => {
                             return (
-                                <MangaItem manga={manga} key={index} id={manga.id}/>
+                                <SliderItem manga={manga} key={index} id={manga.id}/>
+
                             );
                         })}
                     </Slider>

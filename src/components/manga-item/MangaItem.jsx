@@ -27,10 +27,10 @@ export default function MangaItem({ manga }) {
     <Link
     to={`/comic/${manga.id}`}
     className="
-      w-full max-w-[8rem]
+      w-full max-w-[8rem] h-fit
       lg:max-w-[15rem]
       flex flex-col items-center
-      rounded-b-md
+      rounded-b-sm
       hover:shadow-[0_1px_5px_var(--box-shadow-color)] 
       cursor-pointer
     "
