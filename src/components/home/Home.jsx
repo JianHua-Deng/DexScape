@@ -8,7 +8,7 @@ function Home() {
     
     <div className='w-full h-auto min-h-[100vh] flex flex-col'>
       <div className='w-full'>
-        <FeaturedSlider searchParams={latestSearchParams} title={"Popular Mangas"} amount={3}/>
+        <FeaturedSlider searchParams={latestS} title={"Popular Mangas"} amount={3}/>
       </div>
     
 

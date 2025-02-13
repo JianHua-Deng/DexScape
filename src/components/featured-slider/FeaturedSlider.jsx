@@ -5,6 +5,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { searchMangas } from "../../utils/mangaDexApi";
+import { useRef } from "react";
 import MangaItem from "../manga-item/MangaItem";
 import MangaPreviewSkeleton from "../skeletons/result-skeleton/MangaPreviewSkeleton";
 import SliderItem from "../slider-item/SliderItem";
@@ -13,6 +14,8 @@ function FeaturedSlider({searchParams, title, amount}){
 
     const [mangas, setMangas] = useState([]);
     const [loadingStatus, setLoadingStatus] = useState(false);
+
+    let sliderRef = useRef(null);
 
     useEffect(() => {
         setLoadingStatus(true);
@@ -25,6 +28,14 @@ function FeaturedSlider({searchParams, title, amount}){
             setLoadingStatus(false);
         });
     }, []);
+
+    const previous = () => {
+        sliderRef.slickPrev();
+    }
+
+    const next = () => {
+        sliderRef.slickNext();
+    }
 
     const PreviousArrow = ({ className, style, onClick }) => (
         <img src="/previous-page.svg" alt="previous" style={{...style}} onClick={onClick} className={className}/>
@@ -49,7 +60,10 @@ function FeaturedSlider({searchParams, title, amount}){
                 {loadingStatus && mangas.length === 0 ? (
                     <div className="slider-skeletons"><MangaPreviewSkeleton amount={6} /></div>
                 ):(
-                    <Slider {...settings}>
+                    <Slider 
+                        ref={slide => sliderRef = slide}
+                        {...settings}
+                    >
                         {mangas.map((manga, index) => {
                             return (
                                 <SliderItem manga={manga} key={index} id={manga.id}/>

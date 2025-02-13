@@ -38,14 +38,14 @@ export default function SliderItem({ manga }) {
                         {manga.attributes?.tags?.map((tag, index) => (
                             <span 
                                 key={index}
-                                className="px-3 py-1 bg-white/20 rounded-sm lg:rounded-full text-sm hidden lg:block"
+                                className="px-3 py-1 bg-white/30 rounded-sm lg:rounded-full text-sm hidden lg:block"
                             >
                                 {tag.attributes?.name?.en}
                             </span>
                         )).slice(0, 4)}
                     </div>
                     <div className="hidden lg:block">
-                        <p className="max-h-[225px] line-clamp-5 text-lg text-gray-200 overflow-hidden text-ellipsis">
+                        <p className="max-h-[150px] line-clamp-5 text-lg text-gray-200 overflow-hidden text-ellipsis">
                             {manga.attributes?.description?.en}
                         </p>
                     </div>
