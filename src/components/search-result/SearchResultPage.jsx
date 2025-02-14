@@ -82,13 +82,14 @@ function SearchResultPage() {
   }
 
   return (
-    <div ref={mainContainer} className="flex flex-wrap gap-4 w-full h-full items-center justify-between px-4 lg:px-8">
+    <div ref={mainContainer} className="flex flex-wrap gap-4 w-full h-full items-center justify-center px-4 lg:px-8">
       {!loadingStatus ? (
         <>
-          <div className="w-full text-center mb-4">
+          <div className="w-full text-center mb-4 mt-4">
             <h2 className="text-2xl font-bold">{`「 ${title} 」`}</h2>
           </div>
-          <div className="flex flex-wrap justify-center align-center gap-y-4 gap-x-4 sm:gap-x-8">
+
+          <div className="flex flex-wrap justify-center items-center gap-y-4 gap-x-4 sm:gap-x-8">
             {mangaData.length > 0 ? (
               mangaData.map((manga, index) => <MangaItem manga={manga} key={index} />)
             ) : (

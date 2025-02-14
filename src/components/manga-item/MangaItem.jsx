@@ -58,7 +58,7 @@ export default function MangaItem({ manga }) {
         <h4
           className="
             max-w-[8rem] no-underline 
-            overflow-ellipsis whitespace-nowrap 
+            overflow-hidden text-ellipsis whitespace-nowrap 
             justify-self-center self-center mt-1 mb-[0.1rem]
             text-sm sm:text-base md:text-lg
             lg:max-w-[15rem]

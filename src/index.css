@@ -69,6 +69,16 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* In your global CSS file, e.g., styles.css */
+.custom-dots li.slick-active div {
+  @apply bg-orange-500;
+}
+
+.custom-dots{
+  margin-bottom: 1.75rem;
+}
+
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

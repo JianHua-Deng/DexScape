@@ -37,19 +37,13 @@ function FeaturedSlider({searchParams, title, amount}){
         sliderRef.slickNext();
     }
 
-    const PreviousArrow = ({ className, style, onClick }) => (
-        <img src="/previous-page.svg" alt="previous" style={{...style}} onClick={onClick} className={className}/>
-    
-      );
-    
-    const NextArrow = ({ className, style, onClick }) => (
-        <img src="/next-page.svg" alt="next" style={{...style}} onClick={onClick} className={className}/>
-      );
-
     const settings = {
         ...sliderSettings,
-        nextArrow: <NextArrow />,
-        prevArrow: <PreviousArrow />
+        dots: true,
+        customPaging: (i) => (
+          <div className="w-2 h-2 bg-gray-300 rounded-md"></div>
+        ),
+        dotsClass: "slick-dots custom-dots",
     };
 
     
@@ -66,7 +60,7 @@ function FeaturedSlider({searchParams, title, amount}){
                     >
                         {mangas.map((manga, index) => {
                             return (
-                                <SliderItem manga={manga} key={index} id={manga.id}/>
+                                <SliderItem manga={manga} nextSlide={next} prevSlide={previous} key={index} id={manga.id}/>
 
                             );
                         })}

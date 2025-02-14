@@ -79,7 +79,7 @@ function DetailPage() {
             <div className="details-container h-fit flex flex-col lg:grid lg:grid-rows-[auto,2.5rem] lg:grid-cols-[1fr,2fr] gap-8 mb-12 rounded-xl p-4 md:p-8 lg:p-20 bg-[var(--primary-color)] items-center">
               
               {isImageLoading && (
-                    <div className="w-full aspect-[0.68]">
+                    <div className="w-55 sm:w-64 md:w-80 lg:w-96 h-[30rem] row-span-2 justify-self-center rounded 2xl">
                       <Skeleton className="w-full h-full" />
                     </div>
               )}

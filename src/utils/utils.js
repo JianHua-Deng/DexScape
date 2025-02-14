@@ -51,7 +51,7 @@ const popularSearchParams = {
 }
 
 const latestSearchParams = {
-    limit: 28,
+    limit: 7,
     includes: ["authors", "artist", "cover_art"],
     order: {
         updatedAt: 'desc',
@@ -76,48 +76,7 @@ const sliderSettings = {
     infinite: false,
     slidesToShow: 1,
     className: "min-w-0",
-    /*
-    responsive: [
-
-        {
-            breakpoint: 2000,
-            settings: {
-                slidesToShow: 5,
-            },
-        },
-
-        {
-            breakpoint: 1800,
-            settings: {
-                slidesToShow: 4,
-            },
-        },
-
-        {
-            breakpoint: 1320,
-            settings: {
-                slidesToShow: 3,
-            },
-        },
-
-        {
-            breakpoint: 1200,
-            settings: {
-                slidesToShow: 2,
-            },
-        },
-
-        {
-            breakpoint: 920,
-            settings: {
-                slidesToShow: 1,
-            },
-        },
-
-    
-
-
-    ]*/
+    arrows: false,
     
 }
 
