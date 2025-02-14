@@ -81,10 +81,7 @@ export default function SliderItem({ manga, nextSlide, prevSlide }) {
                   </div>
               </div>
 
-              <div className="w-full h-6 flex justify-between items-center p-6 z-20">
-                <ArrowBackIcon className="text-white text-3xl" onClick={(e) => {handleArrowClick(e, prevSlide)}} />
-                <ArrowForwardIcon className="text-white text-3xl" onClick={(e) => {handleArrowClick(e, nextSlide)}}/>
-              </div>
+
             </div>
         </div>
       </Link>

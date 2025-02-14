@@ -74,9 +74,21 @@ button:focus-visible {
   @apply bg-orange-500;
 }
 
-.custom-dots{
-  margin-bottom: 1.75rem;
+.custom-dots > ul{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+
+
 }
+
+.custom-dots > ul > li{
+  height: fit-content;
+  width: fit-content
+}
+
+
 
 
 @media (prefers-color-scheme: light) {

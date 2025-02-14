@@ -4,9 +4,10 @@ import { sliderSettings } from "../../utils/utils";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { searchMangas } from "../../utils/mangaDexApi";
 import { useRef } from "react";
-import MangaItem from "../manga-item/MangaItem";
 import MangaPreviewSkeleton from "../skeletons/result-skeleton/MangaPreviewSkeleton";
 import SliderItem from "../slider-item/SliderItem";
 
@@ -44,6 +45,19 @@ function FeaturedSlider({searchParams, title, amount}){
           <div className="w-2 h-2 bg-gray-300 rounded-md"></div>
         ),
         dotsClass: "slick-dots custom-dots",
+        appendDots: (dots) => (
+            <div style={{
+              display: "flex",
+              justifyContent: "space-evenly",
+              alignItems: "center",
+              height: "3rem",
+              marginBottom: "1rem"
+              }}>
+              <ArrowBackIcon onClick={previous} className="text-white text-3xl cursor-pointer" />
+              <ul style={{ margin: "0px" }}> {dots} </ul>
+              <ArrowForwardIcon onClick={next} className="text-white text-3xl cursor-pointer" />
+            </div>
+          ),
     };
 
     
