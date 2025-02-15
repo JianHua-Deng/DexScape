@@ -1,77 +1,93 @@
-import { getCoverUrl } from '../../utils/mangaDexApi';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Tooltip } from '@mui/material';
 import Skeleton from 'react-loading-skeleton';
+import { getCoverUrl } from '../../utils/mangaDexApi';
 
-export default function MangaItem({ manga }) {
-
+const MangaItem = ({ manga }) => {
   const [isImageLoading, setIsImageLoading] = useState(false);
 
   const coverUrl = getCoverUrl(manga);
   const title = manga.attributes.title.en 
     ? manga.attributes.title.en 
-    : Object.values(manga.attributes.title)[0];  
-
+    : Object.values(manga.attributes.title)[0];
 
   const authorName = manga.relationships.find(relationship => relationship.type === "artist")
-  ?.attributes?.name || 'N/A';
-
-  const description = manga.attributes.description.en
+    ?.attributes?.name || 'N/A';
 
   useEffect(() => {
     setIsImageLoading(true);
-  }, [])
+  }, []);
 
   return (
     <Link
-    to={`/comic/${manga.id}`}
-    className="
-      w-full max-w-[8rem] h-fit
-      lg:max-w-[15rem]
-      flex flex-col items-center
-      rounded-b-sm
-      hover:shadow-[0_1px_5px_var(--box-shadow-color)] 
-      cursor-pointer
-    "
-  >
-
-    {isImageLoading && (
-          <div className="w-full aspect-[0.68]">
-            <Skeleton className="w-full h-full" />
-          </div>
-    )}
-
-    <img
-      src={coverUrl}
-      alt="cover"
-      style={{display: isImageLoading ? 'none' : 'block'}}
+      to={`/comic/${manga.id}`}
       className="
-        w-full h-auto
-        justify-self-center self-center 
-        row-span-2"
-      onLoad={() => setIsImageLoading(false)}
-    />
-
-    <div className="flex flex-col justify-center">
-      <Tooltip title={title} placement="bottom" arrow>
-        <h4
+        group
+        relative
+        w-full max-w-[10rem] lg:max-w-[15rem]
+        bg-white
+        rounded-xl
+        overflow-hidden
+        transition-all duration-300 ease-in-out
+        hover:shadow-xl hover:scale-105
+        focus:outline-none focus:ring-2 focus:ring-blue-500
+      "
+    >
+      <div className="relative aspect-[2/3] w-full overflow-hidden">
+        {isImageLoading && (
+          <Skeleton 
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        )}
+        
+        <img
+          src={coverUrl}
+          alt={title}
+          style={{ display: isImageLoading ? 'none' : 'block' }}
           className="
-            max-w-[8rem] no-underline 
-            overflow-hidden text-ellipsis whitespace-nowrap 
-            justify-self-center self-center mt-1 mb-[0.1rem]
-            text-sm sm:text-base md:text-lg
-            lg:max-w-[15rem]
+            w-full h-full
+            object-cover
+            transition-transform duration-300
+            group-hover:scale-105
           "
-        >
-          {title}
-        </h4>
-        </Tooltip>
-      <p className="mt-[0.1rem] text-xs sm:text-base">
-        {authorName}
-      </p>
-    </div>
-  </Link>
-  );
+          onLoad={() => setIsImageLoading(false)}
+        />
+        
+        {/* Overlay gradient for better text readability */}
+        <div className="
+          absolute bottom-0 left-0 right-0
+          h-20
+          bg-gradient-to-t from-black/70 to-transparent
+          opacity-0 group-hover:opacity-100
+          transition-opacity duration-300
+        "/>
+      </div>
 
-}
+      <div className="p-3">
+        <Tooltip title={title} placement="bottom" arrow>
+          <h4 className="
+            font-medium
+            text-sm sm:text-base
+            truncate
+            mb-1
+            group-hover:text-blue-600
+            transition-colors duration-300
+          ">
+            {title}
+          </h4>
+        </Tooltip>
+        
+        <p className="
+          text-xs sm:text-sm
+          text-gray-600
+          truncate
+        ">
+          by {authorName}
+        </p>
+      </div>
+    </Link>
+  );
+};
+
+export default MangaItem;

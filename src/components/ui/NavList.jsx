@@ -31,7 +31,10 @@ export default function NavList({ onItemClick }){
             // OnItemClick is to close the drawer when user is on mobile device
             if (onItemClick) onItemClick();
           }}>
-            <ListItemText primary={link.text} />
+            <ListItemText 
+              sx={{display: 'flex', justifyContent: 'center', alignContent: 'center' , width: '100%' ,gap: 0}} 
+              primary={link.text} 
+            />
           </ListItemButton>
         </ListItem>
       ))}

@@ -1,3 +1,4 @@
+import { css } from "@emotion/react";
 
 //If the available language is empty, return the original language, else check if there's english, if not, return the first one in that array
 function getAvailableLanguages(manga){
@@ -54,6 +55,8 @@ const latestSearchParams = {
     limit: 7,
     includes: ["authors", "artist", "cover_art"],
     order: {
+        followedCount: 'desc',
+        rating: 'desc',
         updatedAt: 'desc',
     },
     hasAvailableChapters: 'true'
@@ -73,10 +76,12 @@ const completedMangaParams = {
 
 const sliderSettings = {
     dots: false,
-    infinite: false,
+    infinite: true,
     slidesToShow: 1,
     className: "min-w-0",
     arrows: false,
+    autoplay: true,
+    autoplaySpeed: 7000,
     
 }
 

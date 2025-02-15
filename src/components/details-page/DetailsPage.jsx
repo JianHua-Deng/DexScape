@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { fetchChapterList, searchSpecificManga } from "../../utils/mangaDexApi";
+import { fetchChapterList, searchSpecificManga, getCoverUrl } from "../../utils/mangaDexApi";
 import { getAvailableLanguages, getChapterListConfig, filterDuplicateChapters } from "../../utils/utils";
 import Skeleton from "react-loading-skeleton";
-import { getCoverUrl } from "../../utils/mangaDexApi";
 import { Tooltip } from "@mui/material";
 import DetailsSkeleton from "../skeletons/details-skeleton/DetailsSkeleton";
 
 function DetailPage() {
   const { mangaID } = useParams();
-
   const [manga, setManga] = useState({});
   const [coverUrl, setCoverUrl] = useState('');
   const [mangaLanguage, setMangaLanguage] = useState([]);
@@ -19,6 +17,7 @@ function DetailPage() {
   const [isImageLoading, setIsImageLoading] = useState(false);
   const [tags, setTags] = useState([]);
 
+  // Existing useEffect hooks remain the same...
   useEffect(() => {
     setLoadingStatus(true);
     setIsImageLoading(true);
@@ -32,13 +31,10 @@ function DetailPage() {
 
   useEffect(() => {
     if (!manga?.attributes || !mangaLanguage?.length) return;
-
     const paramConfig = getChapterListConfig(mangaLanguage);
-
     setTags(() => {
       return manga.attributes.tags.filter(tag => tag.attributes.group === 'genre') ?? [];
     });
-
     fetchChapterList(mangaID, paramConfig)
       .then(respond => {
         const filteredChapter = filterDuplicateChapters(respond);
@@ -70,114 +66,111 @@ function DetailPage() {
   }, [chapterList]);
 
   return (
-    <>
-      <div className="manga-details-container sm:block">
-        {loadingStatus ? (
-          <DetailsSkeleton />
-        ) : (
-          <>
-            <div className="details-container h-fit flex flex-col lg:grid lg:grid-rows-[auto,2.5rem] lg:grid-cols-[1fr,2fr] gap-8 mb-12 rounded-xl p-4 md:p-8 lg:p-20 bg-[var(--primary-color)] items-center">
-              
-              {isImageLoading && (
-                    <div className="w-55 sm:w-64 md:w-80 lg:w-96 h-[30rem] row-span-2 justify-self-center rounded 2xl">
+    <div className="min-h-screen bg-gray-50">
+      {loadingStatus ? (
+        <DetailsSkeleton />
+      ) : (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {/* Hero Section */}
+          <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+            <div className="p-6 sm:p-8 lg:p-10">
+              <div className="grid grid-cols-1 lg:grid-cols-[350px,1fr] gap-8">
+                {/* Cover Image */}
+                <div className="relative">
+                  {isImageLoading && (
+                    <div className="w-full aspect-[2/3] rounded-xl overflow-hidden">
                       <Skeleton className="w-full h-full" />
                     </div>
-              )}
-
-              <img
-                className="w-55 sm:w-64 md:w-80 lg:w-96 h-auto row-span-2 justify-self-center rounded-2xl"
-                src={coverUrl}
-                alt="manga-cover"
-                style={{ display: isImageLoading ? "none" : "block" }}
-                onLoad={() => setIsImageLoading(false)}
-              />
-              <div className="details flex flex-col flex-wrap justify-center items-center lg:items-start">
-                <h1 className="text-center lg:text-left">
-                  {manga?.attributes?.title?.en ||
-                    (manga?.attributes?.title["ja-ro"] &&
-                      Object.values(manga.attributes.title)[0]) ||
-                    "Title Not Available"}
-                </h1>
-                <div className="manga-descriptions mt-4">
-                  <p className="text-center lg:text-left">
-                    {`${manga?.attributes?.description?.en || "N/A"}`}
-                  </p>
+                  )}
+                  <img
+                    className="w-full aspect-[2/3] object-cover rounded-xl shadow-md"
+                    src={coverUrl}
+                    alt="manga-cover"
+                    style={{ display: isImageLoading ? "none" : "block" }}
+                    onLoad={() => setIsImageLoading(false)}
+                  />
                 </div>
-                {tags.length < 1 ? (
-                  <></>
-                ) : (
-                  <div className="tags-container flex flex-wrap justify-center items-start mt-5 gap-2 w-full sm:w-96 md:w-full lg:justify-start">
-                    {tags.map((tag, index) => (
-                      <Link
-                        className="w-26 p-2 text-white bg-[var(--button-color)] rounded-lg cursor-pointer hover:text-[var(--highlight-color)] text-center"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        key={tag.id}
-                        id={`tag-${index}`}
-                        to={{ pathname: `/tag/${tag.attributes.name.en}/${tag.id}/1` }}
+
+                {/* Details Section */}
+                <div className="flex flex-col">
+                  <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                    {manga?.attributes?.title?.en ||
+                      (manga?.attributes?.title["ja-ro"] &&
+                        Object.values(manga.attributes.title)[0]) ||
+                      "Title Not Available"}
+                  </h1>
+
+                  <p className="text-gray-600 text-sm sm:text-base mb-6 line-clamp-4 hover:line-clamp-none transition-all duration-300">
+                    {manga?.attributes?.description?.en || "N/A"}
+                  </p>
+
+                  {/* Tags */}
+                  {tags.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mb-6">
+                      {tags.map((tag) => (
+                        <Link
+                          key={tag.id}
+                          to={`/tag/${tag.attributes.name.en}/${tag.id}/1`}
+                          className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm hover:bg-blue-200 transition-colors duration-200"
+                        >
+                          {tag.attributes.name.en}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Start Reading Button */}
+                  <Link
+                    to={chapterList.length > 0 
+                      ? `/comic/${mangaID}/chapter/${chapterList[0].id}/1`
+                      : `/comic/${mangaID}`}
+                    className="inline-flex justify-center items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 w-40 text-center font-medium"
+                  >
+                    Start Reading
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Chapters Section */}
+          {chapterList.length > 0 ? (
+            <div className="mt-8 bg-white rounded-2xl shadow-lg p-6 sm:p-8">
+              {Object.entries(volumeList).map(([volume, chapters], index) => (
+                <div key={index} className="mb-8 last:mb-0">
+                  <h2 className="text-xl font-semibold text-gray-900 mb-4">
+                    {volume === "Uncategorized" ? "Chapters" : `Volume ${volume}`}
+                  </h2>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+                    {chapters.map((chapter) => (
+                      <Tooltip 
+                        key={chapter.id} 
+                        title={chapter.attributes.title || `Chapter ${chapter.attributes.chapter}`} 
+                        placement="top" 
+                        arrow
                       >
-                        {`${tag.attributes.name.en}`}
-                      </Link>
+                        <Link
+                          to={`/comic/${mangaID}/chapter/${chapter.id}/1`}
+                          className="flex items-center justify-center px-4 py-3 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors duration-200"
+                        >
+                          <span className="font-medium text-gray-700">
+                            {chapter.attributes.chapter || "Oneshot"}
+                          </span>
+                        </Link>
+                      </Tooltip>
                     ))}
                   </div>
-                )}
-              </div>
-              <Link
-                className="start-reading-button text-white rounded-2xl self-center flex justify-center items-center w-48 h-14 mt-4 lg:mt-12 bg-[var(--button-color)]"
-                rel="noopener noreferrer"
-                to={{
-                  pathname:
-                    chapterList.length > 0
-                      ? `/comic/${mangaID}/chapter/${chapterList[0].id}/1`
-                      : `/comic/${mangaID}`,
-                }}
-              >
-                Start Reading
-              </Link>
-            </div>
-            {chapterList.length < 1 ? (
-              <p>No Chapter is Available</p>
-            ) : (
-              <div className="data-container">
-                <div className="chapter-list grid bg-[var(--primary-color)] rounded-3xl p-4 md:p-6 gap-6 md:gap-8">
-                  {Object.entries(volumeList).map(([volume, chapters], index) => (
-                    <div
-                      className="volume-chapter-container flex flex-col items-center lg:items-start"
-                      key={index}
-                    >
-                      <div className="volume-chapter-title">
-                        {volume === "Uncategorized" ? (
-                          <h2 className="text-center lg:text-left">Chapters</h2>
-                        ) : (
-                          <h2 className="text-center lg:text-left">{`Volume ${volume}`}</h2>
-                        )}
-                      </div>
-                      <div className="chapters-container flex flex-wrap justify-center lg:justify-start gap-4">
-                        {chapters.map((chapter, index) => (
-                          <Tooltip key={index} title={chapter.attributes.title} placement="top" arrow>
-                            <Link
-                              className="chapter bg-[var(--button-color)] text-[var(--primary-color)] flex justify-center items-center rounded-2xl w-28 h-12 cursor-pointer hover:text-[var(--highlight-color)]"
-                              id={chapter.id}
-                              to={`/comic/${mangaID}/chapter/${chapter.id}/1`}
-                            >
-                              <p className="chapter-container flex justify-center items-center w-full">
-                                <span className="chapter-number whitespace-nowrap mr-1">
-                                  {`${chapter.attributes.chapter || "Oneshot"}`}
-                                </span>
-                              </p>
-                            </Link>
-                          </Tooltip>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
                 </div>
-              </div>
-            )}
-          </>
-        )}
-      </div>
-    </>
+              ))}
+            </div>
+          ) : (
+            <div className="mt-8 text-center text-gray-600">
+              No chapters available
+            </div>
+          )}
+        </div>
+      )}
+    </div>
   );
 }
 

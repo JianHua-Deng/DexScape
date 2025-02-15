@@ -19,7 +19,7 @@ function App() {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const drawerWidth = 300;
+  const drawerWidth = 250;
 
   return (
     <AuthProvider>
@@ -29,6 +29,8 @@ function App() {
           <Box 
             sx={{ 
               display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
               width: '100vw',
               height: '100vh',
               overflow: 'hidden'

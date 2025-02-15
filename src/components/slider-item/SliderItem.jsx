@@ -21,11 +21,12 @@ export default function SliderItem({ manga, nextSlide, prevSlide }) {
     }
 
     return (
-      <Link className="w-full max-h-[450px]" to={`/comic/${manga.id}`}>
-        <div className="relative h-[450px] w-full overflow-hidden">
+      <Link className="w-full max-h-[550px]" to={`/comic/${manga.id}`}>
+        <div className="relative h-[450px] lg:h-[550px] w-full overflow-hidden">
             {/* Background image with blur effect */}
             <div className="absolute w-full inset-0">
-                <div className="absolute w-full inset-0 bg-gradient-to-r from-black/80 to-black/20 z-10" />
+              <div className="absolute w-full inset-0 bg-gradient-to-r from-black/80 to-black/20 z-10" />
+                <div className="absolute bottom-0 w-full h-40 bg-gradient-to-t from-black/90 to-transparent z-20" />
                 {isBackgroundLoading && (
                   <Skeleton className="w-full h-full"/>
                 )}
@@ -40,7 +41,7 @@ export default function SliderItem({ manga, nextSlide, prevSlide }) {
             </div>
 
             {/* Content overlay */}
-            <div className="flex flex-col justify-center h-full">
+            <div className="flex flex-col justify-center items-center h-full">
               <div className="relative z-20 h-full flex flex-row items-center px-8 md:px-16 gap-8">
                   {/* Cover image */}
                   <div className="flex-shrink-0">
@@ -52,7 +53,7 @@ export default function SliderItem({ manga, nextSlide, prevSlide }) {
                         src={coverUrl}
                         alt={manga.attributes?.title?.en || "Manga cover"}
                         style={{display: isCoverLoading ? 'none' : 'block'}}
-                        className="w-36 h-auto lg:w-56 object-cover rounded shadow-lg"
+                        className="w-36 h-auto lg:w-56 object-cover rounded shadow-lg hover:scale-105 transition-transform duration-300"
                         onLoad={() => setIsCoverLoading(false)}
                     />
                   </div>

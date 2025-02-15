@@ -51,7 +51,7 @@ function FeaturedSlider({searchParams, title, amount}){
               justifyContent: "space-evenly",
               alignItems: "center",
               height: "3rem",
-              marginBottom: "1rem"
+              marginBottom: "1.5rem"
               }}>
               <ArrowBackIcon onClick={previous} className="text-white text-3xl cursor-pointer" />
               <ul style={{ margin: "0px" }}> {dots} </ul>

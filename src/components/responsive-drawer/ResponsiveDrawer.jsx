@@ -4,7 +4,7 @@ import { Drawer, IconButton, Divider, List, Box } from '@mui/material';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NavList from '../ui/NavList';
 
-const drawerWidth = 300;
+const drawerWidth = 250;
 
 export default function ResponsiveDrawer({ open, setOpen, isDesktop }) {
 
