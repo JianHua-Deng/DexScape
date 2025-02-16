@@ -17,7 +17,7 @@ async function searchMangas(searchConfig){
         console.log(e);
     })
 
-    console.log(resp);
+    //console.log(resp);
     return resp.data;
 }
 

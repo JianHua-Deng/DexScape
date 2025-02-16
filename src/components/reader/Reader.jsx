@@ -27,10 +27,14 @@ function Reader() {
   // Create a ref for the image container
   const imageContainerRef = useRef(null);
 
+  useEffect(() => {
+    scrollToFit();
+  }, [])
+
   // When pageNumber changes, scroll to the image container
   useEffect(() => {
-    imageContainerRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-  }, [pageNumber, chapterID]);
+    scrollToFit();
+  }, [pageNumber, chapterID, isLoadingData]);
 
   // Fetch manga language info
   useEffect(() => {
@@ -99,6 +103,21 @@ function Reader() {
       setIsWebtoon(true);
     }
   }, [tags]);
+  
+  function scrollToFit(){
+    if (imageContainerRef.current){
+      imageContainerRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+
+  function scrollDownOnClick(){
+    if (imageContainerRef.current){
+      imageContainerRef.current.scrollBy({
+        top: 700,
+        behavior: "smooth",
+      });
+    }
+  }
 
   // Navigation functions update the URL
   function nextPg() {
@@ -187,12 +206,12 @@ function Reader() {
           </div>
 
           
-          <div ref={imageContainerRef} className={` ${isWebtoon ? 'h-auto' : 'h-screen'} flex w-full justify-center items-center max-w-[60rem]`}>
+          <div ref={imageContainerRef} className={` ${isWebtoon ? 'h-auto items-start' : 'h-screen items-center'} flex w-full justify-center items-center max-w-[60rem]`}>
             
             {isWebtoon ? (
-              <div className="flex flex-col w-full">
+              <div className="flex flex-col w-full h-full">
                 {imageUrlArray.map((url, index) => (
-                  <ChapterImage imgURL={url} imgStyle={"w-full h-auto"} onClick={null} key={index}/>
+                  <ChapterImage imgURL={url} imgStyle={"w-full h-auto"} onClick={scrollDownOnClick} key={index}/>
                 ))}
               </div>
 
@@ -204,13 +223,16 @@ function Reader() {
 
           
           <div className="flex justify-center w-[20rem] lg:w-[30rem]">
+
             {isWebtoon ? (
               <div className="">
                 <button onClick={nextChapter} className="rounded-lg bg-blue-400 px-6 py-3 text-white">
                   Next Chapter
                 </button>
               </div>
+
             ) : (
+              
               <div className="w-full p-4 gap-4 lg:gap-8 flex justify-evenly items-center">
                 <img
                   src="/previous-to-start.svg"

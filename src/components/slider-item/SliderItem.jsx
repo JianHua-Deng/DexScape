@@ -5,15 +5,10 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Skeleton from "react-loading-skeleton";
 
-export default function SliderItem({ manga, nextSlide, prevSlide }) {
-    const [isBackgroundLoading, setIsBackgroundLoading] = useState(false);
-    const [isCoverLoading, setIsCoverLoading] = useState(false);
+export default function SliderItem({ manga }) {
+    const [isBackgroundLoading, setIsBackgroundLoading] = useState(true);
+    const [isCoverLoading, setIsCoverLoading] = useState(true);
     const coverUrl = getCoverUrl(manga);
-
-    useEffect(() => {
-      setIsBackgroundLoading(true);
-      setIsCoverLoading(true);
-    }, [])
 
     function handleArrowClick(e, direction) {
       e.preventDefault();

@@ -76,7 +76,7 @@ export default function Signup() {
 
   // Shared base styles for the input fields.
   const baseInputClass =
-    "w-56 md:w-96 h-12 rounded-[0.5rem] border-[0.1rem] border-[var(--button-color)] p-[0.75rem] focus:outline-none focus:border-[0.13rem] focus:border-[var(--supplementary-color)]";
+    "w-56 md:w-96 h-12 rounded-[0.5rem] border-[0.1rem] border-bg-blue-600 p-[0.75rem] focus:outline-none focus:border-[0.13rem] focus:border-blue-800";
   // When valid, override the border color.
   const validClass =
     "border-[rgb(79,202,79)] focus:border-[rgb(79,202,79)]";

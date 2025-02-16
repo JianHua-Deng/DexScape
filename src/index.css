@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,18 +7,9 @@
   line-height: 1.5;
   font-weight: 400;
 
-  --primary-color: #F0F0F0;
-  --secondary-color: #2B2D42;
-  --box-shadow-color: rgb(129, 129, 129);
-  --shade-color: rgb(231, 231, 231);
-  --supplementary-color: orangered;
-  --button-color: #DF2935;
-  --dark-font-color: #1c2021;
-  --highlight-color: #9e0020;
 
   /*color-scheme: light dark;*/
   background-color: var(--shade-color);
-  color: var(--dark-font-color);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -28,13 +18,9 @@
 
 a {
   font-weight: 500;
-  color: var(--dark-font-color);
   text-decoration: inherit;
 }
 
-a:hover {
-  color: var(--highlight-color);
-}
 
 body {
   margin: 0;
@@ -56,20 +42,21 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: var(--button-color);
+  @apply bg-blue-600;
+  @apply hover:bg-blue-800;
   color: white;
   cursor: pointer;
   transition: border-color 0.25s;
 }
 button:hover {
-  color: var(--highlight-color);
+  @apply bg-blue-500;
+
 }
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-/* In your global CSS file, e.g., styles.css */
 .custom-dots li.slick-active div {
   @apply bg-orange-500;
 }

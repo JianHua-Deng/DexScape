@@ -28,22 +28,22 @@ export default function Pagination({ pageCount, onPageChange, currentPage, pageR
       pageClassName="cursor-pointer group"
       
       // The anchor inside each page item
-      pageLinkClassName="no-underline py-1 px-2 lg:py-2 lg:px-3 border border-[#ddd] transition-colors duration-300 hover:bg-[var(--box-shadow-color)]"
+      pageLinkClassName="no-underline py-1 px-2 lg:py-2 lg:px-3 border border-[#ddd] transition-colors duration-300 hover:bg-gray-400"
       
       // The active li gets the "active" class.
       // (See note below on styling the inner anchor for the active page.)
-      activeLinkClassName="active bg-[var(--highlight-color)] text-white"
+      activeLinkClassName="active bg-blue-500 text-white"
 
       // Previous & Next items:
       // We remove borders on the links using Tailwind’s border-0 utility.
       previousClassName="cursor-pointer previous-item group focus:outline:none flex flex-col justify-center items-center"
-      previousLinkClassName="no-underline border border-[#ddd] transition-colors duration-300 hover:bg-[var(--box-shadow-color)] border-0 focus:outline:none"
+      previousLinkClassName="no-underline border border-[#ddd] transition-colors duration-300 hover:bg-gray-400 border-0 focus:outline:none"
       nextClassName="cursor-pointer next-item group focus:outline:none flex flex-col justify-center items-center"
-      nextLinkClassName="no-underline border border-[#ddd] transition-colors duration-300 hover:bg-[var(--box-shadow-color)] border-0 focus:outline:none"
+      nextLinkClassName="no-underline border border-[#ddd] transition-colors duration-300 hover:bg-gray-400 border-0 focus:outline:none"
 
       // Break (ellipsis) items
       breakClassName="cursor-pointer group"
-      breakLinkClassName="no-underline py-1 px-2 lg:py-2 lg:px-3 border border-[#ddd] transition-colors duration-300 hover:bg-[var(--box-shadow-color)]"
+      breakLinkClassName="no-underline py-1 px-2 lg:py-2 lg:px-3 border border-[#ddd] transition-colors duration-300 hover:bg-slate-400"
     />
   );
 }

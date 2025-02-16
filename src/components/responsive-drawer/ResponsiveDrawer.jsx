@@ -18,7 +18,7 @@ export default function ResponsiveDrawer({ open, setOpen, isDesktop }) {
         '& .MuiDrawer-paper': {
           width: drawerWidth,
           boxSizing: 'border-box',
-          backgroundColor: '#f0f0f0',
+          backgroundColor: 'white',
         },
       }}
     >

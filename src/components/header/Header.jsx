@@ -13,10 +13,10 @@ function Header({ isDrawerOpen, setIsDrawerOpen, isDesktop }) {
   return (
     <div
       className={`
-        bg-[var(--primary-color)]
+        bg-white
         p-3
         ${isSticky ? 'sticky top-0' : 'relative'}
-        shadow-[0_1px_5px_var(--box-shadow-color)]
+        shadow-md
         flex justify-between items-center 
         gap-4 md:gap-0 
         z-[5]

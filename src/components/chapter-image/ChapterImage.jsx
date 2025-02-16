@@ -4,11 +4,8 @@ import Skeleton from "react-loading-skeleton";
 
 export default function ChapterImage({imgURL, imgStyle, onClick}){
 
-  const [isImageLoading, setIsImageLoading] = useState(false);
+  const [isImageLoading, setIsImageLoading] = useState(true);
   
-  useEffect(() => {
-    setIsImageLoading(true);
-  }, [imgURL])
 
   return (
     <>
@@ -19,14 +16,14 @@ export default function ChapterImage({imgURL, imgStyle, onClick}){
       )}
 
       <img
-      src={imgURL}
-      onLoad={() => {
-        setIsImageLoading(false);
-      }}
-      style={{ display: isImageLoading ? "none" : "block" }}
-      alt="image-content"
-      className={ imgStyle }
-      onClick={onClick}
+        src={imgURL}
+        onLoad={() => {
+          setIsImageLoading(false);
+        }}
+        style={{ display: isImageLoading ? "none" : "block" }}
+        alt="image-content"
+        className={ imgStyle }
+        onClick={onClick}
       />
     </>
   )

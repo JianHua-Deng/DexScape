@@ -46,7 +46,7 @@ export default function Login() {
             // Default width is 25rem on larger screens and 14rem on small screens,
             // height 2rem, rounded corners, custom border with padding,
             // and focus styles for outline and border color.
-            className="w-56 md:w-96 h-12 rounded-[0.5rem] border-[0.1rem] border-[var(--button-color)] p-[0.75rem] focus:outline-none focus:border-[0.13rem] focus:border-[var(--supplementary-color)]"
+            className="w-56 md:w-96 h-12 rounded-[0.5rem] border-[0.1rem] border-bg-blue-600 p-[0.75rem] focus:outline-none focus:border-[0.13rem] focus:border-blue-800"
           />
         </div>
 
@@ -59,7 +59,7 @@ export default function Login() {
             value={loginPassword}
             onChange={(e) => setLoginPassword(e.target.value)}
             required
-            className="w-56 md:w-96 h-12 rounded-[0.5rem] border-[0.1rem] border-[var(--button-color)] p-[0.75rem] focus:outline-none focus:border-[0.13rem] focus:border-[var(--supplementary-color)]"
+            className="w-56 md:w-96 h-12 rounded-[0.5rem] border-[0.1rem] border-bg-blue-600 p-[0.75rem] focus:outline-none focus:border-[0.13rem] focus:border-blue-800"
           />
         </div>
 
@@ -69,16 +69,15 @@ export default function Login() {
             Log in
           </button>
           <span>
-            Dont have an account? <Link to="/signup">Sign up!</Link>
+            Dont have an account? <Link className='hover:font-semibold' to="/signup">Sign up!</Link>
           </span>
         </div>
 
         <Seperator text={'Or continue with'} />
 
-        {/* Google login button container */}
+
         <div>
-          {/* .login-with-google-button → flex with icon spacing, custom background and text colors,
-              hover and focus styles */}
+
           <button
             className="text-[rgb(61,61,61)] bg-[rgb(231,231,231)] flex gap-2 items-center hover:bg-[rgb(192,192,192)] focus:outline-none"
             onClick={async (e) => {

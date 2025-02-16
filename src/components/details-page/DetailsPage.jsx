@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { fetchChapterList, searchSpecificManga, getCoverUrl } from "../../utils/mangaDexApi";
 import { getAvailableLanguages, getChapterListConfig, filterDuplicateChapters } from "../../utils/utils";
@@ -13,14 +13,21 @@ function DetailPage() {
   const [mangaLanguage, setMangaLanguage] = useState([]);
   const [chapterList, setChapterList] = useState([]);
   const [volumeList, setVolumeList] = useState([]);
-  const [loadingStatus, setLoadingStatus] = useState(false);
-  const [isImageLoading, setIsImageLoading] = useState(false);
+  const [loadingStatus, setLoadingStatus] = useState(true);
+  const [isImageLoading, setIsImageLoading] = useState(true);
   const [tags, setTags] = useState([]);
 
-  // Existing useEffect hooks remain the same...
+  const mainContentRef = useRef(null)
+
   useEffect(() => {
-    setLoadingStatus(true);
-    setIsImageLoading(true);
+    if (mainContentRef.current) {
+      mainContentRef.current.scrollIntoView({ behavior: "smooth", block: "start" })
+    }
+  }, [loadingStatus])
+
+
+  useEffect(() => {
+
     console.log("Fetching Manga Data");
     searchSpecificManga(mangaID).then(resp => {
       setManga(resp);
@@ -70,7 +77,7 @@ function DetailPage() {
       {loadingStatus ? (
         <DetailsSkeleton />
       ) : (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div ref={mainContentRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Hero Section */}
           <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
             <div className="p-6 sm:p-8 lg:p-10">
