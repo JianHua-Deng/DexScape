@@ -5,6 +5,10 @@ import Skeleton from "react-loading-skeleton";
 export default function ChapterImage({imgURL, imgStyle, onClick}){
 
   const [isImageLoading, setIsImageLoading] = useState(true);
+
+  useEffect(() => {
+    setIsImageLoading(true);
+  }, [imgURL])
   
 
   return (
