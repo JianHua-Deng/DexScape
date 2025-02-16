@@ -9,7 +9,6 @@ function Header({ isDrawerOpen, setIsDrawerOpen, isDesktop }) {
   // useHeaderSticky may return a boolean if you wish to use it;
   // here we force the header to be sticky.
   const isSticky = useHeaderSticky();
-  console.log(isSticky);
 
   return (
     <div

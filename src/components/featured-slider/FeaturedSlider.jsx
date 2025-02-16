@@ -11,7 +11,7 @@ import { useRef } from "react";
 import MangaPreviewSkeleton from "../skeletons/result-skeleton/MangaPreviewSkeleton";
 import SliderItem from "../slider-item/SliderItem";
 
-function FeaturedSlider({searchParams, title, amount}){
+function FeaturedSlider({searchParams}){
 
     const [mangas, setMangas] = useState([]);
     const [loadingStatus, setLoadingStatus] = useState(false);
