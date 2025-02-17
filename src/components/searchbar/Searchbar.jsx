@@ -21,13 +21,13 @@ function Searchbar() {
         name="search"
         value={queryContent}
         placeholder=" Enter any Manga name"
-        className="h-10 w-52 p-3 md:w-96 rounded-md border border-button focus:outline-none focus:border-supplementary"
+        className="h-10 w-52 p-3 md:w-96 rounded-sm border border-button focus:outline-none focus:border-supplementary"
         onChange={(e) => setQueryContent(e.target.value)}
         required
       />
       <button
         type="submit"
-        className="flex justify-center items-center w-16 h-auto text-xs md:w-auto md:h-auto md:text-base"
+        className="flex justify-center items-center w-16 h-10 text-xs md:w-auto md:text-base rounded-sm"
       >
         Search
       </button>

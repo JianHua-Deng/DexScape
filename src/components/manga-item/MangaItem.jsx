@@ -26,7 +26,8 @@ const MangaItem = ({ manga }) => {
         group
         relative
         w-full max-w-[10rem] lg:max-w-[15rem]
-        bg-white
+        
+        dark:bg-lightDark
         rounded-xl
         overflow-hidden
         transition-all duration-300 ease-in-out
@@ -54,7 +55,6 @@ const MangaItem = ({ manga }) => {
           onLoad={() => setIsImageLoading(false)}
         />
         
-        {/* Overlay gradient for better text readability */}
         <div className="
           absolute bottom-0 left-0 right-0
           h-20
@@ -69,9 +69,10 @@ const MangaItem = ({ manga }) => {
           <h4 className="
             font-medium
             text-sm sm:text-base
+            dark:text-lightText
             truncate
             mb-1
-            group-hover:text-blue-600
+            group-hover:text-blue-500
             transition-colors duration-300
           ">
             {title}
@@ -80,7 +81,8 @@ const MangaItem = ({ manga }) => {
         
         <p className="
           text-xs sm:text-sm
-          text-gray-600
+          text-darkText
+          dark:text-lightText
           truncate
         ">
           by {authorName}

@@ -10,6 +10,7 @@ import { searchMangas } from "../../utils/mangaDexApi";
 import { useRef } from "react";
 import MangaPreviewSkeleton from "../skeletons/result-skeleton/MangaPreviewSkeleton";
 import SliderItem from "../slider-item/SliderItem";
+import Skeleton from "react-loading-skeleton";
 
 function FeaturedSlider({searchParams}){
 
@@ -66,7 +67,7 @@ function FeaturedSlider({searchParams}){
         <>
             <div className="slider-container">
                 {loadingStatus && mangas.length === 0 ? (
-                    <div className="slider-skeletons"><MangaPreviewSkeleton amount={6} /></div>
+                    <div className="slider-skeletons"><Skeleton className="w-full h-[35rem]"/></div>
                 ):(
                     <Slider 
                         ref={slide => sliderRef = slide}

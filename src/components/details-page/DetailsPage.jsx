@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useLocation } from "react-router-dom";
 import { fetchChapterList, searchSpecificManga, getCoverUrl } from "../../utils/mangaDexApi";
-import { getAvailableLanguages, getChapterListConfig, filterDuplicateChapters } from "../../utils/utils";
+import { getAvailableLanguages, getChapterListConfig, filterDuplicateChapters, scrollToStart } from "../../utils/utils";
 import Skeleton from "react-loading-skeleton";
 import { Tooltip } from "@mui/material";
 import DetailsSkeleton from "../skeletons/details-skeleton/DetailsSkeleton";
@@ -17,13 +17,12 @@ function DetailPage() {
   const [isImageLoading, setIsImageLoading] = useState(true);
   const [tags, setTags] = useState([]);
 
+  const { path } = useLocation();
   const mainContentRef = useRef(null)
 
   useEffect(() => {
-    if (mainContentRef.current) {
-      mainContentRef.current.scrollIntoView({ behavior: "smooth", block: "start" })
-    }
-  }, [loadingStatus])
+    scrollToStart(mainContentRef);
+  }, [path, loadingStatus])
 
 
   useEffect(() => {
@@ -73,13 +72,13 @@ function DetailPage() {
   }, [chapterList]);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen">
       {loadingStatus ? (
         <DetailsSkeleton />
       ) : (
         <div ref={mainContentRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Hero Section */}
-          <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+          <div className="bg-white dark:bg-secDarkBg rounded-2xl shadow-lg overflow-hidden">
             <div className="p-6 sm:p-8 lg:p-10">
               <div className="grid grid-cols-1 lg:grid-cols-[350px,1fr] gap-8">
                 {/* Cover Image */}
@@ -100,14 +99,14 @@ function DetailPage() {
 
                 {/* Details Section */}
                 <div className="flex flex-col">
-                  <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                  <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-lightText mb-4">
                     {manga?.attributes?.title?.en ||
                       (manga?.attributes?.title["ja-ro"] &&
                         Object.values(manga.attributes.title)[0]) ||
                       "Title Not Available"}
                   </h1>
 
-                  <p className="text-gray-600 text-sm sm:text-base mb-6 line-clamp-4 hover:line-clamp-none transition-all duration-300">
+                  <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-base mb-6 line-clamp-4 hover:line-clamp-none transition-all duration-300">
                     {manga?.attributes?.description?.en || "N/A"}
                   </p>
 
@@ -118,7 +117,7 @@ function DetailPage() {
                         <Link
                           key={tag.id}
                           to={`/tag/${tag.attributes.name.en}/${tag.id}/1`}
-                          className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm hover:bg-blue-200 transition-colors duration-200"
+                          className="px-3 py-1 bg-blue-100 dark:bg-lightDark text-blue-500 rounded-full text-sm hover:bg-blue-200 dark:hover:bg-gray-400 transition-colors duration-200"
                         >
                           {tag.attributes.name.en}
                         </Link>
@@ -131,7 +130,7 @@ function DetailPage() {
                     to={chapterList.length > 0 
                       ? `/comic/${mangaID}/chapter/${chapterList[0].id}/1`
                       : `/comic/${mangaID}`}
-                    className="inline-flex justify-center items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 w-40 text-center font-medium"
+                    className="inline-flex justify-center items-center px-6 py-3 bg-blue-600 text-white dark:text-gray-200 rounded-lg hover:bg-blue-700 transition-colors duration-200 w-40 text-center font-medium"
                   >
                     Start Reading
                   </Link>
@@ -142,10 +141,10 @@ function DetailPage() {
 
           {/* Chapters Section */}
           {chapterList.length > 0 ? (
-            <div className="mt-8 bg-white rounded-2xl shadow-lg p-6 sm:p-8">
+            <div className="mt-8 bg-white dark:bg-secDarkBg rounded-2xl shadow-lg p-6 sm:p-8">
               {Object.entries(volumeList).map(([volume, chapters], index) => (
                 <div key={index} className="mb-8 last:mb-0">
-                  <h2 className="text-xl font-semibold text-gray-900 mb-4">
+                  <h2 className="text-xl font-bold text-gray-900 dark:text-lightText mb-4">
                     {volume === "Uncategorized" ? "Chapters" : `Volume ${volume}`}
                   </h2>
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
@@ -158,9 +157,9 @@ function DetailPage() {
                       >
                         <Link
                           to={`/comic/${mangaID}/chapter/${chapter.id}/1`}
-                          className="flex items-center justify-center px-4 py-3 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors duration-200"
+                          className="flex items-center justify-center px-4 py-3 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors duration-200"
                         >
-                          <span className="font-medium text-gray-700">
+                          <span className="font-medium text-gray-700 dark:text-gray-200">
                             {chapter.attributes.chapter || "Oneshot"}
                           </span>
                         </Link>

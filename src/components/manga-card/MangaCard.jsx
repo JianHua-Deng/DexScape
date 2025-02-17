@@ -7,7 +7,9 @@ import { Link } from "react-router-dom";
 export default function MangaCard({ manga }){
 
   const [isImageLoading, setIsImageLoading] = useState(true);
-  const coverUrl = getCoverUrl(manga)
+  const coverUrl = getCoverUrl(manga);
+
+  const title = manga.attributes.title.en ? manga.attributes.title.en : Object.values(manga.attributes.title)[0];
 
 
   return (
@@ -29,7 +31,7 @@ export default function MangaCard({ manga }){
 
         <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/90">
           <h3 className="text-white text-sm font-semibold truncate">
-            {manga.attributes?.title?.en}
+            {title || `N/A`}
           </h3>
         </div>
       </div>

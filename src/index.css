@@ -58,7 +58,7 @@ button:focus-visible {
 }
 
 .custom-dots li.slick-active div {
-  @apply bg-orange-500;
+  @apply bg-blue-500;
 }
 
 .custom-dots > ul{

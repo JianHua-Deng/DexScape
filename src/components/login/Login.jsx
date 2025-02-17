@@ -22,9 +22,9 @@ export default function Login() {
   }
 
   return (
-    // .login-form-container → full width/height, centered flex-col with gap (1rem ~ gap-4)
+
     <div className="w-full h-full flex flex-col justify-center items-center gap-4">
-      {/* .login-form → max-width of 50rem, full width/height, centered flex-col with gap (1.75rem ~ gap-7) */}
+
       <form
         className="max-w-[50rem] w-full h-full flex flex-col justify-center items-center gap-7"
         onSubmit={(e) => {
@@ -32,9 +32,9 @@ export default function Login() {
           handleLogin()
         }}
       >
-        {/* .email-field & .password-field → flex-col aligned left with a small gap (0.5rem ~ gap-2) */}
+
         <div className="flex flex-col items-start gap-2">
-          <label htmlFor="email">Email</label>
+          <label className='text-darkText dark:text-lightText' htmlFor="email">Email</label>
           <input
             id="email"
             placeholder="email@example.com"
@@ -42,16 +42,13 @@ export default function Login() {
             value={loginEmail}
             onChange={(e) => setLoginEmail(e.target.value)}
             required
-            // Input styling:
-            // Default width is 25rem on larger screens and 14rem on small screens,
-            // height 2rem, rounded corners, custom border with padding,
-            // and focus styles for outline and border color.
+
             className="w-56 md:w-96 h-12 rounded-[0.5rem] border-[0.1rem] border-bg-blue-600 p-[0.75rem] focus:outline-none focus:border-[0.13rem] focus:border-blue-800"
           />
         </div>
 
         <div className="flex flex-col items-start gap-2">
-          <label htmlFor="password">Password</label>
+          <label className='text-darkText dark:text-lightText' htmlFor="password">Password</label>
           <input
             id="password"
             placeholder="Enter your password"
@@ -63,12 +60,12 @@ export default function Login() {
           />
         </div>
 
-        {/* .submit-field → flex-col centered, spaced with gap (1rem ~ gap-4) and custom text color */}
+
         <div className="flex flex-col justify-around items-center gap-4 text-[#666]">
           <button type="submit" className="login-button">
             Log in
           </button>
-          <span>
+          <span className='text-darkText dark:text-gray-300'>
             Dont have an account? <Link className='hover:font-semibold' to="/signup">Sign up!</Link>
           </span>
         </div>

@@ -14,13 +14,14 @@ import Login from './components/login/Login';
 import Signup from './components/signup/Signup';
 import ResponsiveDrawer from './components/responsive-drawer/ResponsiveDrawer';
 import { useThemeProvider } from './lib/ThemeContextProvider';
+import { colors } from './utils/colors';
 
 function App() {
   const muiTheme = useTheme();
+  const { theme } = useThemeProvider();
   const isDesktop = useMediaQuery(muiTheme.breakpoints.up('lg'));
   const [drawerOpen, setDrawerOpen] = useState(false);
   const drawerWidth = 250;
-  const { theme, toggleTheme } = useThemeProvider();
 
   return (
 
@@ -34,7 +35,8 @@ function App() {
             alignItems: 'center',
             width: '100vw',
             height: '100vh',
-            overflow: 'hidden'
+            overflow: 'hidden',
+            backgroundColor: theme === 'dark' ? colors.darkBg : colors.lightBg,
           }}
         >
           <ResponsiveDrawer open={drawerOpen} setOpen={setDrawerOpen} isDesktop={isDesktop} />
@@ -73,7 +75,7 @@ function App() {
                 sx={{
                   flex: 1,
                 }}
-                className="main-content bg-white shadow-md flex flex-col max-w-[100vw]"
+                className="main-content bg-lightBg dark:bg-darkBg shadow-md flex flex-col max-w-[100vw]"
               >
                 <Routes>
                   <Route path="/" element={<Home />} />

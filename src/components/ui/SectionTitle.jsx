@@ -4,7 +4,7 @@ export default function SectionTitle({viewAllLink, title}) {
 
   return (
     <div className="w-full flex justify-between mb-6">
-      <h2 className="font-bold text-2xl text-gray-700">
+      <h2 className="font-bold text-2xl text-gray-700 dark:text-gray-100">
         {title}
       </h2>
       <Link

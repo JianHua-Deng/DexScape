@@ -9,6 +9,7 @@ export default function SliderItem({ manga }) {
     const [isBackgroundLoading, setIsBackgroundLoading] = useState(true);
     const [isCoverLoading, setIsCoverLoading] = useState(true);
     const coverUrl = getCoverUrl(manga);
+    const title = manga.attributes.title.en ? manga.attributes.title.en : Object.values(manga.attributes.title)[0];
 
     function handleArrowClick(e, direction) {
       e.preventDefault();
@@ -46,7 +47,7 @@ export default function SliderItem({ manga }) {
 
                     <img 
                         src={coverUrl}
-                        alt={manga.attributes?.title?.en || "Manga cover"}
+                        alt={title || "Manga cover"}
                         style={{display: isCoverLoading ? 'none' : 'block'}}
                         className="w-36 h-auto lg:w-56 object-cover rounded shadow-lg hover:scale-105 transition-transform duration-300"
                         onLoad={() => setIsCoverLoading(false)}
@@ -56,7 +57,7 @@ export default function SliderItem({ manga }) {
                   {/* Manga details */}
                   <div className="flex flex-col text-white max-w-2xl">
                       <h2 className="text-xl lg:text-4xl font-bold mb-3">
-                          {manga.attributes?.title?.en}
+                          {title}
                       </h2>
                       <div className="flex gap-2 mb-4">
                           {manga.attributes?.tags?.map((tag, index) => (

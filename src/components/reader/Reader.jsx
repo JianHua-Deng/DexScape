@@ -2,10 +2,13 @@ import { useNavigate, Link, useParams } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { getChapterMetaData, searchSpecificManga, fetchChapterList } from "../../utils/mangaDexApi";
 import Skeleton from "react-loading-skeleton";
-import { getChapterListConfig, getAvailableLanguages, filterDuplicateChapters } from "../../utils/utils";
+import { getChapterListConfig, getAvailableLanguages, filterDuplicateChapters, scrollToStart } from "../../utils/utils";
 import Select from "react-select";
-import toast from "react-hot-toast";
 import ChapterImage from "../chapter-image/ChapterImage";
+import getSelectorStyle from "../../utils/theme";
+import { useThemeProvider } from "../../lib/ThemeContextProvider";
+import { KeyboardDoubleArrowLeft, KeyboardDoubleArrowRight, KeyboardArrowLeft, KeyboardArrowRight, ArrowBack } from '@mui/icons-material';
+
 
 function Reader() {
   
@@ -24,16 +27,14 @@ function Reader() {
   const [imgURL, setImageURL] = useState("");
   const [pageNumber, setPageNumber] = useState(page);
 
+  const { theme } = useThemeProvider();
+
   // Create a ref for the image container
   const imageContainerRef = useRef(null);
 
-  useEffect(() => {
-    scrollToFit();
-  }, [])
-
   // When pageNumber changes, scroll to the image container
   useEffect(() => {
-    scrollToFit();
+    scrollToStart(imageContainerRef);
   }, [pageNumber, chapterID, isLoadingData]);
 
   // Fetch manga language info
@@ -58,9 +59,12 @@ function Reader() {
   useEffect(() => {
     if (!mangaLanguage?.length) return;
     const paramConfig = getChapterListConfig(mangaLanguage);
+
     fetchChapterList(mangaID, paramConfig).then((respond) => {
+
       const filteredChapterList = filterDuplicateChapters(respond);
       setChapterList(filteredChapterList);
+
       const options = filteredChapterList.map((chapter, index) => {
         const chapterTitle = chapter.attributes?.title;
         const chapterNumber = chapter.attributes?.chapter || index + 1;
@@ -97,19 +101,16 @@ function Reader() {
   }, [page, imageUrlArray]);
 
   useEffect(() => {
-    console.log(tags);
-    if (tags.some(tag => tag.attributes.name.en === "Web Comic")) {
-      console.log("It is a webtoon");
+    //console.log(tags);
+    if (tags.some(tag => tag.attributes.name.en === "Long Strip")) {
+      //console.log("It is a webtoon");
       setIsWebtoon(true);
     }
   }, [tags]);
-  
-  function scrollToFit(){
-    if (imageContainerRef.current){
-      imageContainerRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  }
 
+
+  // TODO
+  // This function doesn't actually work yet, due to the fact that the image doesnt have a fixed height
   function scrollDownOnClick(){
     if (imageContainerRef.current){
       imageContainerRef.current.scrollBy({
@@ -183,15 +184,16 @@ function Reader() {
               to={`/comic/${mangaID}`}
               className="self-center justify-self-start p-[0.3rem]"
             >
-              <img
-                src="/return-button.svg"
-                alt="return"
-                className="w-6 lg:w-12 h-auto"
+              <ArrowBack
+                sx={{ fontSize: '2rem', ml: 2 }}
+                className="dark:text-lightText dark:hover:bg-gray-800"
               />
+
             </Link>
 
             <div className="self-center justify-self-center col-start-2 col-end-3 p-[0.3rem]">
               <Select
+                styles={ getSelectorStyle(theme) }
                 options={selectorOptions}
                 value={selectorOptions.find(
                   (option) => option.value === chapterID
@@ -226,7 +228,7 @@ function Reader() {
 
             {isWebtoon ? (
               <div className="">
-                <button onClick={nextChapter} className="rounded-lg bg-blue-400 px-6 py-3 text-white">
+                <button onClick={nextChapter} className="rounded-lg bg-darkBlue px-6 py-3 mb-2 text-white">
                   Next Chapter
                 </button>
               </div>
@@ -234,31 +236,23 @@ function Reader() {
             ) : (
               
               <div className="w-full p-4 gap-4 lg:gap-8 flex justify-evenly items-center">
-                <img
-                  src="/previous-to-start.svg"
-                  alt="to-start"
-                  className="w-5 lg:w-12 h-auto cursor-pointer"
+                <KeyboardDoubleArrowLeft
+                  className="w-5 lg:w-12 h-auto cursor-pointer dark:text-lightText dark:hover:bg-gray-800"
                   onClick={goToFirstPage}
                 />
-                <img
-                  src="/previous-page.svg"
-                  alt="previous"
-                  className="w-5 lg:w-12 h-auto cursor-pointer"
+                <KeyboardArrowLeft
+                  className="w-5 lg:w-12 h-auto cursor-pointer dark:text-lightText dark:hover:bg-gray-800"
                   onClick={previousPg}
                 />
-                <p className="text-sm lg:text-2xl">
+                <p className="text-sm lg:text-xl dark:text-lightText ">
                   {`${pageNumber}/${imageUrlArray.length}`}
                 </p>
-                <img
-                  src="/next-page.svg"
-                  alt="next"
-                  className="w-5 lg:w-12 h-auto cursor-pointer"
+                <KeyboardArrowRight
+                  className="w-5 lg:w-12 h-auto cursor-pointer dark:text-lightText dark:hover:bg-gray-800"
                   onClick={nextPg}
                 />
-                <img
-                  src="/next-to-last.svg"
-                  alt="to-last"
-                  className="w-5 lg:w-12 h-auto cursor-pointer"
+                <KeyboardDoubleArrowRight
+                  className="w-5 lg:w-12 h-auto cursor-pointer dark:text-lightText dark:hover:bg-gray-800"
                   onClick={goToLastPage}
                 />
               </div>

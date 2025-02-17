@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import FeaturedSlider from '../featured-slider/FeaturedSlider';
-import { popularSearchParams, latestSearchParams } from '../../utils/utils';
-import { searchMangas, getCoverUrl } from '../../utils/mangaDexApi';
+import { popularSearchParams, latestSearchParams, scrollToStart, getTagsListID } from '../../utils/utils';
+import { searchMangas, getCoverUrl, getAllTags } from '../../utils/mangaDexApi';
 import Skeleton from 'react-loading-skeleton';
 import MangaCard from '../manga-card/MangaCard';
 import SectionTitle from '../ui/SectionTitle';
@@ -12,7 +12,13 @@ import SectionTitle from '../ui/SectionTitle';
 export default function Home() {
   const [popularManga, setPopularManga] = useState([]);
   const [latestManga, setLatestManga] = useState([]);
+  const [tagsList, setTagsList] = useState([]);
+  const [tagIdMap, setTagIdMap] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  const tagShowcaseList = ['Action', 'Romance', 'Comedy', 'Fantasy', 'Drama', 'Adventure'];
+
+  const mainContentRef = useRef();
 
   useEffect(() => {
     const fetchManga = async () => {
@@ -20,8 +26,12 @@ export default function Home() {
       try {
         const popularResp = await searchMangas({ ...popularSearchParams, limit: 6 });
         const latestResp = await searchMangas({ ...latestSearchParams, limit: 6 });
+        const tagResp = await getAllTags();
+        
         setPopularManga(popularResp.data);
         setLatestManga(latestResp.data);
+        setTagsList(tagResp);
+
       } catch (error) {
         console.error('Error fetching manga:', error);
       } finally {
@@ -30,10 +40,16 @@ export default function Home() {
     };
 
     fetchManga();
+    scrollToStart(mainContentRef);
   }, []);
 
+  useEffect(() => {
+    const tagsID_list = getTagsListID(tagsList, tagShowcaseList);
+    setTagIdMap(tagsID_list);
+  }, [tagsList])
+
   return (
-    <div className="w-full min-h-screen bg-gray-50">
+    <div className="w-full min-h-screen">
 
       <section className="w-full">
         <FeaturedSlider searchParams={latestSearchParams} />
@@ -43,7 +59,7 @@ export default function Home() {
       <div className="max-w-7xl mx-auto px-4 py-8 space-y-12">
 
         <section>
-          <SectionTitle title="Popularly Acclaimed Manga" viewAllLink="/popular/1" />
+          <SectionTitle title="Popularly Acclaimed" viewAllLink="/popular/1" />
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {isLoading ? 
                 Array(6).fill(0).map((_, index) => (
@@ -74,15 +90,15 @@ export default function Home() {
 
 
         <section>
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">Popular Genres</h2>
+          <h2 className="text-2xl font-bold text-darkText dark:text-lightText mb-6">Popular Genres</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            {['Action', 'Romance', 'Comedy', 'Fantasy', 'Drama', 'Adventure'].map((genre) => (
+            {tagIdMap.map((tag) => (
               <Link
-                key={genre}
-                to={`/tag/${genre.toLowerCase()}/1`}
-                className="bg-white rounded-lg p-4 text-center shadow-sm hover:shadow-md transition-shadow duration-200"
+                key={tag.id}
+                to={`/tag/${tag.tag}/${tag.id}/1`}
+                className="bg-white dark:bg-darkBlue rounded-lg p-4 text-center shadow-sm hover:shadow-md transition-shadow duration-200"
               >
-                <span className="text-gray-800 font-medium">{genre}</span>
+                <span className="text-darkText dark:text-lightText font-medium">{tag.tag}</span>
               </Link>
             ))}
           </div>

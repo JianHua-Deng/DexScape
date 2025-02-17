@@ -94,7 +94,7 @@ export default function Signup() {
       >
         {/* Email field container */}
         <div className="flex flex-col items-start gap-2">
-          <label htmlFor="signup-email">Email</label>
+          <label className="text-darkText dark:text-lightText" htmlFor="signup-email">Email</label>
           <input
             id="signup-email"
             placeholder="email@example.com"
@@ -107,7 +107,7 @@ export default function Signup() {
         </div>
         {/* Password field container */}
         <div className="flex flex-col items-start gap-2">
-          <label htmlFor="signup-password">Password</label>
+          <label className="text-darkText dark:text-lightText" htmlFor="signup-password">Password</label>
           <input
             id="signup-password"
             placeholder="Enter your password"
@@ -120,7 +120,7 @@ export default function Signup() {
         </div>
         {/* Confirm Password field container */}
         <div className="flex flex-col items-start gap-2">
-          <label htmlFor="confirm-password">Confirm Password</label>
+          <label className="text-darkText dark:text-lightText" htmlFor="confirm-password">Confirm Password</label>
           <input
             id="confirm-password"
             placeholder="Re-enter your password"
@@ -140,7 +140,7 @@ export default function Signup() {
             ) : (
               <X size={16} color="red" />
             )}
-            <span className="text-gray-500">Minimum 6 characters</span>
+            <span className="text-gray-500 dark:text-gray-300">Minimum 6 characters</span>
           </div>
           <div className="flex items-center gap-2">
             {passwordRequirment.uppercase ? (
@@ -148,7 +148,7 @@ export default function Signup() {
             ) : (
               <X size={16} color="red" />
             )}
-            <span className="text-gray-500">At least one uppercase letter</span>
+            <span className="text-gray-500 dark:text-gray-300">At least one uppercase letter</span>
           </div>
           <div className="flex items-center gap-2">
             {passwordRequirment.lowercase ? (
@@ -156,7 +156,7 @@ export default function Signup() {
             ) : (
               <X size={16} color="red" />
             )}
-            <span className="text-gray-500">At least one lowercase letter</span>
+            <span className="text-gray-500 dark:text-gray-300">At least one lowercase letter</span>
           </div>
           <div className="flex items-center gap-2">
             {passwordRequirment.number ? (
@@ -164,7 +164,7 @@ export default function Signup() {
             ) : (
               <X size={16} color="red" />
             )}
-            <span className="text-gray-500">At least one number</span>
+            <span className="text-gray-500 dark:text-gray-300">At least one number</span>
           </div>
         </div>
 

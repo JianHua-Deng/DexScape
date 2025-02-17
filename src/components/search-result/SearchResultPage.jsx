@@ -2,7 +2,7 @@ import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useRef } from "react";
 import { useEffect, useState } from "react";
 import { searchMangas } from "../../utils/mangaDexApi";
-import { popularSearchParams, latestSearchParams, defaultSearchConfig } from '../../utils/utils';
+import { popularSearchParams, latestSearchParams, defaultSearchConfig, scrollToStart } from '../../utils/utils';
 import MangaPreviewSkeleton from '../skeletons/result-skeleton/MangaPreviewSkeleton';
 import Pagination from "../pagination/Pagination";
 import useWindowWidth from "../hooks/useWindowWidth";
@@ -18,7 +18,7 @@ function SearchResultPage() {
 
   const { queryString, uuid, page, name } = useParams();
   const [mangaData, setMangaData] = useState([]);
-  const [totalPage, setTotalPage] = useState(0);
+  const [totalPage, setTotalPage] = useState(1);
   const [loadingStatus, setLoadingStatus] = useState(false);
 
   const location = useLocation();
@@ -62,7 +62,7 @@ function SearchResultPage() {
   }, [queryString, location, page]);
 
   useEffect(() => {
-    mainContainer.current.scrollIntoView({ top: 0, behavior: "smooth" });
+    scrollToStart(mainContainer);
   }, [page]);
 
   function handlePageClicked({ selected }) {
@@ -86,7 +86,7 @@ function SearchResultPage() {
       {!loadingStatus ? (
         <>
           <div className="w-full text-center mb-4 mt-4">
-            <h2 className="text-2xl font-bold">{`「 ${title} 」`}</h2>
+            <h2 className="dark:text-gray-100 text-2xl font-bold">{`「 ${title} 」`}</h2>
           </div>
 
           <div className="flex flex-wrap justify-center items-center gap-y-4 gap-x-4 sm:gap-x-8">

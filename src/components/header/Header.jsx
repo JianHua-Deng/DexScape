@@ -13,7 +13,7 @@ function Header({ isDrawerOpen, setIsDrawerOpen, isDesktop }) {
   return (
     <div
       className={`
-        bg-white
+        bg-lightBg dark:bg-darkBg
         p-3
         ${isSticky ? 'sticky top-0' : 'relative'}
         shadow-md
@@ -25,7 +25,7 @@ function Header({ isDrawerOpen, setIsDrawerOpen, isDesktop }) {
         {/* Only show the button if its not in desktop mode OR when its not open */}
         <div>
           {!isDesktop || !isDrawerOpen ? (
-            <IconButton onClick={() => setIsDrawerOpen(prev => !prev)} 
+            <IconButton onClick={() => setIsDrawerOpen(prev => !prev)}
               sx={{ 
                 color: "inherit",
                 '&:focus': {
@@ -33,7 +33,7 @@ function Header({ isDrawerOpen, setIsDrawerOpen, isDesktop }) {
                 },
               }}
             >
-              <MenuIcon />
+              <MenuIcon className="dark:text-white" />
             </IconButton>          
           ) : null}
         </div>

@@ -30,6 +30,25 @@ function getChapterListConfig(mangaLanguage){
     }
 }
 
+function getTagsListID(rawTagsObject, tagsList) {
+  const idList = rawTagsObject.reduce((accumulator, tagItem) => {
+    if (tagsList.includes(tagItem?.attributes?.name?.en)){
+      accumulator.push({id: tagItem.id, tag: tagItem?.attributes?.name?.en});
+    }
+    return accumulator;
+  }, [])
+
+  return idList
+}
+
+function scrollToStart(ref) {
+  setTimeout(() => {
+    if (ref.current) {
+      ref.current.scrollIntoView({ behavior: "smooth", block: "start" })
+    }
+  }, 10)
+}
+
 const defaultSearchConfig = {
     limit: 28,
     includes: ["authors", "artist", "cover_art"],
@@ -87,4 +106,4 @@ const sliderSettings = {
 
 
 
-export {sliderSettings, defaultSearchConfig, popularSearchParams, latestSearchParams, completedMangaParams, getAvailableLanguages, getChapterListConfig, filterDuplicateChapters}
+export {sliderSettings, defaultSearchConfig, popularSearchParams, latestSearchParams, completedMangaParams, getAvailableLanguages, getChapterListConfig, filterDuplicateChapters, scrollToStart, getTagsListID}
