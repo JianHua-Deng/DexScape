@@ -1,7 +1,8 @@
 
-# Manga-Site  
+# DexScape  
+A web client that allows you to read Manga and Webtoons by utilizing Mangadex's API
 ## Video Demo  
-A demo that shows basic functionalities of the website  
+A demo that shows the basic functionalities of the website  
 <img src='https://github.com/JianHua-Deng/temp-gif/blob/main/manga-site-preview-ezgif.com-resize.gif' title='Demo' alt='Demo'>
 # React + Vite
 
