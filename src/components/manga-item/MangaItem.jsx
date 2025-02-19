@@ -25,9 +25,9 @@ const MangaItem = ({ manga }) => {
       className="
         group
         relative
-        w-full max-w-[10rem] lg:max-w-[15rem]
+        w-full max-w-[8rem] xs:max-w-[9.75rem] lg:max-w-[15rem]
         
-        dark:bg-lightDark
+        bg-white dark:bg-lightDark
         rounded-xl
         overflow-hidden
         transition-all duration-300 ease-in-out

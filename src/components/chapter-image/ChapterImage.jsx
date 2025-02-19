@@ -15,7 +15,7 @@ export default function ChapterImage({imgURL, imgStyle, onClick}){
     <>
       {isImageLoading && (
         <div className="w-full">
-          <Skeleton className="w-full aspect-[5/6]" />
+          <Skeleton className="w-full aspect-[3/4]" />
         </div>
       )}
 

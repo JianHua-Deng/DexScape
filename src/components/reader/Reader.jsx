@@ -186,7 +186,7 @@ function Reader() {
             >
               <ArrowBack
                 sx={{ fontSize: '2rem', ml: 2 }}
-                className="dark:text-lightText dark:hover:bg-gray-800"
+                className="dark:text-lightText hover:bg-darkHighlight dark:hover:bg-lightHighlight"
               />
 
             </Link>
@@ -237,22 +237,22 @@ function Reader() {
               
               <div className="w-full p-4 gap-4 lg:gap-8 flex justify-evenly items-center">
                 <KeyboardDoubleArrowLeft
-                  className="w-5 lg:w-12 h-auto cursor-pointer dark:text-lightText dark:hover:bg-gray-800"
+                  className="w-5 lg:w-12 h-auto cursor-pointer hover:bg-darkHighlight dark:hover:bg-lightHighlight dark:text-lightText"
                   onClick={goToFirstPage}
                 />
                 <KeyboardArrowLeft
-                  className="w-5 lg:w-12 h-auto cursor-pointer dark:text-lightText dark:hover:bg-gray-800"
+                  className="w-5 lg:w-12 h-auto cursor-pointer hover:bg-darkHighlight dark:hover:bg-lightHighlight dark:text-lightText"
                   onClick={previousPg}
                 />
                 <p className="text-sm lg:text-xl dark:text-lightText ">
                   {`${pageNumber}/${imageUrlArray.length}`}
                 </p>
                 <KeyboardArrowRight
-                  className="w-5 lg:w-12 h-auto cursor-pointer dark:text-lightText dark:hover:bg-gray-800"
+                  className="w-5 lg:w-12 h-auto cursor-pointer hover:bg-darkHighlight dark:hover:bg-lightHighlight dark:text-lightText"
                   onClick={nextPg}
                 />
                 <KeyboardDoubleArrowRight
-                  className="w-5 lg:w-12 h-auto cursor-pointer dark:text-lightText dark:hover:bg-gray-800"
+                  className="w-5 lg:w-12 h-auto cursor-pointer hover:bg-darkHighlight dark:hover:bg-lightHighlight dark:text-lightText"
                   onClick={goToLastPage}
                 />
               </div>

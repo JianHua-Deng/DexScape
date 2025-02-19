@@ -1,10 +1,11 @@
 // ResponsiveDrawer.jsx
 import React from 'react';
 import { Drawer, IconButton, Divider, List, Box } from '@mui/material';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import CloseIcon from '@mui/icons-material/Close';
 import NavList from '../ui/NavList';
 import { useThemeProvider } from '../../lib/ThemeContextProvider';
 import { colors } from '../../utils/colors'
+import HomeIcon from '../ui/HomeIcon';
 
 const drawerWidth = 250;
 
@@ -14,7 +15,7 @@ export default function ResponsiveDrawer({ open, setOpen, isDesktop }) {
 
   const darkModeStyles = {
     paper: {
-      backgroundColor: theme === 'dark' ? `${colors.secDarkBg}` : `${colors.lightBg}`,
+      backgroundColor: theme === 'dark' ? `${colors.secDarkBg}` : `${colors.darkerLightBg}`,
       color: theme === 'dark' ? `${colors.lightText}` : `${colors.darkText}`,
     },
     divider: {
@@ -43,11 +44,21 @@ export default function ResponsiveDrawer({ open, setOpen, isDesktop }) {
       }}
     >
       
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', p: '.75rem' }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: '.75rem', height: '64px' }}>
+      <HomeIcon/>
         <IconButton onClick={() => setOpen(false)}
-          sx={{ color: 'inherit', '&:focus': { outline: 'none' } }}
+          sx={{ 
+            color: 'inherit', '&:focus': { outline: 'none' },
+            '&:hover': {
+              backgroundColor:
+                theme === 'dark' ? `${colors.lightHighlight}` : `${colors.darkHighlight}`,
+            },
+          
+          }}
         >
-          <ChevronLeftIcon />
+          <CloseIcon 
+           
+          />
         </IconButton>
       </Box>
       <Divider />

@@ -25,7 +25,7 @@ function App() {
 
   return (
 
-    <SkeletonTheme baseColor="#c4c4c4" highlightColor="#e6e6e6">
+    <SkeletonTheme baseColor={ theme === 'dark' ? "#5c5c5c" : "#c4c4c4" } highlightColor="#e6e6e6">
       <BrowserRouter>
         <Toaster position="top-center" />
         <Box 

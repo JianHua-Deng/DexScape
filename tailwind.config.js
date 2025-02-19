@@ -7,16 +7,23 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        'xs': '360px',
+      },
       colors: {
         // Light mode colors
-        lightBg: colors.lightBg, 
+        lightBg: colors.lightBg,
+        darkerLightBg: colors.darkerLightBg,
         darkText: colors.darkText, 
 
         // Dark mode colors
         darkBg: colors.darkBg,
         secDarkBg: colors.secDarkBg,
         lightDark: colors.lightDark,
-        lightText: colors.lightText, 
+        lightText: colors.lightText,
+
+        lightHighlight: colors.lightHighlight,
+        darkHighlight: colors.darkHighlight,
 
         primary: colors.primary, 
         darkDrawer: colors.darkDrawer, 

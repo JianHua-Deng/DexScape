@@ -93,7 +93,10 @@ function SearchResultPage() {
             {mangaData.length > 0 ? (
               mangaData.map((manga, index) => <MangaItem manga={manga} key={index} />)
             ) : (
-              <span>No results were found</span>
+              <div className="h-fit flex flex-col items-center justify-center gap-4">
+                <img className="w-2/3 h-auto rounded-md" src="/bocchi-on-the-rocks.gif"/>
+                <h3 className="text-darkText dark:text-lightText font-bold">No results were found</h3>
+              </div>
             )}
           </div>
           <div className="w-full p-4 flex justify-evenly">

@@ -21,7 +21,7 @@ function Searchbar() {
         name="search"
         value={queryContent}
         placeholder=" Enter any Manga name"
-        className="h-10 w-52 p-3 md:w-96 rounded-sm border border-button focus:outline-none focus:border-supplementary"
+        className="h-10 w-44 xs:w-52 md:w-96 p-3 rounded-sm border border-button focus:outline-none focus:border-supplementary"
         onChange={(e) => setQueryContent(e.target.value)}
         required
       />
