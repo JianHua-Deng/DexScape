@@ -193,6 +193,7 @@ function Reader() {
 
             <div className="self-center justify-self-center col-start-2 col-end-3 p-[0.3rem]">
               <Select
+                inputProps={{ readOnly: true }}
                 styles={ getSelectorStyle(theme) }
                 options={selectorOptions}
                 value={selectorOptions.find(
