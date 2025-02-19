@@ -6,12 +6,14 @@ import NavList from '../ui/NavList';
 import { useThemeProvider } from '../../lib/ThemeContextProvider';
 import { colors } from '../../utils/colors'
 import HomeIcon from '../ui/HomeIcon';
+import useWindowWidth from '../hooks/useWindowWidth';
 
 const drawerWidth = 250;
 
 export default function ResponsiveDrawer({ open, setOpen, isDesktop }) {
 
   const { theme } = useThemeProvider();
+  const windowWidth = useWindowWidth();
 
   const darkModeStyles = {
     paper: {
@@ -45,7 +47,7 @@ export default function ResponsiveDrawer({ open, setOpen, isDesktop }) {
     >
       
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: '.75rem', height: '64px' }}>
-      <HomeIcon/>
+        <HomeIcon/>
         <IconButton onClick={() => setOpen(false)}
           sx={{ 
             color: 'inherit', '&:focus': { outline: 'none' },

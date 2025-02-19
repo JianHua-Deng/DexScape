@@ -7,11 +7,13 @@ import HomeIcon from "../ui/HomeIcon";
 import MenuIcon from '@mui/icons-material/Menu';
 import { useThemeProvider } from '../../lib/ThemeContextProvider';
 import { colors } from '../../utils/colors';
+import useWindowWidth from '../hooks/useWindowWidth';
 
 function Header({ isDrawerOpen, setIsDrawerOpen, isDesktop }) {
 
   const isSticky = useHeaderSticky();
   const { theme } = useThemeProvider();
+  const windowWidth = useWindowWidth();
 
   return (
     <div
@@ -48,7 +50,7 @@ function Header({ isDrawerOpen, setIsDrawerOpen, isDesktop }) {
               >
                 <MenuIcon className="dark:text-white" />
               </IconButton>
-              <HomeIcon/>
+              {windowWidth <= 490 ? null : <HomeIcon/>}
             </>
           ) : null}
         </div>
