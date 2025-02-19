@@ -179,7 +179,7 @@ function Reader() {
       ) : (
         <>
 
-          <div className="flex justify-evenly w-full max-w-[25rem] gap-4 md:grid md:grid-cols-3 md:items-center md:w-full">
+          <div className="flex justify-evenly w-full max-w-72 gap-4 md:grid md:grid-cols-3 md:items-center md:w-full md:max-w-full">
             <Link
               to={`/comic/${mangaID}`}
               className="self-center justify-self-start p-[0.3rem]"
