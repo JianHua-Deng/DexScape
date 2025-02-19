@@ -54,7 +54,7 @@ function SearchResultPage() {
       .then((resp) => {
         setMangaData(resp.data);
         setTotalPage(getPageCount(resp.total));
-        console.log(`Total Manga: ${resp.total}, Total Page: ${Math.ceil(resp.total / numPerPage)}`);
+        //console.log(`Total Manga: ${resp.total}, Total Page: ${Math.ceil(resp.total / numPerPage)}`);
       })
       .finally(() => {
         setLoadingStatus(false);
