@@ -16,7 +16,7 @@ import ResponsiveDrawer from './components/responsive-drawer/ResponsiveDrawer';
 import { useThemeProvider } from './lib/ThemeContextProvider';
 import { colors } from './utils/colors';
 import History from './components/history/History';
-import Favorites from './components/Favorites/favorites';
+import Favorites from './components/favorites/Favorites';
 
 function App() {
   const muiTheme = useTheme();
