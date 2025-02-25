@@ -19,8 +19,11 @@ DexScape is a web client that allows you to browse, search, and read Manga and W
 DexScape is built with the following tools:
 
 - **React:** A JavaScript library for building dynamic user interfaces.
+- **Supabase:** Handles authentication and backend operations using PostgreSQL, ensuring secure data management.
+- **Express.js:** A lightweight Node.js framework used to create a proxy server for handling requests to the MangaDex API, improving security and performance.
+- **Mangadex API:** The source and backbone for fetching manga and webtoon data.
+- **MUI Library:** A comprehensive React component library that provides a modern and customizable UI, ensuring a sleek and responsive user experience.
 - **Vite:** A fast frontend tooling system with Hot Module Replacement (HMR).
-- **Mangadex API:** The backbone for fetching manga and webtoon data.
 
 ### Vite Plugins
 
