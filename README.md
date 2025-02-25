@@ -12,7 +12,7 @@ DexScape is a web client that allows you to browse, search, and read Manga and W
 
 ## Screenshot
 
-![DexScape Demo](https://i.imgur.com/AG0yaEb.png)
+![DexScape Demo](https://i.imgur.com/OFt8KZO.png)
 
 ## Technology Stack
 
