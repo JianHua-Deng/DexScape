@@ -5,6 +5,7 @@ const AuthContext = createContext();
 
 export default function AuthProvider({ children }) {
     const [session, setSession] = useState(null);
+    const [userID, setUserID] = useState( null);
     const [loading, setLoading] = useState(true); // Add loading state
 
     useEffect(() => {
@@ -28,6 +29,19 @@ export default function AuthProvider({ children }) {
 
         return () => subscription.unsubscribe();
     }, []);
+
+    useEffect(() => {
+
+      const getUserID = async () => {
+        if (session) {
+          const { data: { user } } = await supabase.auth.getUser();
+          setUserID(user?.id);
+          //console.log(user?.id);
+        }
+      }
+
+      getUserID();
+    }, [session])
 
     async function signUp(email, password) {
         try {
@@ -83,6 +97,7 @@ export default function AuthProvider({ children }) {
 
     const authValue = {
         session,
+        userID,
         loading,
         signUp,
         login,

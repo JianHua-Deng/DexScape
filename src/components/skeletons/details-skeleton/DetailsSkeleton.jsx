@@ -20,7 +20,7 @@ function DetailsSkeleton() {
                       <div className="flex flex-wrap gap-3">
                         {
                           Array.from({ length: 4}).map((_, index) => ((
-                            <Skeleton width="4rem" height="1.5rem" />
+                            <Skeleton key={index} width="4rem" height="1.5rem" />
                           )))
                         }
                       </div>

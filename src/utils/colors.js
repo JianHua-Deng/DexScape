@@ -18,6 +18,7 @@ export const colors = {
   darkDrawer: '#1f2937', 
   darkBlue: '#0d47a1',
 
-  mangaItemBg: '#1565c0' // blue-800
+  mangaItemBg: '#1565c0', // blue-800
 
+  starColor: '#FF9529',
 };

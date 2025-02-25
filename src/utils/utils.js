@@ -30,6 +30,14 @@ function getChapterListConfig(mangaLanguage){
     }
 }
 
+function getMangaListConfig(mangaIDs, limit){
+  return {
+    limit: limit,
+    includes: ["authors", "artist", "cover_art"],
+    ids: mangaIDs,
+  }
+}
+
 function getTagsListID(rawTagsObject, tagsList) {
   const idList = rawTagsObject.reduce((accumulator, tagItem) => {
     if (tagsList.includes(tagItem?.attributes?.name?.en)){
@@ -41,6 +49,10 @@ function getTagsListID(rawTagsObject, tagsList) {
   return idList
 }
 
+function getMangaTitle(manga){
+  return manga.attributes.title.en ? manga.attributes.title.en : Object.values(manga.attributes.title)[0];
+}
+
 function scrollToStart(ref) {
   setTimeout(() => {
     if (ref.current) {
@@ -48,6 +60,8 @@ function scrollToStart(ref) {
     }
   }, 10)
 }
+
+
 
 const defaultSearchConfig = {
     limit: 28,
@@ -106,4 +120,4 @@ const sliderSettings = {
 
 
 
-export {sliderSettings, defaultSearchConfig, popularSearchParams, latestSearchParams, completedMangaParams, getAvailableLanguages, getChapterListConfig, filterDuplicateChapters, scrollToStart, getTagsListID}
+export {sliderSettings, defaultSearchConfig, popularSearchParams, latestSearchParams, completedMangaParams, getAvailableLanguages, getChapterListConfig, filterDuplicateChapters, scrollToStart, getTagsListID, getMangaListConfig, getMangaTitle }

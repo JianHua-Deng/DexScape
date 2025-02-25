@@ -1,6 +1,6 @@
 import { useNavigate, Link, useParams } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
-import { getChapterMetaData, searchSpecificManga, fetchChapterList } from "../../utils/mangaDexApi";
+import { getChapterMetaData, searchSpecificManga, fetchChapterList, getChapterInfo } from "../../utils/mangaDexApi";
 import Skeleton from "react-loading-skeleton";
 import { getChapterListConfig, getAvailableLanguages, filterDuplicateChapters, scrollToStart } from "../../utils/utils";
 import Select from "react-select";
@@ -8,6 +8,8 @@ import ChapterImage from "../chapter-image/ChapterImage";
 import getSelectorStyle from "../../utils/theme";
 import { useThemeProvider } from "../../lib/ThemeContextProvider";
 import { KeyboardDoubleArrowLeft, KeyboardDoubleArrowRight, KeyboardArrowLeft, KeyboardArrowRight, ArrowBack } from '@mui/icons-material';
+import { useAuth } from "../../lib/AuthContext";
+import { updateUserReadingHistory } from "../../utils/supabase";
 
 
 function Reader() {
@@ -19,6 +21,7 @@ function Reader() {
   const [isWebtoon, setIsWebtoon] = useState(false);
 
   const [chapterList, setChapterList] = useState([]);
+  const [chapterData, setChapterData] = useState([]);
   const [mangaLanguage, setMangaLanguage] = useState([]);
   const [selectorOptions, setSelectorOptions] = useState([]);
   const [metaData, setMetaData] = useState(null);
@@ -28,6 +31,7 @@ function Reader() {
   const [pageNumber, setPageNumber] = useState(page);
 
   const { theme } = useThemeProvider();
+  const { session, userID } = useAuth();
 
   // Create a ref for the image container
   const imageContainerRef = useRef(null);
@@ -53,6 +57,11 @@ function Reader() {
     getChapterMetaData(chapterID).then((respond) => {
       setMetaData(respond);
     });
+
+    getChapterInfo(chapterID).then((respond) => {
+      console.log(respond);
+      setChapterData(respond);
+    })
   }, [chapterID]);
 
   // Fetch chapter list once language is available
@@ -99,6 +108,13 @@ function Reader() {
       setIsLoadingData(false);
     }
   }, [page, imageUrlArray]);
+
+  useEffect(() => {
+    if (session && chapterData && chapterData?.attributes?.chapter) {
+      console.log();
+      updateUserReadingHistory(userID, mangaID, chapterID, chapterData.attributes.chapter , page);
+    }
+  }, [page, chapterData])
 
   useEffect(() => {
     //console.log(tags);

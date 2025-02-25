@@ -15,6 +15,8 @@ import Signup from './components/signup/Signup';
 import ResponsiveDrawer from './components/responsive-drawer/ResponsiveDrawer';
 import { useThemeProvider } from './lib/ThemeContextProvider';
 import { colors } from './utils/colors';
+import History from './components/history/History';
+import Favorites from './components/Favorites/favorites';
 
 function App() {
   const muiTheme = useTheme();
@@ -87,6 +89,8 @@ function App() {
                   <Route path="search/:queryString/:page" element={<SearchResultPage />} />
                   <Route path="comic/:mangaID/chapter/:chapterID/:page" element={<Reader />} />
                   <Route path="comic/:mangaID" element={<DetailPage />} />
+                  <Route path='history/:page' element={<History/>} />
+                  <Route path='favorites/:page' element={<Favorites/>} />
                 </Routes>
               </Box>
             </Box>

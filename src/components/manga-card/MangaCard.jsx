@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import Skeleton from "react-loading-skeleton";
 import { getCoverUrl } from "../../utils/mangaDexApi";
 import { Link } from "react-router-dom";
+import { getMangaTitle } from "../../utils/utils";
 
 
 export default function MangaCard({ manga }){
@@ -9,7 +10,7 @@ export default function MangaCard({ manga }){
   const [isImageLoading, setIsImageLoading] = useState(true);
   const coverUrl = getCoverUrl(manga);
 
-  const title = manga.attributes.title.en ? manga.attributes.title.en : Object.values(manga.attributes.title)[0];
+  const title = getMangaTitle(manga);
 
 
   return (

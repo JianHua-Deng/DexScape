@@ -9,71 +9,102 @@ https://api.mangadex.org/manga?limit=15&includes[]=authors&includes[]=artist&inc
 */
 
 async function getAllTags(){
-  const resp = await axios({
-    method: "GET",
-    url: `${proxyUrl}/manga/tag`
-  }).catch((e) => {
-    console.log(e);
-  })
+  try {
+    const resp = await axios({
+      method: "GET",
+      url: `${proxyUrl}/manga/tag`
+    })
 
-  //console.log(resp.data.data);
-  return resp.data.data
+    return resp.data.data;
+
+  } catch (error) {
+    console.error("Error getting all tags", error);
+    throw error;
+  }
+
+}
+
+async function getChapterInfo(chapterID) {
+  try{
+    const resp = await axios({
+      method: "GET",
+      url: `${proxyUrl}/chapter/${chapterID}`,
+    });
+    return resp.data.data;
+
+  } catch (error) {
+    console.error("Error fetching Chapter Info", error);
+    throw error;
+  }
 }
 
 async function searchMangas(searchConfig){
     //console.log("Search Manga, ProxyUrl: " + proxyUrl + "\n" + "Port: " + process.env.PORT);
-    const resp = await axios({
+    try {
+      const resp = await axios({
         method: "GET",
         url: `${proxyUrl}/mangaList/manga`,
         params: searchConfig
-    }).catch((e) => {
-        console.log(e);
-    })
+      });
+      return resp.data;
+
+    } catch (error) {
+      console.error("Error fetching Mangas", error);
+      throw error;
+    }
 
     //console.log(resp);
-    return resp.data;
 }
 
 async function searchSpecificManga(mangaID){
+
+  try {
     const resp = await axios({
-        method: "GET",
-        url: `${proxyUrl}/manga/${mangaID}`,
-        params: defaultSearchConfig,
-    }).catch( e => {
-        console.log(e);
+      method: "GET",
+      url: `${proxyUrl}/manga/${mangaID}`,
+      params: defaultSearchConfig,
     })
+    return resp.data.data;
+
+  } catch (error) {
+    console.error("Error fetching specifc Manga", error);
+    throw error;
+  }
+
 
     //console.log(resp.data.data);
-    return resp.data.data;
 }
 
 async function fetchChapterList(mangaID, config){
+
+  try {
     const resp = await axios({
-        method: "GET",
-        url: `${proxyUrl}/manga/${mangaID}/feed`,
-        params: config,
+      method: "GET",
+      url: `${proxyUrl}/manga/${mangaID}/feed`,
+      params: config,
+    });
+    return resp.data.data;
 
-    }).then(respond => {
-        //console.log(respond.data.data);
-        return respond.data.data;
-    }).catch(e => {console.log(e);})
+  } catch (error) {
+    console.error("Error fetching chapter list", error);
+    throw error;
+  }
 
-    return resp;
 }
 
 async function getChapterMetaData(chapterID){
 
+  try {
     const resp = await axios({
-        method: "GET",
-        url: `${proxyUrl}/at-home/server/${chapterID}`,
-    }).then((respond) => {
-        //console.log(respond.data);
-        return respond.data;
-    }).catch(error => {
-        console.log(error);
-    })
-        
-    return resp;
+      method: "GET",
+      url: `${proxyUrl}/at-home/server/${chapterID}`,
+    });
+    return resp.data;
+
+  } catch (error) {
+    console.error("Error getting chapter metadata", error);
+    throw error;
+  }
     
 }
 
@@ -90,5 +121,5 @@ function getCoverUrl(manga){
 
 
 
-export { getAllTags, searchMangas, searchSpecificManga, fetchChapterList, getChapterMetaData, getCoverUrl};
+export { getAllTags, getChapterInfo, searchMangas, searchSpecificManga, fetchChapterList, getChapterMetaData, getCoverUrl};
 
