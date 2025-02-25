@@ -1,18 +1,40 @@
+# DexScape
 
-# DexScape  
-A web client that allows you to read Manga and Webtoons by utilizing Mangadex's API
-## Video Demo  
-A demo that shows the basic functionalities of the website  
-<img src='https://github.com/JianHua-Deng/temp-gif/blob/main/manga-site-preview-ezgif.com-resize.gif' title='Demo' alt='Demo'>
-# React + Vite
+DexScape is a web client that allows you to browse, search, and read Manga and Webtoons by utilizing the Mangadex API. It provides a clean and intuitive interface to explore and enjoy your favorite series.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Features
 
-Currently, two official plugins are available:
+- **Browse Manga and Webtoons:** Explore a wide range of popular and trending titles.
+- **Search Capabilities:** Find specific manga or authors quickly and easily.
+- **Reader Interface:** Enjoy chapters with a responsive and user-friendly reading experience.
+- **Bookmarking:** Save your favorite series for easy access later.
+- **Latest Updates:** Stay informed about new chapter releases and updates.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Screenshot
 
+![DexScape Demo](https://i.imgur.com/AG0yaEb.png)
 
-## Credit  
-This project is built completely based on MangaDex's API and it's solely for learning purposes
+## Technology Stack
+
+DexScape is built with the following tools:
+
+- **React:** A JavaScript library for building dynamic user interfaces.
+- **Vite:** A fast frontend tooling system with Hot Module Replacement (HMR).
+- **Mangadex API:** The backbone for fetching manga and webtoon data.
+
+### Vite Plugins
+
+This project uses a minimal React + Vite setup with the following plugins:
+
+- `@vitejs/plugin-react`: Uses Babel for Fast Refresh.
+- `@vitejs/plugin-react-swc`: Uses SWC for faster compilation and refresh.
+
+The setup also includes ESLint rules for code quality.
+
+## Usage
+
+After starting the development server, open your browser and navigate to `http://localhost:5173` to begin exploring manga and webtoons.
+
+## Credit & Disclaimer
+
+This project is built completely based on MangaDex's API and is intended solely for learning purposes. All content is sourced from Mangadex, and DexScape does not host any manga or webtoon data itself. Please respect Mangadex's terms of service when using this application.
