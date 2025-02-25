@@ -7,7 +7,8 @@ import { Tooltip } from "@mui/material";
 import DetailsSkeleton from "../skeletons/details-skeleton/DetailsSkeleton";
 import { useAuth } from "../../lib/AuthContext";
 import { checkIfUserFavorited, addMangaToFavorite, removeFavorited, getMangaLatestHistory} from "../../utils/supabase";
-import { StarIcon, StarBorderIcon } from '@mui/icons-material';
+import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 import toast from "react-hot-toast";
 import { colors } from "../../utils/colors";
 
