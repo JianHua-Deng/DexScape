@@ -5,7 +5,7 @@ import { getCoverUrl } from '../../utils/mangaDexApi';
 import { Link } from 'react-router-dom';
 import { getMangaTitle } from '../../utils/utils';
 import Skeleton from 'react-loading-skeleton';
-import { StarIcon } from '@mui/icons-material';
+import { Star } from '@mui/icons-material';
 import { colors } from '../../utils/colors';  
 
 export default function HistoryMangaCard ({ manga, readAt, chapter, page, onDelete }) {
