@@ -65,7 +65,7 @@ function DetailPage() {
   // Start fetching the data on MangaID changes
   useEffect(() => {
 
-    console.log("Fetching Manga Data");
+    //console.log("Fetching Manga Data");
     searchSpecificManga(mangaID).then(resp => {
       setManga(resp);
       setCoverUrl(getCoverUrl(resp));

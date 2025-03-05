@@ -23,8 +23,10 @@ export default function ChapterImage({imgURL, imgStyle, onClick}){
   return (
     <>
       {isImageLoading && (
-        <div className="w-full">
-          <Skeleton className="w-full aspect-[3/4]" />
+        <div className="w-full h-full flex flex-col justify-center items-center max-w-[60rem]">
+          <div className="w-full">
+            <Skeleton className="w-full aspect-[3/4]" />
+          </div>
         </div>
       )}
 
