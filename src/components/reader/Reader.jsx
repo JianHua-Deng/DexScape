@@ -224,7 +224,7 @@ function Reader() {
           </div>
 
           
-          <div ref={imageContainerRef} className={` ${isWebtoon ? 'h-auto items-start' : 'h-screen items-center'} flex w-full justify-center items-center max-w-full`}>
+          <div ref={imageContainerRef} className={` ${isWebtoon ? 'h-auto items-start' : 'h-screen items-center'} flex w-full justify-center items-center ${isWebtoon? 'max-w-[60rem]' : 'max-w-full' }`}>
             
             {isWebtoon ? (
               <div className="flex flex-col w-full h-full">
