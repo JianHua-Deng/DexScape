@@ -23,7 +23,7 @@ DexScape is built with the following tools:
 - **Mangadex API:** The source and backbone for fetching manga and webtoon data.
 - **MUI Library:** A comprehensive React component library that provides a modern and customizable UI, ensuring a sleek and responsive user experience.
 - **Vite:** A fast frontend tooling system with Hot Module Replacement (HMR).
-- **[Proxy/Caching Service](https://github.com/JianHua-Deng/Dexscape-Cache-Service):**A service that proxies to Mangadex, intercepts the response, and caches it to AWS DynamoDB and S3 Bucket for optimized performance and reliability.
+- [Proxy/Caching Service](https://github.com/JianHua-Deng/Dexscape-Cache-Service): A service that proxies to Mangadex, intercepts the response, and caches it to AWS DynamoDB and S3 Bucket for optimized performance and reliability.
 
 ### Vite Plugins
 
