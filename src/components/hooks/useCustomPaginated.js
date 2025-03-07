@@ -23,6 +23,7 @@ export function useCustomPaginated({ fetchData, sortField, page, offSet }) {
       setTotalItems(dataset.length);
       setDataFetched(true);
     }
+    
     getData();
   }, [fetchData, sortField]);
 

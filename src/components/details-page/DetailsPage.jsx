@@ -49,7 +49,7 @@ function DetailPage() {
       }
     }
     
-    if (session) {
+    if (session && userID) {
       checkFavoriteStatus();
       getCurrentMangaHistory();
     }

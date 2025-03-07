@@ -113,7 +113,7 @@ function Reader() {
     if (session && chapterData && chapterData?.attributes?.chapter) {
       updateUserReadingHistory(userID, mangaID, chapterID, chapterData.attributes.chapter , page);
     }
-  }, [page, chapterData])
+  }, [page])
 
   useEffect(() => {
     //console.log(tags);
