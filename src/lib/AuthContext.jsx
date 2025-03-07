@@ -9,39 +9,28 @@ export default function AuthProvider({ children }) {
     const [loading, setLoading] = useState(true); // Add loading state
 
     useEffect(() => {
-        // Handle initial session load with error handling
-        supabase.auth.getSession()
-            .then(({ data: { session } }) => {
-                setSession(session);
-            })
-            .catch((error) => {
-                console.error('Error getting initial session:', error);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+      // Handle initial session load with error handling
+      supabase.auth.getSession()
+          .then(({ data: { session } }) => {
+              setSession(session);
+              setUserID(session?.user?.id || null);
+          })
+          .catch((error) => {
+              console.error('Error getting initial session:', error);
+          })
+          .finally(() => {
+              setLoading(false);
+          });
 
-        // Set up auth state listener
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-            setSession(session);
-            setLoading(false);
-        });
+      // Set up auth state listener
+      const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+          setSession(session);
+          setUserID(session?.user?.id || null);
+          setLoading(false);
+      });
 
-        return () => subscription.unsubscribe();
+      return () => subscription.unsubscribe();
     }, []);
-
-    useEffect(() => {
-
-      const getUserID = async () => {
-        if (session) {
-          const { data: { user } } = await supabase.auth.getUser();
-          setUserID(user?.id);
-          //console.log(user?.id);
-        }
-      }
-
-      getUserID();
-    }, [session])
 
     async function signUp(email, password) {
         try {
