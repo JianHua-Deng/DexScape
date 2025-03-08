@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { SkeletonTheme } from 'react-loading-skeleton';
 import { Toaster } from 'react-hot-toast';
 import { useTheme, useMediaQuery, Box } from '@mui/material';
+import { Analytics } from "@vercel/analytics/react"
 
 import Home from './components/home/Home';
 import Header from './components/header/Header';
@@ -28,6 +29,7 @@ function App() {
   return (
 
     <SkeletonTheme baseColor={ theme === 'dark' ? "#5c5c5c" : "#c4c4c4" } highlightColor="#e6e6e6">
+      <Analytics />
       <BrowserRouter>
         <Toaster position="top-center" />
         <Box 
