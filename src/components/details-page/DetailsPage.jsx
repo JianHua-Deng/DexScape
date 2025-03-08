@@ -241,7 +241,7 @@ function DetailPage() {
             </div>
           ) : (
             <div className="mt-8 text-center text-gray-600">
-              No chapters available
+              No English chapters available
             </div>
           )}
         </div>

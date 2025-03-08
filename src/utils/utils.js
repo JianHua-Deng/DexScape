@@ -74,7 +74,7 @@ const defaultSearchConfig = {
     hasAvailableChapters: 'true'
 };
 
-const popularSearchParams = {
+const acclaimedSearchParams = {
     limit: 28,
     includes: ["authors", "artist", "cover_art"],
     order: {
@@ -93,6 +93,17 @@ const latestSearchParams = {
         rating: 'desc',
     },
     hasAvailableChapters: 'true'
+}
+
+const trendSearchParams = {
+  limit: 7,
+  includes: ["authors", "artist", "cover_art"],
+  order: {
+      followedCount: 'desc',
+      rating: 'desc',
+      latestUploadedChapter: 'desc',
+  },
+  hasAvailableChapters: 'true'
 }
 
 const completedMangaParams = {
@@ -120,4 +131,4 @@ const sliderSettings = {
 
 
 
-export {sliderSettings, defaultSearchConfig, popularSearchParams, latestSearchParams, completedMangaParams, getAvailableLanguages, getChapterListConfig, filterDuplicateChapters, scrollToStart, getTagsListID, getMangaListConfig, getMangaTitle }
+export {sliderSettings, defaultSearchConfig, acclaimedSearchParams, latestSearchParams, trendSearchParams, completedMangaParams, getAvailableLanguages, getChapterListConfig, filterDuplicateChapters, scrollToStart, getTagsListID, getMangaListConfig, getMangaTitle }

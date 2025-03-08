@@ -12,6 +12,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import HistoryIcon from '@mui/icons-material/History';
 
 import HomeIcon from '@mui/icons-material/Home';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import WhatshotIcon from '@mui/icons-material/Whatshot';
 import FiberNewIcon from '@mui/icons-material/FiberNew';
 import { colors } from "../../utils/colors";
@@ -35,7 +36,8 @@ export default function NavList({ onItemClick }){
 
   const navLinks = [
     { text: "Home", path: "/", component: <HomeIcon/> },
-    { text: "Popular", path: "/popular/1", component: <WhatshotIcon/>},
+    { text: "Acclaimed", path: "/acclaimed/1", component: <ThumbUpIcon/>},
+    { text: "Trend", path: "/trend/1", component: <WhatshotIcon/>},
     { text: "Latest", path: "/latest/1", component: <FiberNewIcon/>},
   ];
 

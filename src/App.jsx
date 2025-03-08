@@ -85,7 +85,8 @@ function App() {
                   <Route path="/" element={<Home />} />
                   <Route path="login" element={<Login />} />
                   <Route path="signup" element={<Signup />} />
-                  <Route path="popular/:page" element={<SearchResultPage />} />
+                  <Route path="acclaimed/:page" element={<SearchResultPage />} />
+                  <Route path="trend/:page" element={<SearchResultPage/>} />
                   <Route path="latest/:page" element={<SearchResultPage />} />
                   <Route path="tag/:name/:uuid/:page" element={<SearchResultPage />} />
                   <Route path="search/:queryString/:page" element={<SearchResultPage />} />

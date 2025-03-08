@@ -2,7 +2,7 @@ import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useRef } from "react";
 import { useEffect, useState } from "react";
 import { searchMangas } from "../../utils/mangaDexApi";
-import { popularSearchParams, latestSearchParams, defaultSearchConfig, scrollToStart } from '../../utils/utils';
+import { acclaimedSearchParams, latestSearchParams, defaultSearchConfig, scrollToStart, trendSearchParams } from '../../utils/utils';
 import MangaPreviewSkeleton from '../skeletons/result-skeleton/MangaPreviewSkeleton';
 import Pagination from "../pagination/Pagination";
 import useWindowWidth from "../hooks/useWindowWidth";
@@ -29,13 +29,19 @@ function SearchResultPage() {
   let searchConfig = {};
   let title = '';
 
-  if (path.includes("/popular")) {
-    searchConfig = { ...popularSearchParams, limit: `${numPerPage}`, offset: offset };
-    title = 'Popular';
+  if (path.includes("/acclaimed")) {
+    searchConfig = { ...acclaimedSearchParams, limit: `${numPerPage}`, offset: offset };
+    title = 'Popularly Acclaimed';
+
   } else if (path.includes("/latest")) {
     searchConfig = { ...latestSearchParams, limit: `${numPerPage}`, offset: offset };
     title = 'Latest';
-  } else if (path.includes("/tag")) {
+
+  } else if (path.includes("/trend")) {
+    searchConfig = {...trendSearchParams, limit: `${numPerPage}`, offset: offset};
+    title = 'Trending';
+
+  }else if (path.includes("/tag")) {
     searchConfig = {
       limit: `${numPerPage}`,
       includedTags: [uuid],
@@ -43,6 +49,7 @@ function SearchResultPage() {
       offset: offset,
     };
     title = `Results of tag "${name}"`;
+
   } else {
     searchConfig = { ...defaultSearchConfig, title: queryString, offset: offset };
     title = `Results of "${queryString}"`;

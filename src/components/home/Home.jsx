@@ -2,16 +2,15 @@ import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import FeaturedSlider from '../featured-slider/FeaturedSlider';
-import { popularSearchParams, latestSearchParams, scrollToStart, getTagsListID } from '../../utils/utils';
+import { acclaimedSearchParams, latestSearchParams, trendSearchParams, scrollToStart, getTagsListID } from '../../utils/utils';
 import { searchMangas, getCoverUrl, getAllTags } from '../../utils/mangaDexApi';
-import Skeleton from 'react-loading-skeleton';
-import MangaCard from '../manga-card/MangaCard';
-import SectionTitle from '../ui/SectionTitle';
+import SectionSlider from '../section-slider/SectionSlider';
 
 
 export default function Home() {
-  const [popularManga, setPopularManga] = useState([]);
-  const [latestManga, setLatestManga] = useState([]);
+  const [acclaimedMangas, setAcclaimedMangas] = useState([]);
+  const [trendMangas, setTrendMangas] = useState([]);
+  const [latestMangas, setLatestMangas] = useState([]);
   const [tagsList, setTagsList] = useState([]);
   const [tagIdMap, setTagIdMap] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -24,12 +23,14 @@ export default function Home() {
     const fetchManga = async () => {
       setIsLoading(true);
       try {
-        const popularResp = await searchMangas({ ...popularSearchParams, limit: 6 });
+        const acclaimedResp = await searchMangas({ ...acclaimedSearchParams, limit: 6 });
+        const trendResp = await searchMangas({...trendSearchParams, limit: 6});
         const latestResp = await searchMangas({ ...latestSearchParams, limit: 6 });
         const tagResp = await getAllTags();
         
-        setPopularManga(popularResp.data);
-        setLatestManga(latestResp.data);
+        setAcclaimedMangas(acclaimedResp.data);
+        setTrendMangas(trendResp.data);
+        setLatestMangas(latestResp.data);
         setTagsList(tagResp);
 
       } catch (error) {
@@ -58,35 +59,9 @@ export default function Home() {
 
       <div className="max-w-7xl mx-auto px-4 py-8 space-y-12">
 
-        <section>
-          <SectionTitle title="Popularly Acclaimed" viewAllLink="/popular/1" />
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {isLoading ? 
-                Array(6).fill(0).map((_, index) => (
-                  <div key={index}>
-                    <Skeleton className="w-full h-64 rounded-lg" />
-                  </div>
-                )) : popularManga.map((manga) => (
-                  <MangaCard key={manga.id} manga={manga} />
-                ))}
-          </div>
-        </section>
-
-
-        <section>
-          <SectionTitle title="Latest Uploads" viewAllLink="/latest/1" />
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {isLoading? 
-                Array(6).fill(0).map((_, index) => (
-                  <div key={index}>
-                    <Skeleton className="w-full h-64 rounded-lg" />
-                  </div>
-                ))
-              : latestManga.map((manga) => (
-                  <MangaCard key={manga.id} manga={manga} />
-                ))}
-          </div>
-        </section>
+        <SectionSlider sectionTitle={`Popularly Acclaimed`} navLink={`/acclaimed/1`} mangaData={acclaimedMangas} isLoading={isLoading}/>
+        <SectionSlider sectionTitle={`Trending`} navLink={`/trend/1`} mangaData={trendMangas} isLoading={isLoading}/>
+        <SectionSlider sectionTitle={`Latest Uploads`} navLink={`/latest/1`} mangaData={latestMangas} isLoading={isLoading}/>
 
 
         <section>
