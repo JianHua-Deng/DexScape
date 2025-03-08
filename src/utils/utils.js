@@ -88,9 +88,9 @@ const latestSearchParams = {
     limit: 7,
     includes: ["authors", "artist", "cover_art"],
     order: {
+        latestUploadedChapter: 'desc',
         followedCount: 'desc',
         rating: 'desc',
-        updatedAt: 'desc',
     },
     hasAvailableChapters: 'true'
 }

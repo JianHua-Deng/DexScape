@@ -86,7 +86,7 @@ function DetailPage() {
         setChapterList(filteredChapter);
         // Only set default if no reading history was found
         setStartReadingLink(prev => {
-          return prev || `/comic/${mangaID}/chapter/${filteredChapter[0].id}/1`;
+          return prev || `/comic/${mangaID}/chapter/${filteredChapter[0]?.id}/1`;
         });
       })
       .finally(() => {

@@ -74,7 +74,7 @@ export default function Home() {
 
 
         <section>
-          <SectionTitle title="Latest Updates" viewAllLink="/latest/1" />
+          <SectionTitle title="Latest Uploads" viewAllLink="/latest/1" />
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {isLoading? 
                 Array(6).fill(0).map((_, index) => (
