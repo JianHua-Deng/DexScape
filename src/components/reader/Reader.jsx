@@ -108,6 +108,16 @@ function Reader() {
       setIsLoadingData(false);
     }
   }, [page, imageUrlArray]);
+  
+  // Preload the image into browser by creating a Image object for each url
+  useEffect(() => {
+    if (imageUrlArray) {
+      imageUrlArray.forEach((imgUrl) => {
+        const imgObject = new Image();
+        imgObject.src = imgUrl;
+      });
+    }
+  }, [imageUrlArray])
 
   useEffect(() => {
     if (session && chapterData && chapterData?.attributes?.chapter) {
