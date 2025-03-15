@@ -2,7 +2,7 @@ import { useNavigate, Link, useParams } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { getChapterMetaData, searchSpecificManga, fetchChapterList, getChapterInfo } from "../../utils/mangaDexApi";
 import Skeleton from "react-loading-skeleton";
-import { getChapterListConfig, getAvailableLanguages, filterDuplicateChapters, scrollToStart } from "../../utils/utils";
+import { getChapterListConfig, getAvailableLanguages, filterDuplicateChapters, scrollToStart, preLoadImages } from "../../utils/utils";
 import Select from "react-select";
 import ChapterImage from "../chapter-image/ChapterImage";
 import getSelectorStyle from "../../utils/theme";
@@ -28,18 +28,21 @@ function Reader() {
   const [imageUrlArray, setImageUrlArray] = useState([]);
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [imgURL, setImageURL] = useState("");
-  const [pageNumber, setPageNumber] = useState(page);
+  const [pageNumber, setPageNumber] = useState(page); // Type integer version of "page"
+  const [preLoadedImageIndex, setPreLoadedImageIndex] = useState(parseInt(page, 10));
+  const [preLoadedImageSet, setPreloadedImageSet] = useState(new Set());
 
   const { theme } = useThemeProvider();
   const { session, userID } = useAuth();
 
   // Create a ref for the image container
   const imageContainerRef = useRef(null);
+  const webtoonScrollRef = useRef(null);
 
   // When pageNumber changes, scroll to the image container
   useEffect(() => {
     scrollToStart(imageContainerRef);
-  }, [pageNumber, chapterID, isLoadingData]);
+  }, [page, chapterID, isLoadingData]);
 
   // Fetch manga language info
   useEffect(() => {
@@ -104,20 +107,22 @@ function Reader() {
       const numPage = parseInt(page, 10) || 1;
       const validPage = Math.min(Math.max(numPage, 1), imageUrlArray.length);
       setPageNumber(validPage);
+      setPreLoadedImageIndex(validPage) // Since preLoadedImageIndex is 0 indexed, so it is fine it is set it to validPage, since it should be one image url ahead of the current image
       setImageURL(imageUrlArray[validPage - 1]);
       setIsLoadingData(false);
     }
   }, [page, imageUrlArray]);
   
-  // Preload the image into browser by creating a Image object for each url
+  
+  // Preload the image into browser by creating a Image object based on the image url
+  // This useEffect should only run once when the imgUrlArray changes. Basically only run when the imgurls are ready
   useEffect(() => {
-    if (imageUrlArray) {
-      imageUrlArray.forEach((imgUrl) => {
-        const imgObject = new Image();
-        imgObject.src = imgUrl;
-      });
+    if (imageUrlArray.length > 0) {
+      const leftOffIndex = preLoadImages(imageUrlArray, preLoadedImageIndex, 5, preLoadedImageSet, setPreloadedImageSet);
+      setPreLoadedImageIndex(leftOffIndex);
     }
   }, [imageUrlArray])
+  
 
   useEffect(() => {
     if (session && chapterData && chapterData?.attributes?.chapter) {
@@ -133,23 +138,28 @@ function Reader() {
     }
   }, [tags]);
 
-
-  // TODO
-  // This function doesn't actually work yet, due to the fact that the image doesnt have a fixed height
+  
   function scrollDownOnClick(){
-    if (imageContainerRef.current){
-      imageContainerRef.current.scrollBy({
-        top: 700,
+    const mainScrollContainer = document.querySelector(".main-scroll-container");
+    if (mainScrollContainer) {
+      mainScrollContainer.scrollBy({
+        top: 1000,
         behavior: "smooth",
-      });
+      })
     }
-  }
+    }
 
   // Navigation functions update the URL
   function nextPg() {
+
     if (pageNumber === imageUrlArray.length) {
       nextChapter();
       return;
+    }
+
+    if (imageUrlArray.length > 0) {
+      const leftOffIndex = preLoadImages(imageUrlArray, preLoadedImageIndex, 5, preLoadedImageSet, setPreloadedImageSet);
+      setPreLoadedImageIndex(leftOffIndex);
     }
     navigate(`/comic/${mangaID}/chapter/${chapterID}/${pageNumber + 1}`);
   }

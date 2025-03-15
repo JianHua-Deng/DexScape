@@ -1,7 +1,7 @@
-import { css } from "@emotion/react";
+
 
 //If the available language is empty, return the original language, else check if there's english, if not, return the first one in that array
-function getAvailableLanguages(manga){
+export function getAvailableLanguages(manga){
     if(manga.attributes.availableTranslatedLanguages.length < 1){
         return [`${manga.attributes.originalLanguage}`]
     }else{
@@ -9,7 +9,7 @@ function getAvailableLanguages(manga){
     }
 }
 
-function filterDuplicateChapters(chapterList){
+export function filterDuplicateChapters(chapterList){
     const chapterSet = new Set();
     return chapterList.filter(chapter => {
         if(!chapterSet.has(chapter.attributes.chapter)){
@@ -19,7 +19,7 @@ function filterDuplicateChapters(chapterList){
     });
 }
 
-function getChapterListConfig(mangaLanguage){
+export function getChapterListConfig(mangaLanguage){
     return {
         limit: 500,
         translatedLanguage: mangaLanguage,
@@ -30,7 +30,7 @@ function getChapterListConfig(mangaLanguage){
     }
 }
 
-function getMangaListConfig(mangaIDs, limit){
+export function getMangaListConfig(mangaIDs, limit){
   return {
     limit: limit,
     includes: ["authors", "artist", "cover_art"],
@@ -38,7 +38,7 @@ function getMangaListConfig(mangaIDs, limit){
   }
 }
 
-function getTagsListID(rawTagsObject, tagsList) {
+export function getTagsListID(rawTagsObject, tagsList) {
   const idList = rawTagsObject.reduce((accumulator, tagItem) => {
     if (tagsList.includes(tagItem?.attributes?.name?.en)){
       accumulator.push({id: tagItem.id, tag: tagItem?.attributes?.name?.en});
@@ -49,11 +49,11 @@ function getTagsListID(rawTagsObject, tagsList) {
   return idList
 }
 
-function getMangaTitle(manga){
+export function getMangaTitle(manga){
   return manga.attributes.title.en ? manga.attributes.title.en : Object.values(manga.attributes.title)[0];
 }
 
-function scrollToStart(ref) {
+export function scrollToStart(ref) {
   setTimeout(() => {
     if (ref.current) {
       ref.current.scrollIntoView({ behavior: "smooth", block: "start" })
@@ -61,9 +61,33 @@ function scrollToStart(ref) {
   }, 10)
 }
 
+export function preLoadImages(imageUrlArray, currentPreloadIndex, offset, preLoadedImageSet, setPreloadedImageSet) {
+  let currentIndex = currentPreloadIndex;
+  let imageSet = new Set();
+
+  if (imageUrlArray.length > 0) {
+    const offsetIndex = currentPreloadIndex + offset;
+
+    while ( (currentIndex < offsetIndex) && (currentIndex < imageUrlArray.length) ) {
+      const imgUrl = imageUrlArray[currentIndex]
+      // Only preload if this URL hasn't been preloaded yet
+      if (!preLoadedImageSet.has(imgUrl)){
+        const imgObject = new Image();
+        imgObject.src =  imgUrl;
+        imageSet.add(imgUrl)
+      }
+      currentIndex += 1
+    }
+
+  }
+
+  setPreloadedImageSet((prev) => new Set([...prev, ...imageSet]));
+  return currentIndex; // Return the final index that it leftoff at
+}
 
 
-const defaultSearchConfig = {
+
+export const defaultSearchConfig = {
     limit: 28,
     includes: ["authors", "artist", "cover_art"],
     order: {
@@ -74,7 +98,7 @@ const defaultSearchConfig = {
     hasAvailableChapters: 'true'
 };
 
-const acclaimedSearchParams = {
+export const acclaimedSearchParams = {
     limit: 28,
     includes: ["authors", "artist", "cover_art"],
     order: {
@@ -84,7 +108,7 @@ const acclaimedSearchParams = {
     hasAvailableChapters: 'true'
 }
 
-const latestSearchParams = {
+export const latestSearchParams = {
     limit: 7,
     includes: ["authors", "artist", "cover_art"],
     order: {
@@ -95,7 +119,7 @@ const latestSearchParams = {
     hasAvailableChapters: 'true'
 }
 
-const trendSearchParams = {
+export const trendSearchParams = {
   limit: 7,
   includes: ["authors", "artist", "cover_art"],
   order: {
@@ -106,7 +130,7 @@ const trendSearchParams = {
   hasAvailableChapters: 'true'
 }
 
-const completedMangaParams = {
+export const completedMangaParams = {
     limit: 28,
     includes: ["authors", "artist", "cover_art"],
     status: ["completed"],
@@ -118,7 +142,7 @@ const completedMangaParams = {
 }
   
 
-const sliderSettings = {
+export const sliderSettings = {
     dots: false,
     infinite: true,
     slidesToShow: 1,
@@ -131,4 +155,4 @@ const sliderSettings = {
 
 
 
-export {sliderSettings, defaultSearchConfig, acclaimedSearchParams, latestSearchParams, trendSearchParams, completedMangaParams, getAvailableLanguages, getChapterListConfig, filterDuplicateChapters, scrollToStart, getTagsListID, getMangaListConfig, getMangaTitle }
+//export {sliderSettings, defaultSearchConfig, acclaimedSearchParams, latestSearchParams, trendSearchParams, completedMangaParams, getAvailableLanguages, getChapterListConfig, filterDuplicateChapters, scrollToStart, getTagsListID, getMangaListConfig, getMangaTitle }

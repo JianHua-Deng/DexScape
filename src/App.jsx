@@ -72,6 +72,7 @@ function App() {
                 display: 'flex',
                 flexDirection: 'column'
               }}
+              className="main-scroll-container"
             >
               <Header isDrawerOpen={drawerOpen} setIsDrawerOpen={setDrawerOpen} isDesktop={isDesktop} />
               
