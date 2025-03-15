@@ -6,7 +6,7 @@ import ThemeContextProvider from './lib/ThemeContextProvider.jsx'
 import AuthProvider from './lib/AuthContext.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-
+  <React.StrictMode> 
 
     <AuthProvider>
       <ThemeContextProvider>
@@ -14,5 +14,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       </ThemeContextProvider>
     </AuthProvider>
 
-
+  </React.StrictMode>,
 )
