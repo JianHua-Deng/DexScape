@@ -75,7 +75,7 @@ export function preLoadImages(imageUrlArray, currentPreloadIndex, offset, preLoa
         const imgObject = new Image();
         imgObject.src =  imgUrl;
         imageSet.add(imgUrl)
-        console.log(`Preloading, currentIndex: ${currentIndex}`);
+        //console.log(`Preloading, currentIndex: ${currentIndex}`);
       }
       currentIndex += 1
     }

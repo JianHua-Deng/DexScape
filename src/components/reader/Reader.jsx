@@ -56,6 +56,7 @@ function Reader() {
 
   // Fetch chapter meta data
   useEffect(() => {
+    setPreLoadedImageIndex(parseInt(page, 10)); // Resetting preLoadImageIndex when switching chapter
     getChapterMetaData(chapterID).then((respond) => {
       setMetaData(respond);
     });
