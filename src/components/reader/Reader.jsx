@@ -37,7 +37,6 @@ function Reader() {
 
   // Create a ref for the image container
   const imageContainerRef = useRef(null);
-  const webtoonScrollRef = useRef(null);
 
   // When pageNumber changes, scroll to the image container
   useEffect(() => {
@@ -138,7 +137,7 @@ function Reader() {
     }
   }, [tags]);
 
-  
+
   function scrollDownOnClick(){
     const mainScrollContainer = document.querySelector(".main-scroll-container");
     if (mainScrollContainer) {
@@ -158,7 +157,7 @@ function Reader() {
     }
 
     if (imageUrlArray.length > 0) {
-      const leftOffIndex = preLoadImages(imageUrlArray, preLoadedImageIndex, 5, preLoadedImageSet, setPreloadedImageSet);
+      const leftOffIndex = preLoadImages(imageUrlArray, preLoadedImageIndex, 1, preLoadedImageSet, setPreloadedImageSet);
       setPreLoadedImageIndex(leftOffIndex);
     }
     navigate(`/comic/${mangaID}/chapter/${chapterID}/${pageNumber + 1}`);
