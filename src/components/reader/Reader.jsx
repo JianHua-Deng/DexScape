@@ -106,7 +106,7 @@ function Reader() {
       const numPage = parseInt(page, 10) || 1;
       const validPage = Math.min(Math.max(numPage, 1), imageUrlArray.length);
       setPageNumber(validPage);
-      setPreLoadedImageIndex(validPage) // Since preLoadedImageIndex is 0 indexed, so it is fine it is set it to validPage, since it should be one image url ahead of the current image
+      //setPreLoadedImageIndex(validPage) // Since preLoadedImageIndex is 0 indexed, so it is fine it is set it to validPage, since it should be one image url ahead of the current image
       setImageURL(imageUrlArray[validPage - 1]);
       setIsLoadingData(false);
     }
