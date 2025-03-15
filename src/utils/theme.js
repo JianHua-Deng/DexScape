@@ -19,6 +19,7 @@ export default function getSelectorStyle(theme) {
     singleValue: (base) => ({
       ...base,
       color: textColor,
+      
     }),
     option: (base, state) => ({
       ...base,

@@ -226,7 +226,7 @@ function Reader() {
 
             </Link>
 
-            <div className="self-center justify-self-center col-start-2 col-end-3 p-[0.3rem]">
+            <div className="min-w-0 self-center justify-self-center col-start-2 col-end-3 p-[0.3rem] ">
               <Select
                 isSearchable={false}
                 styles={ getSelectorStyle(theme) }
