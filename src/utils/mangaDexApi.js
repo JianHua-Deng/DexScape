@@ -8,7 +8,30 @@ GET /mangaList/manga?limit=15&includes[]=authors&includes[]=artist&includes[]=co
 https://api.mangadex.org/manga?limit=15&includes[]=authors&includes[]=artist&includes[]=cover_art&status[]=completed&order[rating]=desc&order[followedCount]=desc [200]
 */
 
-async function getAllTags(){
+
+// Return true if mangadex server is healthy, false otherwise
+export async function checkMangadexHealth(){
+  try {
+    const resp = await axios({
+      method: "GET",
+      url: `https://api.mangadex.org/ping`
+    });
+
+
+    if (resp.data !== "pong") {
+      return false;
+    }
+
+    return true;
+
+  } catch (error) {
+    console.error("Error checking Mangadex's Server Status", error);
+    return false;
+
+  }
+}
+
+export async function getAllTags(){
   try {
     const resp = await axios({
       method: "GET",
@@ -24,7 +47,7 @@ async function getAllTags(){
 
 }
 
-async function getChapterInfo(chapterID) {
+export async function getChapterInfo(chapterID) {
   try{
     const resp = await axios({
       method: "GET",
@@ -38,7 +61,7 @@ async function getChapterInfo(chapterID) {
   }
 }
 
-async function searchMangas(searchConfig){
+export async function searchMangas(searchConfig){
     //console.log("Search Manga, ProxyUrl: " + proxyUrl + "\n" + "Port: " + process.env.PORT);
     try {
       const resp = await axios({
@@ -56,7 +79,7 @@ async function searchMangas(searchConfig){
     //console.log(resp);
 }
 
-async function searchSpecificManga(mangaID){
+export async function searchSpecificManga(mangaID){
 
   try {
     const resp = await axios({
@@ -75,7 +98,7 @@ async function searchSpecificManga(mangaID){
     //console.log(resp.data.data);
 }
 
-async function fetchChapterList(mangaID, config){
+export async function fetchChapterList(mangaID, config){
 
   try {
     const resp = await axios({
@@ -92,7 +115,7 @@ async function fetchChapterList(mangaID, config){
 
 }
 
-async function getChapterMetaData(chapterID){
+export async function getChapterMetaData(chapterID){
 
   try {
     const resp = await axios({
@@ -108,7 +131,7 @@ async function getChapterMetaData(chapterID){
     
 }
 
-function getCoverUrl(manga){
+export function getCoverUrl(manga){
   //console.log(manga);
   const baseUrl =  `${process.env.PROXY_URL}`;
   //const baseUrl = "http://localhost:5173"
@@ -119,7 +142,4 @@ function getCoverUrl(manga){
   return coverUrl;
 }
 
-
-
-export { getAllTags, getChapterInfo, searchMangas, searchSpecificManga, fetchChapterList, getChapterMetaData, getCoverUrl};
 

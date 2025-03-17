@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import FeaturedSlider from '../featured-slider/FeaturedSlider';
 import { acclaimedSearchParams, latestSearchParams, trendSearchParams, scrollToStart, getTagsListID } from '../../utils/utils';
-import { searchMangas, getCoverUrl, getAllTags } from '../../utils/mangaDexApi';
+import { searchMangas, getAllTags } from '../../utils/mangaDexApi';
 import SectionSlider from '../section-slider/SectionSlider';
 
 

@@ -143,7 +143,7 @@ function Reader() {
     const mainScrollContainer = document.querySelector(".main-scroll-container");
     if (mainScrollContainer) {
       mainScrollContainer.scrollBy({
-        top: 1000,
+        top: 750,
         behavior: "smooth",
       })
     }
