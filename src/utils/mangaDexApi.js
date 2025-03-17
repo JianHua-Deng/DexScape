@@ -14,7 +14,7 @@ export async function checkMangadexHealth(){
   try {
     const resp = await axios({
       method: "GET",
-      url: `https://api.mangadex.org/ping`
+      url: `${proxyUrl}/ping`
     });
 
 
