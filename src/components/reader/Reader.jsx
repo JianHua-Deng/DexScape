@@ -64,6 +64,7 @@ function Reader() {
   // Fetch chapter meta data
   useEffect(() => {
     setPreLoadedImageIndex(parseInt(page, 10)); // Resetting preLoadImageIndex when switching chapter
+    setImageUrlArray([]);
     // Reset webtoon loading informations
     setWebtoonLoadedImgCount(0);
     setIsWebtoonLoaded(false);
@@ -190,6 +191,10 @@ function Reader() {
   }
 
   function nextChapter() {
+    setIsLoadingData(true); 
+    setImageUrlArray([]);
+    setMetaData(null);
+    setChapterData(null);
     const currentIndex = chapterList.findIndex((chapter) => chapter.id === chapterID);
     const nextChapterIndex = currentIndex + 1;
     if (nextChapterIndex >= chapterList.length) {
@@ -201,6 +206,10 @@ function Reader() {
   }
 
   function previousChapter() {
+    setIsLoadingData(true); 
+    setImageUrlArray([]);
+    setMetaData(null);
+    setChapterData(null);
     const currentIndex = chapterList.findIndex((chapter) => chapter.id === chapterID);
     const previousChapterIndex = currentIndex - 1;
     if (previousChapterIndex < 0) {
