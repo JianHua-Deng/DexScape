@@ -63,6 +63,7 @@ export default function ChapterImage({imgURL, imgStyle, onClick}){
         src={imgURL}
         onLoad={() => {
           setIsImageLoading(false);
+          clearTimeout(timerRef.current);
         }}
         style={{ display: isImageLoading ? "none" : "block" }}
         alt="image-content"
