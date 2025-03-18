@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import Skeleton from "react-loading-skeleton";
 
 
-export default function ChapterImage({imgURL, imgStyle, onClick}){
+export default function ChapterImage({imgURL, imgStyle, onClick, handleImgLoaded}){
 
   const [isImageLoading, setIsImageLoading] = useState(true);
   const imgRef = useRef(null);
@@ -63,6 +63,9 @@ export default function ChapterImage({imgURL, imgStyle, onClick}){
         src={imgURL}
         onLoad={() => {
           setIsImageLoading(false);
+          if (handleImgLoaded) {
+            handleImgLoaded(prev => prev + 1);
+          }
           clearTimeout(timerRef.current);
         }}
         style={{ display: isImageLoading ? "none" : "block" }}

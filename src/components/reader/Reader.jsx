@@ -10,6 +10,7 @@ import { useThemeProvider } from "../../lib/ThemeContextProvider";
 import { KeyboardDoubleArrowLeft, KeyboardDoubleArrowRight, KeyboardArrowLeft, KeyboardArrowRight, ArrowBack } from '@mui/icons-material';
 import { useAuth } from "../../lib/AuthContext";
 import { updateUserReadingHistory } from "../../utils/supabase";
+import { CircularProgress } from "@mui/material";
 
 
 function Reader() {
@@ -32,6 +33,9 @@ function Reader() {
   const [preLoadedImageIndex, setPreLoadedImageIndex] = useState(parseInt(page, 10));
   const [preLoadedImageSet, setPreloadedImageSet] = useState(new Set());
 
+  const [webtoonLoadedImgCount, setWebtoonLoadedImgCount] = useState(0);
+  const [isWebtoonLoaded, setIsWebtoonLoaded] = useState(false);
+
   const { theme } = useThemeProvider();
   const { session, userID } = useAuth();
 
@@ -40,8 +44,11 @@ function Reader() {
 
   // When pageNumber changes, scroll to the image container
   useEffect(() => {
+
     scrollToStart(imageContainerRef);
-  }, [page, chapterID, isLoadingData]);
+
+  }, [page, chapterID, isLoadingData, isWebtoonLoaded]);
+
 
   // Fetch manga language info
   useEffect(() => {
@@ -57,6 +64,9 @@ function Reader() {
   // Fetch chapter meta data
   useEffect(() => {
     setPreLoadedImageIndex(parseInt(page, 10)); // Resetting preLoadImageIndex when switching chapter
+    // Reset webtoon loading informations
+    setWebtoonLoadedImgCount(0);
+    setIsWebtoonLoaded(false);
     getChapterMetaData(chapterID).then((respond) => {
       setMetaData(respond);
     });
@@ -138,6 +148,13 @@ function Reader() {
     }
   }, [tags]);
 
+  useEffect(() => {
+    if (imageUrlArray.length > 0 && webtoonLoadedImgCount === imageUrlArray.length) {
+      setIsWebtoonLoaded(true);
+    }
+  }, [webtoonLoadedImgCount])
+
+
 
   function scrollDownOnClick(){
     const mainScrollContainer = document.querySelector(".main-scroll-container");
@@ -147,7 +164,7 @@ function Reader() {
         behavior: "smooth",
       })
     }
-    }
+  }
 
   // Navigation functions update the URL
   function nextPg() {
@@ -188,7 +205,6 @@ function Reader() {
     const previousChapterIndex = currentIndex - 1;
     if (previousChapterIndex < 0) {
       navigate(`/comic/${mangaID}`);
-      return;
     }
     const previousChapter = chapterList[previousChapterIndex];
     navigate(`/comic/${mangaID}/chapter/${previousChapter.id}/1`);
@@ -206,10 +222,8 @@ function Reader() {
 
     <div className="flex flex-col w-full h-full items-center gap-4">
       {isLoadingData ? (
-        <div className="w-full h-full flex flex-col justify-center items-center max-w-[60rem]">
-          <div className="w-full">
-            <Skeleton className="w-full aspect-[4/5]" />
-          </div>
+        <div className={`max-w-full h-screen flex justify-center items-center`}>
+          <CircularProgress size={"5rem"}/>
         </div>
       ) : (
         <>
@@ -247,11 +261,18 @@ function Reader() {
           <div ref={imageContainerRef} className={` ${isWebtoon ? 'h-auto items-start' : 'h-screen items-center'} flex w-full justify-center items-center ${isWebtoon? 'max-w-[60rem]' : 'max-w-full' }`}>
             
             {isWebtoon ? (
-              <div className="flex flex-col w-full h-full">
-                {imageUrlArray.map((url, index) => (
-                  <ChapterImage imgURL={url} imgStyle={"w-full h-auto"} onClick={scrollDownOnClick} key={index}/>
-                ))}
-              </div>
+              
+              <>
+                <div className={`max-w-full h-screen flex justify-center items-center ${isWebtoonLoaded ? 'hidden' : 'flex'} `}>
+                  <CircularProgress size={"5rem"}/>
+                </div>
+
+                <div className={`flex flex-col w-full h-full ${isWebtoonLoaded ? 'flex' : 'hidden'}`}>
+                  {imageUrlArray.map((url, index) => (
+                    <ChapterImage imgURL={url} imgStyle={"w-full h-auto"} onClick={scrollDownOnClick} handleImgLoaded={setWebtoonLoadedImgCount} key={index}/>
+                  ))}
+                </div>
+              </>
 
             ) : (
               <ChapterImage imgURL={imgURL} imgStyle={"h-screen w-auto object-contain cursor-pointer"} onClick={nextPg} />
