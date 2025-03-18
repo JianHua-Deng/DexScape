@@ -208,13 +208,13 @@ function Reader() {
       {isLoadingData ? (
         <div className="w-full h-full flex flex-col justify-center items-center max-w-[60rem]">
           <div className="w-full">
-            <Skeleton className="w-full aspect-[3/4]" />
+            <Skeleton className="w-full aspect-[4/5]" />
           </div>
         </div>
       ) : (
         <>
 
-          <div className="flex justify-evenly w-full max-w-72 gap-4 md:grid md:grid-cols-3 md:items-center md:w-full md:max-w-full">
+          <div className="flex justify-evenly mt-2 w-full max-w-72 gap-4 md:grid md:grid-cols-3 md:items-center md:w-full md:max-w-full">
             <Link
               to={`/comic/${mangaID}`}
               className="self-center justify-self-start p-[0.3rem]"

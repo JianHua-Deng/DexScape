@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import toast from "react-hot-toast";
 import Skeleton from "react-loading-skeleton";
 
 
@@ -6,9 +7,35 @@ export default function ChapterImage({imgURL, imgStyle, onClick}){
 
   const [isImageLoading, setIsImageLoading] = useState(true);
   const imgRef = useRef(null);
+  const timerRef = useRef(null); 
 
   useEffect(() => {
     setIsImageLoading(true);
+
+    // Clear existing timer
+    if (timerRef.current){
+      clearTimeout(timerRef.current);
+    }
+
+    timerRef.current = setTimeout(() => {
+      if (isImageLoading){
+        toast( (t) => (
+          <span>
+            <p className="font-bold">Image is taking a bit too long to load</p>
+            <br/>
+            <p className="font-extralight">The Mangadex server might be too busy right now...</p>
+          </span>
+        ),
+        { position: 'top-right',
+          duration: 6000
+        }
+        );
+      }
+    }, 40000); // 40s = 40000ms
+
+    // Cleanup timer on unmount or before re-running effect
+    return () => clearTimeout(timerRef.current);
+
   }, [imgURL]);
 
 
@@ -16,6 +43,7 @@ export default function ChapterImage({imgURL, imgStyle, onClick}){
   useEffect(() => {
     if (imgRef.current && imgRef.current.complete) {
       setIsImageLoading(false);
+      clearTimeout(timerRef.current);
     }
   }, [imgURL]);
   
@@ -25,7 +53,7 @@ export default function ChapterImage({imgURL, imgStyle, onClick}){
       {isImageLoading && (
         <div className="w-full h-full flex flex-col justify-center items-center max-w-[60rem]">
           <div className="w-full">
-            <Skeleton className="w-full aspect-[3/4]" />
+            <Skeleton className="w-full aspect-[4/5]" />
           </div>
         </div>
       )}
