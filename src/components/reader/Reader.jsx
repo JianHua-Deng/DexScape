@@ -1,7 +1,6 @@
 import { useNavigate, Link, useParams } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { getChapterMetaData, searchSpecificManga, fetchChapterList, getChapterInfo } from "../../utils/mangaDexApi";
-import Skeleton from "react-loading-skeleton";
 import { getChapterListConfig, getAvailableLanguages, filterDuplicateChapters, scrollToStart, preLoadImages } from "../../utils/utils";
 import Select from "react-select";
 import ChapterImage from "../chapter-image/ChapterImage";
@@ -22,7 +21,7 @@ function Reader() {
   const [isWebtoon, setIsWebtoon] = useState(false);
 
   const [chapterList, setChapterList] = useState([]);
-  const [chapterData, setChapterData] = useState([]);
+  const [chapterData, setChapterData] = useState([]); // Specific informations about the current chapter
   const [mangaLanguage, setMangaLanguage] = useState([]);
   const [selectorOptions, setSelectorOptions] = useState([]);
   const [metaData, setMetaData] = useState(null);
@@ -59,15 +58,16 @@ function Reader() {
       });
       setMangaLanguage(getAvailableLanguages(respond));
     });
-  }, [mangaID, chapterID]);
+  }, [mangaID]);
 
   // Fetch chapter meta data
   useEffect(() => {
     setPreLoadedImageIndex(parseInt(page, 10)); // Resetting preLoadImageIndex when switching chapter
-    setImageUrlArray([]);
+    
     // Reset webtoon loading informations
     setWebtoonLoadedImgCount(0);
     setIsWebtoonLoaded(false);
+    
     getChapterMetaData(chapterID).then((respond) => {
       setMetaData(respond);
     });
@@ -153,9 +153,16 @@ function Reader() {
     if (imageUrlArray.length > 0 && webtoonLoadedImgCount === imageUrlArray.length) {
       setIsWebtoonLoaded(true);
     }
-  }, [webtoonLoadedImgCount])
+  }, [webtoonLoadedImgCount]);
 
 
+  // Basically resetting everything so the loading occur, and the spinner appears
+  function resetDataStates() {
+    setIsLoadingData(true); 
+    setImageUrlArray([]);
+    setMetaData(null);
+    setChapterData(null);
+  }
 
   function scrollDownOnClick(){
     const mainScrollContainer = document.querySelector(".main-scroll-container");
@@ -191,10 +198,7 @@ function Reader() {
   }
 
   function nextChapter() {
-    setIsLoadingData(true); 
-    setImageUrlArray([]);
-    setMetaData(null);
-    setChapterData(null);
+    resetDataStates();
     const currentIndex = chapterList.findIndex((chapter) => chapter.id === chapterID);
     const nextChapterIndex = currentIndex + 1;
     if (nextChapterIndex >= chapterList.length) {
@@ -206,10 +210,7 @@ function Reader() {
   }
 
   function previousChapter() {
-    setIsLoadingData(true); 
-    setImageUrlArray([]);
-    setMetaData(null);
-    setChapterData(null);
+    resetDataStates();
     const currentIndex = chapterList.findIndex((chapter) => chapter.id === chapterID);
     const previousChapterIndex = currentIndex - 1;
     if (previousChapterIndex < 0) {
@@ -258,6 +259,7 @@ function Reader() {
                   (option) => option.value === chapterID
                 )}
                 onChange={(selectedOption) => {
+                  resetDataStates();
                   navigate(
                     `/comic/${mangaID}/chapter/${selectedOption.value}/1`
                   );
