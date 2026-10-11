@@ -20,6 +20,8 @@ function SearchResultPage() {
   const [mangaData, setMangaData] = useState([]);
   const [totalPage, setTotalPage] = useState(1);
   const [loadingStatus, setLoadingStatus] = useState(false);
+  const [loadError, setLoadError] = useState('');
+  const [retryCount, setRetryCount] = useState(0);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -56,17 +58,24 @@ function SearchResultPage() {
   }
 
   useEffect(() => {
+    let active = true;
     setLoadingStatus(true);
+    setLoadError('');
     searchMangas(searchConfig)
       .then((resp) => {
+        if (!active) return;
         setMangaData(resp.data);
         setTotalPage(getPageCount(resp.total));
         //console.log(`Total Manga: ${resp.total}, Total Page: ${Math.ceil(resp.total / numPerPage)}`);
       })
+      .catch(() => {
+        if (active) setLoadError('Could not load manga results. Please try again.');
+      })
       .finally(() => {
-        setLoadingStatus(false);
+        if (active) setLoadingStatus(false);
       });
-  }, [queryString, location, page]);
+    return () => { active = false; };
+  }, [queryString, location, page, retryCount]);
 
   useEffect(() => {
     scrollToStart(mainContainer);
@@ -90,7 +99,12 @@ function SearchResultPage() {
 
   return (
     <div ref={mainContainer} className="flex flex-wrap gap-4 w-full h-full items-center justify-center px-4 lg:px-8">
-      {!loadingStatus ? (
+      {loadError ? (
+        <div role="alert" className="w-full py-8 text-center text-darkText dark:text-lightText">
+          <p className="mb-4">{loadError}</p>
+          <button onClick={() => setRetryCount(count => count + 1)}>Try again</button>
+        </div>
+      ) : !loadingStatus ? (
         <>
           <div className="w-full text-center mb-4 mt-4">
             <h2 className="dark:text-gray-100 text-2xl font-bold">{`「 ${title} 」`}</h2>

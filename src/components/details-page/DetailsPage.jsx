@@ -18,10 +18,11 @@ function DetailPage() {
   const [manga, setManga] = useState({});
   const [title, setTitle] = useState('');
   const [coverUrl, setCoverUrl] = useState('');
-  const [mangaLanguage, setMangaLanguage] = useState([]);
   const [chapterList, setChapterList] = useState([]);
   const [volumeList, setVolumeList] = useState([]);
   const [loadingStatus, setLoadingStatus] = useState(true);
+  const [loadError, setLoadError] = useState('');
+  const [retryCount, setRetryCount] = useState(0);
   const [isImageLoading, setIsImageLoading] = useState(true);
   const [tags, setTags] = useState([]);
   const [startReadingLink, setStartReadingLink] = useState('');
@@ -64,37 +65,40 @@ function DetailPage() {
 
   // Start fetching the data on MangaID changes
   useEffect(() => {
+    let active = true;
+    setLoadingStatus(true);
+    setLoadError('');
+    setIsImageLoading(true);
 
-    //console.log("Fetching Manga Data");
-    searchSpecificManga(mangaID).then(resp => {
-      setManga(resp);
-      setCoverUrl(getCoverUrl(resp));
-      setMangaLanguage(getAvailableLanguages(resp));
-    });
-  }, [mangaID]);
-
-  useEffect(() => {
-    if (!manga?.attributes || !mangaLanguage?.length) return;
-    const paramConfig = getChapterListConfig(mangaLanguage);
-
-    setTags(() => {
-      return manga.attributes.tags.filter(tag => tag.attributes.group === 'genre' || tag.attributes.group === 'theme') ?? [];
-    });
-    fetchChapterList(mangaID, paramConfig)
-      .then(respond => {
-        const filteredChapter = filterDuplicateChapters(respond);
+    async function loadDetails() {
+      let errorMessage = 'Could not load manga details. Please try again.';
+      try {
+        const resp = await searchSpecificManga(mangaID);
+        if (!active) return;
+        const paramConfig = getChapterListConfig(getAvailableLanguages(resp));
+        errorMessage = 'Could not load chapters. Please try again.';
+        const chapters = await fetchChapterList(mangaID, paramConfig);
+        if (!active) return;
+        const filteredChapter = filterDuplicateChapters(chapters);
+        setManga(resp);
+        setCoverUrl(getCoverUrl(resp));
+        setTags(resp.attributes.tags.filter(tag => tag.attributes.group === 'genre' || tag.attributes.group === 'theme'));
+        setTitle(resp.attributes.title.en || Object.values(resp.attributes.title)[0] || 'Title Not Available');
         setChapterList(filteredChapter);
         // Only set default if no reading history was found
         setStartReadingLink(prev => {
           return prev || `/comic/${mangaID}/chapter/${filteredChapter[0]?.id}/1`;
         });
-      })
-      .finally(() => {
-        setLoadingStatus(false);
-      });
+      } catch {
+        if (active) setLoadError(errorMessage);
+      } finally {
+        if (active) setLoadingStatus(false);
+      }
+    }
 
-      setTitle(manga?.attributes?.title?.en || (manga?.attributes?.title["ja-ro"] && Object.values(manga.attributes.title)[0]) || "Title Not Available");
-  }, [manga, mangaLanguage, mangaID]);
+    loadDetails();
+    return () => { active = false; };
+  }, [mangaID, retryCount]);
 
   useEffect(() => {
     setVolumeList(() => {
@@ -135,7 +139,12 @@ function DetailPage() {
 
   return (
     <div className="min-h-screen">
-      {loadingStatus ? (
+      {loadError ? (
+        <div role="alert" className="max-w-7xl mx-auto px-4 py-8 text-center text-darkText dark:text-lightText">
+          <p className="mb-4">{loadError}</p>
+          <button onClick={() => setRetryCount(count => count + 1)}>Try again</button>
+        </div>
+      ) : loadingStatus ? (
         <DetailsSkeleton />
       ) : (
         <div ref={mainContentRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
