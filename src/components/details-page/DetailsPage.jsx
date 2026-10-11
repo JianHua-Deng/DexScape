@@ -117,14 +117,19 @@ function DetailPage() {
   }, [chapterList]);
 
   async function handleFavoriteAction() {
-    if (favorited) {
-      await removeFavorited(userID, mangaID);
-      toast.success("Removed from Favorite")
-      setFavorited(false);
-    } else {
-      await addMangaToFavorite(userID, mangaID, title);
-      toast.success("Added to Favorite");
-      setFavorited(true);
+    try {
+      if (favorited) {
+        await removeFavorited(userID, mangaID);
+        toast.success("Removed from Favorite");
+        setFavorited(false);
+      } else {
+        await addMangaToFavorite(userID, mangaID, title);
+        toast.success("Added to Favorite");
+        setFavorited(true);
+      }
+    } catch (error) {
+      toast.error("Error updating favorite. Please try again.");
+      console.error("Error updating favorite:", error);
     }
   }
 

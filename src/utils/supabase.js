@@ -70,19 +70,19 @@ export async function checkIfUserFavorited(userID, mangaID) {
 
 // Add new row to the list of user's favorite manga
 export async function addMangaToFavorite(userID, mangaID, mangaName) {
-  const { data, error } = await supabase.from('favorites').insert({ user_id: userID, manga_id: mangaID, manga_name: mangaName });
+  const { error } = await supabase.from('favorites').insert({ user_id: userID, manga_id: mangaID, manga_name: mangaName });
 
   if (error) {
-    console.error("Error getting user's favorited mangas: ", error);
+    throw error;
   }
 }
 
 // Delete a row based on MangaID
 export async function removeFavorited(userID, mangaID) {
-  const { data, error } = await supabase.from('favorites').delete().match({ user_id: userID, manga_id: mangaID });
+  const { error } = await supabase.from('favorites').delete().match({ user_id: userID, manga_id: mangaID });
 
   if (error) {
-    console.error(`Error deleting manga with the id of ${mangaID}`, error);
+    throw error;
   }
 }
 
