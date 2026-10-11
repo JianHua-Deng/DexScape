@@ -215,6 +215,7 @@ function Reader() {
     const previousChapterIndex = currentIndex - 1;
     if (previousChapterIndex < 0) {
       navigate(`/comic/${mangaID}`);
+      return;
     }
     const previousChapter = chapterList[previousChapterIndex];
     navigate(`/comic/${mangaID}/chapter/${previousChapter.id}/1`);

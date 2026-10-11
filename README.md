@@ -36,6 +36,25 @@ The setup also includes ESLint rules for code quality.
 
 ## Usage
 
+The frontend lives in `src/`. The MangaDex proxy backend lives in `server/`
+and has its own package files, TypeScript configuration, and `.env`.
+
+Install dependencies for both applications:
+
+```sh
+npm ci
+npm --prefix server ci
+```
+
+Run the frontend with `npm run dev` and, in a second terminal, run the backend
+with `npm run dev:server`. Set the frontend `.env` variable `PROXY_URL` to
+`http://localhost:8000` and the backend `server/.env` variable `PORT` to `8000`.
+The frontend also requires `SUPABASE_URL` and a public `SUPABASE_API_KEY`;
+the backend keeps its AWS and cache settings in `server/.env`.
+
+Build the backend with `npm run build:server`, then run it with
+`npm run start:server`. Environment files are ignored by Git.
+
 After starting the development server, open your browser and navigate to `http://localhost:5173` to begin exploring manga and webtoons.
 
 ## Credit & Disclaimer

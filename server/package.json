@@ -1,0 +1,39 @@
+{
+  "name": "mangadex-proxy-server",
+  "version": "1.0.0",
+  "description": "Mangadex-Proxy-Server",
+  "main": "dist/app.js",
+  "scripts": {
+    "build": "tsc",
+    "serve": "node dist/app.js",
+    "start": "node dist/app.js",
+    "dev": "ts-node src/app.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.758.0",
+    "@aws-sdk/client-s3": "^3.758.0",
+    "@aws-sdk/lib-dynamodb": "^3.758.0",
+    "@aws-sdk/s3-request-presigner": "^3.758.0",
+    "aws-sdk": "^2.1692.0",
+    "axios": "^1.7.2",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "http-proxy-middleware": "^3.0.0",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.4",
+    "updates": "^16.4.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^22.13.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  }
+}
