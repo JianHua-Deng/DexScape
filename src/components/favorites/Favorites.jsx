@@ -89,6 +89,7 @@ export default function Favorites() {
                     readAt={historyItem?.read_at}
                     chapter={historyItem?.chapter}
                     page={historyItem?.page}
+                    language={historyItem?.language}
                     onDelete={handleDeleteFavorite}
                   />
                 );

@@ -8,7 +8,7 @@ import Skeleton from 'react-loading-skeleton';
 import { Star } from '@mui/icons-material';
 import { colors } from '../../utils/colors';  
 
-export default function HistoryMangaCard ({ manga, readAt, chapter, page, onDelete }) {
+export default function HistoryMangaCard ({ manga, readAt, chapter, page, language, onDelete }) {
   const { theme } = useThemeProvider();
   const [isImageLoading, setIsImageLoading] = useState(true);
   const isDark = theme === "dark";
@@ -17,10 +17,14 @@ export default function HistoryMangaCard ({ manga, readAt, chapter, page, onDele
   const formattedDate = readAt ? format(new Date(readAt), 'MMM dd, yyyy - HH:mm') : 'Unknown date';
   const coverUrl = getCoverUrl(manga);
   const title = getMangaTitle(manga);
+  let detailsLink = `/comic/${manga.id}`;
+  if (language) {
+    detailsLink += `?lang=${encodeURIComponent(language)}`;
+  }
 
   return (
     <Link
-      to={`/comic/${manga.id}`}
+      to={detailsLink}
       className='w-full'
     >
       <div className={`w-full mb-4 p-4 rounded-lg transition-all duration-200 ${

@@ -78,6 +78,7 @@ export default function History() {
                     readAt={historyItem?.read_at}
                     chapter={historyItem?.chapter}
                     page={historyItem?.page}
+                    language={historyItem?.language}
                   />
                 );
               })

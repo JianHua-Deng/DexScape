@@ -1,7 +1,7 @@
 import { useNavigate, Link, useParams } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { getChapterMetaData, searchSpecificManga, fetchChapterList, getChapterInfo } from "../../utils/mangaDexApi";
-import { getChapterListConfig, getAvailableLanguages, filterDuplicateChapters, scrollToStart, preLoadImages } from "../../utils/utils";
+import { getChapterListConfig, filterDuplicateChapters, scrollToStart, preLoadImages } from "../../utils/utils";
 import Select from "react-select";
 import ChapterImage from "../chapter-image/ChapterImage";
 import getSelectorStyle from "../../utils/theme";
@@ -22,7 +22,12 @@ function Reader() {
 
   const [chapterList, setChapterList] = useState([]);
   const [chapterData, setChapterData] = useState([]); // Specific informations about the current chapter
-  const [mangaLanguage, setMangaLanguage] = useState([]);
+  const chapterLanguage = chapterData?.id === chapterID ? chapterData.attributes?.translatedLanguage : '';
+  const detailsLink = chapterLanguage
+    ? `/comic/${mangaID}?lang=${encodeURIComponent(chapterLanguage)}`
+    : `/comic/${mangaID}`;
+  const [loadError, setLoadError] = useState('');
+  const [retryCount, setRetryCount] = useState(0);
   const [selectorOptions, setSelectorOptions] = useState([]);
   const [metaData, setMetaData] = useState(null);
   const [imageUrlArray, setImageUrlArray] = useState([]);
@@ -49,43 +54,62 @@ function Reader() {
   }, [page, chapterID, isLoadingData, isWebtoonLoaded]);
 
 
-  // Fetch manga language info
+  // Fetch manga format tags; the opened chapter determines the reading language.
   useEffect(() => {
+    let active = true;
     setIsLoadingData(true);
     searchSpecificManga(mangaID).then((respond) => {
+      if (!active) return;
       setTags(() => {
         return respond.attributes.tags.filter(tag => tag.attributes.group === 'format') ?? [];
       });
-      setMangaLanguage(getAvailableLanguages(respond));
+    }).catch(() => {
+      if (active) setLoadError('Could not load manga information. Please try again.');
     });
-  }, [mangaID]);
+    return () => { active = false; };
+  }, [mangaID, retryCount]);
 
   // Fetch chapter meta data
   useEffect(() => {
+    let active = true;
+    setLoadError('');
+    resetDataStates();
     setPreLoadedImageIndex(parseInt(page, 10)); // Resetting preLoadImageIndex when switching chapter
     
     // Reset webtoon loading informations
     setWebtoonLoadedImgCount(0);
     setIsWebtoonLoaded(false);
     
-    getChapterMetaData(chapterID).then((respond) => {
-      setMetaData(respond);
-    });
-
-    getChapterInfo(chapterID).then((respond) => {
-      //console.log(respond);
-      setChapterData(respond);
-    })
-  }, [chapterID]);
+    Promise.all([getChapterMetaData(chapterID), getChapterInfo(chapterID)])
+      .then(([metadata, chapter]) => {
+        if (!active) return;
+        setMetaData(metadata);
+        setChapterData(chapter);
+      })
+      .catch(() => {
+        if (active) setLoadError('Could not load this chapter. Please try again.');
+      });
+    return () => { active = false; };
+  }, [chapterID, retryCount]);
 
   // Fetch chapter list once language is available
   useEffect(() => {
-    if (!mangaLanguage?.length) return;
-    const paramConfig = getChapterListConfig(mangaLanguage);
+    let active = true;
+    setChapterList([]);
+    setSelectorOptions([]);
+    if (!chapterLanguage) return;
+    const paramConfig = getChapterListConfig([chapterLanguage]);
 
     fetchChapterList(mangaID, paramConfig).then((respond) => {
 
-      const filteredChapterList = filterDuplicateChapters(respond);
+      if (!active) return;
+      const currentChapter = respond.find(chapter => chapter.id === chapterID);
+      const filteredChapterList = filterDuplicateChapters(respond).map(chapter => {
+        if (currentChapter && chapter.attributes.chapter === currentChapter.attributes.chapter) {
+          return currentChapter;
+        }
+        return chapter;
+      });
       setChapterList(filteredChapterList);
 
       const options = filteredChapterList.map((chapter, index) => {
@@ -99,8 +123,11 @@ function Reader() {
         };
       });
       setSelectorOptions(options);
+    }).catch(() => {
+      if (active) setLoadError('Could not load chapters in this language. Please try again.');
     });
-  }, [mangaLanguage, mangaID]);
+    return () => { active = false; };
+  }, [chapterLanguage, chapterID, mangaID, retryCount]);
 
   // Prepare image URLs from metaData
   useEffect(() => {
@@ -136,10 +163,12 @@ function Reader() {
   
 
   useEffect(() => {
-    if (session && chapterData && chapterData?.attributes?.chapter) {
-      updateUserReadingHistory(userID, mangaID, chapterID, chapterData.attributes.chapter , page);
-    }
-  }, [imgURL]);
+    // Wait for the current chapter and page, so history saves the correct language.
+    if (!session || !userID || !chapterLanguage || isLoadingData) return;
+    updateUserReadingHistory(
+      userID, mangaID, chapterID, chapterData.attributes.chapter ?? null, pageNumber, chapterLanguage
+    );
+  }, [session, userID, mangaID, chapterID, chapterData, chapterLanguage, pageNumber, isLoadingData]);
 
   useEffect(() => {
     //console.log(tags);
@@ -198,26 +227,28 @@ function Reader() {
   }
 
   function nextChapter() {
-    resetDataStates();
+    if (chapterList.length === 0) return;
     const currentIndex = chapterList.findIndex((chapter) => chapter.id === chapterID);
     const nextChapterIndex = currentIndex + 1;
-    if (nextChapterIndex >= chapterList.length) {
-      navigate(`/comic/${mangaID}`);
+    if (currentIndex < 0 || nextChapterIndex >= chapterList.length) {
+      navigate(detailsLink);
       return;
     }
     const nextChapter = chapterList[nextChapterIndex];
+    resetDataStates();
     navigate(`/comic/${mangaID}/chapter/${nextChapter.id}/1`);
   }
 
   function previousChapter() {
-    resetDataStates();
+    if (chapterList.length === 0) return;
     const currentIndex = chapterList.findIndex((chapter) => chapter.id === chapterID);
     const previousChapterIndex = currentIndex - 1;
     if (previousChapterIndex < 0) {
-      navigate(`/comic/${mangaID}`);
+      navigate(detailsLink);
       return;
     }
     const previousChapter = chapterList[previousChapterIndex];
+    resetDataStates();
     navigate(`/comic/${mangaID}/chapter/${previousChapter.id}/1`);
   }
 
@@ -232,7 +263,13 @@ function Reader() {
   return (
 
     <div className="flex flex-col w-full h-full items-center gap-4">
-      {isLoadingData ? (
+      {loadError ? (
+        <div role="alert" className="p-8 text-center text-darkText dark:text-lightText">
+          <p className="mb-4">{loadError}</p>
+          <button onClick={() => setRetryCount(count => count + 1)}>Try again</button>
+          <Link to={detailsLink} className="block mt-4">Back to manga details</Link>
+        </div>
+      ) : isLoadingData ? (
         <div className={`max-w-full h-screen flex justify-center items-center`}>
           <CircularProgress size={"5rem"}/>
         </div>
@@ -241,7 +278,7 @@ function Reader() {
 
           <div className="flex justify-evenly mt-2 w-full max-w-72 gap-4 md:grid md:grid-cols-3 md:items-center md:w-full md:max-w-full">
             <Link
-              to={`/comic/${mangaID}`}
+              to={detailsLink}
               className="self-center justify-self-start p-[0.3rem]"
             >
               <ArrowBack
@@ -253,6 +290,7 @@ function Reader() {
 
             <div className="min-w-0 self-center justify-self-center col-start-2 col-end-3 p-[0.3rem] ">
               <Select
+                isDisabled={selectorOptions.length === 0}
                 isSearchable={false}
                 styles={ getSelectorStyle(theme) }
                 options={selectorOptions}

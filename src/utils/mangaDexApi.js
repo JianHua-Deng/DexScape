@@ -101,12 +101,28 @@ export async function searchSpecificManga(mangaID){
 export async function fetchChapterList(mangaID, config){
 
   try {
-    const resp = await axios({
-      method: "GET",
-      url: `${proxyUrl}/manga/${mangaID}/feed`,
-      params: config,
-    });
-    return resp.data.data;
+    const chapters = [];
+    const limit = config.limit ?? 500;
+    let offset = config.offset ?? 0;
+
+    while (true) {
+      const resp = await axios({
+        method: "GET",
+        url: `${proxyUrl}/manga/${mangaID}/feed`,
+        params: { ...config, limit, offset },
+      });
+      const chapterPage = resp.data.data;
+      if (chapterPage.length === 0 && offset < resp.data.total) {
+        throw new Error('Chapter feed ended before all chapters were loaded.');
+      }
+      chapters.push(...chapterPage);
+
+      // Advance by the server's page size, keeping language and ordering intact.
+      offset += resp.data.limit ?? limit;
+      if (chapterPage.length === 0 || offset >= resp.data.total) {
+        return chapters;
+      }
+    }
 
   } catch (error) {
     console.error("Error fetching chapter list", error);

@@ -33,8 +33,15 @@ export async function getMangaLatestHistory(userID, mangaID) {
 }
 
 // Add new row to user's reading history
-export async function updateUserReadingHistory(userID, mangaID, chapterID, chapter, page) {
-  const { data, error } = await supabase.from('reading_history').insert({ user_id: userID, manga_id: mangaID, chapter_id: chapterID, chapter: chapter, page: page });
+export async function updateUserReadingHistory(userID, mangaID, chapterID, chapter, page, language = null) {
+  const { error } = await supabase.from('reading_history').insert({
+    user_id: userID,
+    manga_id: mangaID,
+    chapter_id: chapterID,
+    chapter,
+    page,
+    language: language || null,
+  });
 
   if (error) {
     console.error("Error inserting user's reading history: ", error);
@@ -69,8 +76,13 @@ export async function checkIfUserFavorited(userID, mangaID) {
 }
 
 // Add new row to the list of user's favorite manga
-export async function addMangaToFavorite(userID, mangaID, mangaName) {
-  const { error } = await supabase.from('favorites').insert({ user_id: userID, manga_id: mangaID, manga_name: mangaName });
+export async function addMangaToFavorite(userID, mangaID, mangaName, language = null) {
+  const { error } = await supabase.from('favorites').insert({
+    user_id: userID,
+    manga_id: mangaID,
+    manga_name: mangaName,
+    language: language || null,
+  });
 
   if (error) {
     throw error;

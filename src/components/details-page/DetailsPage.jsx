@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { useParams, Link, useLocation } from "react-router-dom";
+import { useParams, Link, useLocation, useSearchParams } from "react-router-dom";
 import { fetchChapterList, searchSpecificManga, getCoverUrl } from "../../utils/mangaDexApi";
-import { getAvailableLanguages, getChapterListConfig, filterDuplicateChapters, scrollToStart } from "../../utils/utils";
+import { getChapterListConfig, filterDuplicateChapters, scrollToStart } from "../../utils/utils";
 import Skeleton from "react-loading-skeleton";
 import { Tooltip } from "@mui/material";
 import DetailsSkeleton from "../skeletons/details-skeleton/DetailsSkeleton";
@@ -11,9 +11,16 @@ import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import toast from "react-hot-toast";
 import { colors } from "../../utils/colors";
+import Select from "react-select";
+import getSelectorStyle from "../../utils/theme";
+import { useThemeProvider } from "../../lib/ThemeContextProvider";
 
 function DetailPage() {
   const { mangaID } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const requestedLanguage = searchParams.get('lang');
+  const [availableLanguages, setAvailableLanguages] = useState([]);
+  const [selectedLanguage, setSelectedLanguage] = useState('');
   const [favorited, setFavorited] = useState(false);
   const [manga, setManga] = useState({});
   const [title, setTitle] = useState('');
@@ -25,42 +32,43 @@ function DetailPage() {
   const [retryCount, setRetryCount] = useState(0);
   const [isImageLoading, setIsImageLoading] = useState(true);
   const [tags, setTags] = useState([]);
-  const [startReadingLink, setStartReadingLink] = useState('');
-  const [hasReadBefore, setHasReadBefore] = useState(false);
+  const [readingHistory, setReadingHistory] = useState(null);
 
-  const { path } = useLocation();
+  const { pathname } = useLocation();
   const mainContentRef = useRef(null);
   const { session, userID } = useAuth();
+  const { theme } = useThemeProvider();
 
 
   // Fetch user's reading history and favorite status of this manga
   useEffect(() => {
+    let active = true;
+    setFavorited(false);
+    setReadingHistory(null);
     async function checkFavoriteStatus() {
       if (userID) {
         const isFavorited = await checkIfUserFavorited(userID, mangaID);
-        setFavorited(isFavorited);
+        if (active) setFavorited(isFavorited);
       }
     }
 
     async function getCurrentMangaHistory() {
       const data = await getMangaLatestHistory(userID, mangaID);
-      if (data && data.length > 0) {
-        setHasReadBefore(true);
-        setStartReadingLink(`/comic/${mangaID}/chapter/${data[0].chapter_id}/${data[0].page}`);
-      }
+      if (active) setReadingHistory(data?.[0] ?? null);
     }
     
     if (session && userID) {
       checkFavoriteStatus();
       getCurrentMangaHistory();
     }
-  }, [userID, mangaID])
+    return () => { active = false; };
+  }, [userID, mangaID, session])
 
 
   // Scroll to the top of the page on enter
   useEffect(() => {
     scrollToStart(mainContentRef);
-  }, [path, loadingStatus])
+  }, [pathname, loadingStatus])
 
 
   // Start fetching the data on MangaID changes
@@ -69,15 +77,30 @@ function DetailPage() {
     setLoadingStatus(true);
     setLoadError('');
     setIsImageLoading(true);
+    setChapterList([]);
 
     async function loadDetails() {
       let errorMessage = 'Could not load manga details. Please try again.';
       try {
         const resp = await searchSpecificManga(mangaID);
         if (!active) return;
-        const paramConfig = getChapterListConfig(getAvailableLanguages(resp));
+        const translatedLanguages = resp.attributes.availableTranslatedLanguages ?? [];
+        const nonEmptyLanguages = translatedLanguages.filter(Boolean);
+        const languages = [...new Set(nonEmptyLanguages)];
+
+        let language = '';
+        if (languages.includes(requestedLanguage)) {
+          language = requestedLanguage;
+        } else if (languages.includes('en')) {
+          language = 'en';
+        } else if (languages.length > 0) {
+          language = languages[0];
+        }
+        setAvailableLanguages(languages);
+        setSelectedLanguage(language);
+        const paramConfig = getChapterListConfig([language]);
         errorMessage = 'Could not load chapters. Please try again.';
-        const chapters = await fetchChapterList(mangaID, paramConfig);
+        const chapters = language ? await fetchChapterList(mangaID, paramConfig) : [];
         if (!active) return;
         const filteredChapter = filterDuplicateChapters(chapters);
         setManga(resp);
@@ -85,10 +108,6 @@ function DetailPage() {
         setTags(resp.attributes.tags.filter(tag => tag.attributes.group === 'genre' || tag.attributes.group === 'theme'));
         setTitle(resp.attributes.title.en || Object.values(resp.attributes.title)[0] || 'Title Not Available');
         setChapterList(filteredChapter);
-        // Only set default if no reading history was found
-        setStartReadingLink(prev => {
-          return prev || `/comic/${mangaID}/chapter/${filteredChapter[0]?.id}/1`;
-        });
       } catch {
         if (active) setLoadError(errorMessage);
       } finally {
@@ -98,7 +117,27 @@ function DetailPage() {
 
     loadDetails();
     return () => { active = false; };
-  }, [mangaID, retryCount]);
+  }, [mangaID, requestedLanguage, retryCount]);
+
+  const canContinue = Boolean(readingHistory && chapterList.some(chapter => chapter.id === readingHistory.chapter_id));
+  const startReadingLink = canContinue
+    ? `/comic/${mangaID}/chapter/${readingHistory.chapter_id}/${readingHistory.page}`
+    : `/comic/${mangaID}/chapter/${chapterList[0]?.id}/1`;
+
+  function languageLabel(code) {
+    const specialLabels = { 'es-la': 'Spanish (Latin America)', 'ja-ro': 'Japanese (Romanized)', 'ko-ro': 'Korean (Romanized)', 'zh-ro': 'Chinese (Romanized)' };
+    if (specialLabels[code]) return specialLabels[code];
+    try {
+      return new Intl.DisplayNames(['en'], { type: 'language' }).of(code) || code;
+    } catch {
+      return code;
+    }
+  }
+
+  const languageOptions = availableLanguages.map(code => ({
+    value: code,
+    label: languageLabel(code),
+  }));
 
   useEffect(() => {
     setVolumeList(() => {
@@ -127,7 +166,7 @@ function DetailPage() {
         toast.success("Removed from Favorite");
         setFavorited(false);
       } else {
-        await addMangaToFavorite(userID, mangaID, title);
+        await addMangaToFavorite(userID, mangaID, title, selectedLanguage);
         toast.success("Added to Favorite");
         setFavorited(true);
       }
@@ -194,13 +233,38 @@ function DetailPage() {
                   )}
 
                   {/* Start Reading Button */}
+                  <div className="mb-6 text-darkText dark:text-lightText">
+                    <label htmlFor="chapter-language" className="block mb-2 font-medium">Chapter language</label>
+                    <Select
+                      inputId="chapter-language"
+                      isSearchable={false}
+                      styles={{
+                        ...getSelectorStyle(theme),
+                        menuPortal: base => ({ ...base, zIndex: 1300 }),
+                      }}
+                      menuPortalTarget={document.body}
+                      options={languageOptions}
+                      value={languageOptions.find(option => option.value === selectedLanguage) ?? null}
+                      isDisabled={languageOptions.length === 0}
+                      placeholder="No languages available"
+                      onChange={selectedOption => {
+                        if (!selectedOption) return;
+                        const params = new URLSearchParams(searchParams);
+                        params.set('lang', selectedOption.value);
+                        setSearchParams(params);
+                      }}
+                      className="w-full sm:w-64"
+                    />
+                  </div>
                   <div className="flex flex-col items-center lg:flex-row gap-4">
+                    {chapterList.length > 0 && (
                     <Link
-                      to={chapterList.length > 0 ? startReadingLink : `/comic/${mangaID}`}
+                      to={startReadingLink}
                       className="inline-flex justify-center items-center px-6 py-3 bg-blue-600 text-white dark:text-gray-200 rounded-lg hover:bg-blue-700 transition-colors duration-200 w-40 text-center font-medium"
                     >
-                      {hasReadBefore ? "Continue" : "Start Reading"}
+                      {canContinue ? "Continue" : "Start Reading"}
                     </Link>
+                    )}
                     <button
                       onClick={handleFavoriteAction}
                       className={`${session ? 'block' : 'hidden'} flex justify-center items-center gap-1 font-medium outline-none focus:border-none w-40`}>
@@ -254,8 +318,8 @@ function DetailPage() {
               ))}
             </div>
           ) : (
-            <div className="mt-8 text-center text-gray-600">
-              No English chapters available
+            <div className="mt-8 text-center text-gray-600 dark:text-gray-300">
+              {selectedLanguage ? `No readable chapters available in ${languageLabel(selectedLanguage)}.` : 'No readable chapters available.'}
             </div>
           )}
         </div>
