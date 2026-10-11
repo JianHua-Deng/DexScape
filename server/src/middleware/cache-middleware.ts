@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import cacheService from '../services/cache-service';
 import { CACHE_TTL } from '../services/aws-config';
-import { NestedFilter } from 'aws-sdk/clients/quicksight';
 import { matchChapterImageDomain, stripBeforeData } from '../utils/utils';
 
 export function isCacheAble(req: Request): boolean {
