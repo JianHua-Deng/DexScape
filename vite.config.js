@@ -7,7 +7,10 @@ dotenv.config();
 export default defineConfig({
   plugins: [react()],
   define: {
-    'process.env': process.env
+    // Only expose values intended for the browser. Never add server secrets here.
+    'process.env.PROXY_URL': JSON.stringify(process.env.PROXY_URL),
+    'process.env.SUPABASE_URL': JSON.stringify(process.env.SUPABASE_URL),
+    'process.env.SUPABASE_API_KEY': JSON.stringify(process.env.SUPABASE_API_KEY),
   },
   server: {
     
